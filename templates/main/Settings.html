@@ -1,0 +1,645 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>The Next Leavel AI</title>
+      <link
+         href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+         rel="stylesheet"
+         integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+         crossorigin="anonymous">
+      <link rel="stylesheet"
+         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+         <link rel="stylesheet" href="{% static 'assets/styles/Style.css' %}">
+   </head>
+   <body class="dashoboard-main">
+      <header class="shadow-sm">
+         <nav class="navbar navbar-expand-md bg-transparent header-content">
+            <div class="container">
+               <a class="nav-link navbar-brand  logo"
+               href="{% url 'Home' %}">
+                  <img
+                     class="w-100 h-100"
+                     src="{% static 'assets/images/transparent-logo.png' %}"
+                     alt>
+               </a>
+               <div
+                  class="button py-1 d-flex  bg-warning bg-opacity-10 gap-3 rounded-5 border px-2 border-2 border-danger ">
+                  <p class="p-0 ps-1 m-0 py-1">
+                     5 AI Calls Left Today.
+                  </p>
+                  <div
+                     class="bg-primary bg-opacity-10 gradient-button text-dark px-3 py-1 rounded-5">
+                     upgrade to Pro
+                  </div>
+               </div>
+               <div class="d-flex gap-3">
+                  <!-- add classes 22/7 -->
+                  <div class="d-flex gap-3">
+                     <!-- Add Icon 22/7 -->
+                     <div
+                        class="social-icon  gradient-button p-1 rounded-2 border-0">
+                        <a href="{% url 'Settings' %}">
+                           <img class="w-100 p-1 h-100"
+                              src="{% static 'assets/images/setting.png' %}"   alt>
+                        </a>
+                     </div>
+                     <a class="nav-link"
+                        href="{% url 'logout' %}">
+                        <button
+                           class="btn gradient-button active">Logout</button>
+                     </a>
+                  </div>
+               </div>
+
+            </div>
+         </nav>
+      </header>
+
+      <main class="mt-3 container">
+         <form  method="POST">
+            {% csrf_token %}
+         <h1 class="fw-bolder gradient-heading">
+            User Profile
+         </h1>
+         <div
+            class="d-flex border-bottom pb-4 gap-3 justify-content-center align-items-center flex-column">
+            <div>
+               <div
+                  class="user-avatar-setting overflow-hidden border border-2 border-danger rounded-circle">
+                  <img class="h-100 w-100" id="idAvatar"
+                  src="{% static 'assets/images/imagePreviewEmail.png' %}"
+                     alt="User Avatar">
+               </div>
+            </div>
+            <div>
+               <button type="button"
+                  class="btn px-3 fs-6 py-1 d-flex align-items-center gap-2 btn-primary gradient-button"
+                  data-bs-toggle="modal"
+                  data-bs-target="#exampleModal">
+                  <strong class="p-0 m-0">
+                     Change Avatar
+                     <span class="ps-2">
+                        <i class="bi bi-arrow-right"></i>
+                     </span>
+                  </strong>
+               </button>
+            </div>
+         </div>
+         <div class="row border-bottom  py-4">
+            <div class="form-group col-6 pb-3">
+               <label for="fullName">Full Name</label>
+               <input type="text" class="form-control" name="fullName" required id="fullName" value="{{user.first_name}}"
+                  placeholder="Enter your full name">
+            </div>
+            <div class="form-group col-6 pb-3">
+               <label for="company">Company</label>
+               <input type="text" class="form-control" name="companyName" required id="company" value="{{user.company}}"
+                  placeholder="Enter your company name">
+            </div>
+            <div class="form-group col-6 pb-3">
+               <label for="jobTitle">Job Title</label>
+               <input type="text" class="form-control" required name="jobTitle" id="jobTitle" value="{{user.job_title}}"
+                  placeholder="Enter your job title">
+            </div>
+            <div class="form-group col-6 pb-3">
+               <label for="email">Email</label>
+               <input type="email" class="form-control" required readonly name="email" id="email" value="{{user.email}}"
+                  placeholder="Enter your email address">
+            </div>
+            <div class="form-group col-6 pb-3">
+               <label for="phone">Phone</label>
+               <input type="text" class="form-control" maxlength = "13" required name="phone" id="phone" value="{{user.phone_number}}"
+                  placeholder="Enter your phone number">
+            </div>
+         </div>
+         <div class="row border-bottom py-4">
+            <div id="input-field" class="form-group col-12 col-md-6 pb-3 ">
+               <label for="avatorName"
+                  class="form-label fw-semibold">Role<span
+                     class="text-danger">
+                     *
+                  </span>
+               </label>
+               <input type="text" name="role" required class="form-control"
+                  id="avatorName" value="{{user.user_avatar.role}}"
+                  placeholder="Specify Your Role">
+            </div>
+            <div class="form-group col-12 col-md-6 ">
+               <label for="salesArea"
+                  class="form-label fw-semibold">Sales
+                  Area<span
+                     class="text-danger">
+                     *
+                  </span>
+               </label>
+               <div
+                  class="form-group d-flex flex-wrap flex-column flex-md-row gap-3 pt-2 pb-3">
+                  <div class="form-check">
+                     <input class="form-check-input"
+                     type="checkbox"
+                        name="salesArea"
+                        id="salesAreaA" value="SMB">
+                     <label class="form-check-label"
+                        for="salesAreaA">SMB</label>
+                  </div>
+                  <div class="form-check">
+                     <input class="form-check-input"
+                     type="checkbox"
+                        name="salesArea"
+                        id="salesAreaB" value="Mid-Market">
+                     <label class="form-check-label"
+                        for="salesAreaB">Mid-Market</label>
+                  </div>
+                  <div class="form-check">
+                     <input class="form-check-input"
+                     type="checkbox"
+                        name="salesArea"
+                        id="salesAreaC" value="Enterprise">
+                     <label class="form-check-label"
+                        for="salesAreaC">Enterprise</label> 
+                  </div>
+                  <div class="form-check">
+                     <input class="form-check-input"
+                     type="checkbox"
+                        name="salesArea"
+                        id="salesAreaD" value="Government">
+                     <label class="form-check-label"
+                        for="salesAreaD">Government</label>
+                  </div>
+                  <div class="form-check">
+                     <input class="form-check-input"
+                     type="checkbox"
+                        name="salesArea"
+                        id="salesAreaE" value="Sales Leadership">
+                     <label class="form-check-label"
+                        for="salesAreaE">Sales Leadership</label>
+                  </div>
+               </div>
+               <div id="salesInput"
+                  class="form-group col-12 col-md-6 col-lg-5 pb-3 ">
+                  <label for="salesAreaName"
+                     class="form-label">Other
+                     Sales Area</label>
+                  <input type="text" name="salesArea" class="form-control"
+                     id="salesAreaName"
+                     placeholder="Enter Sales Area">
+               </div>
+            </div>
+            <div class="col-12 col-lg-6 pb-3">
+               <div
+                  class="form-group d-flex  flex-wrap">
+                  <label for="exampleCheck"
+                     class="fw-semibold pb-3">Industries/Sub-Verticales</label>
+                     <select class="form-control mb-3"  name="Industries" id="exampleSelect" required>
+                        <option value selected="true" disabled>-- Select an option --</option>
+                        <option value="Medical">Medical</option>
+                        <option value="Education (Higher and K-12)">Education (Higher and
+                           K-12)</option>
+                        <option value="Construction">Construction</option>
+                     </select>
+               </div>
+               <div class="text-muted">
+                  <div>Feature Product</div>
+                  <div
+                     class="d-flex flex-wrap">
+                     <div class="col-12 col-md-6 col-lg-4 ">
+                        Transportation
+                     </div>
+                     <div class="col-12 col-md-6 col-lg-4 ">
+                        Retail
+                     </div>
+                     <div class="col-12 col-md-6 col-lg-4 ">
+                        Hospitality
+                     </div>
+                     <div class="col-12 col-md-6 col-lg-4 ">
+                        Public Venues
+                     </div>
+                     <div class="col-12 col-md-6 col-lg-4 ">
+                        Major Sports
+                     </div>
+                     <div class="col-12 col-md-6 col-lg-4 ">
+                        Fintech (Banking)
+                     </div>
+                     <div class="col-12 col-md-6 col-lg-4 ">
+                        Federal Gov.
+                     </div>
+                     <div class="col-12 col-md-6 col-lg-4 ">
+                        State and Local Gov.
+                     </div>
+                     <div class="col-12 col-md-6 col-lg-4 ">
+                        Telco
+                     </div>
+                     <div class="col-12 col-md-6 col-lg-4 ">
+                        HVAC
+                     </div>
+                     <div class="col-12 col-md-6 col-lg-4 ">
+                        Landscaping/Lawncare
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div
+               class="form-group col-12 col-lg-6">
+               <label for="salesArea"
+                  class="form-label w-100  fw-semibold">Territorie<span
+                     class="text-danger">
+                     *
+                  </span>
+               </label>
+               <div class="form-check">
+                  <input class="form-check-input"
+                     type="radio"
+                     name="Territories"
+                     id="TerritoriesA" value="National" >
+                  <label class="form-check-label"
+                     for="TerritoriesA">National
+                  </label>
+               </div>
+               <div class="form-check gap-3">
+                  <div>
+                     <input
+                        class="form-check-input"
+                        type="radio"
+                        name="Territories"
+                        class="w-100"
+                        id="TerritoriesB"
+                        value="State" />
+                     <label class="form-check-label"
+                        for="TerritoriesB">State
+                     </label>
+                  </div>
+                  <div id="input-field-state"
+                     class="form-group col-12 pb-3 d-none">
+                     <select name="Territories" class="form-control mb-3"
+                        class="form-control"
+                        id="stateInput">
+                        <option selected="true" disabled>Select State --</option>
+                            {% for state in USA_STATES %}
+                                <option value="{{state}}">{{state}}</option>
+                            {% endfor %}
+                     </select>
+                  </div>
+               </div>
+               <div
+                  class="form-check  gap-3">
+                  <div>
+                     <input class="form-check-input" type="radio"
+                        name="Territories" id="TerritoriesC"
+                        value="Local">
+                     <label class="form-check-label" for="TerritoriesC">Local</label>
+                  </div>
+                  <div id="input-field-zip"
+                     class="form-group col-12 pb-3 d-none">
+                     <input type="text" name="Territories" class="form-control"
+                        id="zipInput" placeholder="Enter Zip">
+                  </div>
+               </div>
+            </div>
+            <div class="row border-bottom py-4">
+               <div class="form-group  pb-3 pb-lg-4 col-12 col-md-6">
+                  <label for="overview">Overview</label>
+                  <textarea class="form-control" name="overview" required id="overview" rows="6"
+                     placeholder="Enter Overview">
+                     {{user.user_avatar.overview}}
+                  </textarea>
+               </div>
+               <div class="form-group  pb-3 pb-lg-4 col-12 col-md-6">
+                  <label for="specialities">Specialities</label>
+                     
+                     <textarea class="form-control" required name="specialities" id="specialities" rows="6" 
+                     placeholder="Enter specialities">
+                     {{user.user_avatar.specialities}}
+                  </textarea>
+               </div>
+
+               <div class="form-group  pb-3 pb-lg-4 col-12 col-md-6">
+                  <label for="website">Website</label>
+                  <input type="text" class="form-control" id="website" name="website" value="{{user.user_avatar.website}}"
+                     placeholder="Enter website URL">
+               </div>
+               <div class="form-group pb-3 pb-lg-4 col-12 col-md-6">
+                  <label for="indtype">Industry Type</label>
+                  <input type="text" class="form-control" required id="indtype" name="industry_type" value="{{user.user_avatar.industry_type}}"
+                     placeholder="Industry">
+               </div>
+
+               <div class="col-12 col-md-6">
+                  <label for="formControlRange"
+                     class="form-label d-flex  justify-content-between">
+                     <div>
+                        Company Size
+                     </div>
+                     <div class>
+                        <span id="demo">0</span>
+                     </div>
+                  </label>
+                  <input type="range" required class="form-range" name="company_size" min="0" max="10000"
+                  value="{{user.user_avatar.company_size}}" step="50" value="50"
+                     class="form-control-range range-slider" id="myRange">
+               </div>
+
+               <div class="form-group pb-3 pb-lg-4 col-12 col-md-6">
+                  <label for="hq">Headquarters</label>
+                  <input type="text" name="headquarters" class="form-control" id="hq" value="{{user.user_avatar.headquaters}}"
+                     placeholder="Headquarters">
+               </div>
+            </div>
+            <!-- //////////// -->
+            <div class="row">
+               <div class="col-12 col-md-6">
+                  <div
+                     class=" col-12 ">
+                     <div class="d-flex align-items-center gap-2 py-3 ">
+
+                        <div
+                           class="social-data-icon   p-1 rounded-2 border-0">
+                           <img class="w-100 p-1 h-100"
+                              src="{% static 'assets/images/gmail.png' %}"  alt>
+                        </div>
+                        <h4 class="gradient-heading p-0 m-0">
+                           Gmail
+                        </h4>
+                     </div>
+                     <div class="row">
+                        <div class="form-group col-12 col-md-6 pb-3">
+                           <label for="email">Email</label>
+                           <input type="email" class="form-control"
+                              id="email"
+                              placeholder="Enter your email address">
+                        </div>
+                        <div class="form-group col-12 col-md-6 pb-3">
+                           <label for="password">Password</label>
+                           <input type="password" class="form-control"
+                              id="password"
+                              placeholder="Enter your Password">
+                        </div>
+                     </div>
+                  </div>
+               </div>
+
+               <div class="col-6">
+                  <div
+                     class>
+                     <div class="d-flex gap-2 align-items-center py-3">
+                        <div
+                           class="social-data-icon   p-1 rounded-2 border-0">
+                           <img class="w-100 p-1 h-100"
+                              src="{% static 'assets/images/outlook.png' %}"  alt>
+                        </div>
+                        <h4 class="gradient-heading p-0 m-0">
+                           Outlook
+                        </h4>
+                     </div>
+                     <div class="row">
+                        <div class="form-group col-6 pb-3">
+                           <label for="email">Email</label>
+                           <input type="email" class="form-control"
+                              id="email"
+                              placeholder="Enter your email address">
+                        </div>
+                        <div class="form-group col-6 pb-3">
+                           <label for="password">Password</label>
+                           <input type="password" class="form-control"
+                              id="password"
+                              placeholder="Enter your Password">
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <!-- //////////// -->
+            <div class="d-flex justify-content-center my-5">
+               <div>
+                  <button
+                     type="submit"
+                     class="btn gradient-button px-5 fw-bold py-2 fs-5">Save
+                     Changes</button>
+               </div>
+            </div>
+         </div>
+
+      </main>
+
+      <div class="modal fade"
+         id="exampleModal" tabindex="-1"
+         aria-labelledby="exampleModalLabel" aria-hidden="true">
+         <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+               <div class="modal-header">
+                  <h1 class="modal-title fs-4 gradient-heading"
+                     id="exampleModalLabel">Avatr
+                     List</h1>
+                  <button type="button" class="btn-close"
+                     data-bs-dismiss="modal" aria-label="Close"></button>
+               </div>
+               <div class="modal-body">
+                     <div
+                        class="form-group d-flex flex-wrap flex-column flex-md-row gap-5 pt-2 pb-3">
+                        <div class="form-check">
+                           <input class="form-check-input" type="radio"
+                              name="option"
+                              id="OptionA" value="optionA">
+                           <label class="form-check-label avata-img"
+                              for="OptionA">
+                              <img class="h-100 w-100"
+                                 src="{% static 'assets/images/geni.jpg' %}"  alt>
+                           </label>
+                        </div>
+                        <div class="form-check">
+                           <input class="form-check-input" type="radio"
+                              name="option"
+                              id="OptionB" value="optionB">
+                           <label class="form-check-label avata-img"
+                              for="OptionB">
+                              <img class="h-100 w-100"
+                                 src="{% static 'assets/images/caddy.jpg' %}"  alt>
+                           </label>
+                        </div>
+                        <div class="form-check">
+                           <input class="form-check-input" type="radio"
+                              name="option"
+                              id="OptionC" value="optionC">
+                           <label class="form-check-label avata-img"
+                              for="OptionC">
+                              <img class="h-100 w-100"
+                                 src="{% static 'assets/images/Bodyguard.jpg' %}"  alt>
+                           </label>
+                        </div>
+                        <div class="form-check">
+                           <input class="form-check-input" type="radio"
+                              name="option"
+                              id="OptionD" value="optionD">
+                           <label class="form-check-label avata-img"
+                              for="OptionD">
+                              <img
+                                 class="h-100 w-100"
+                                 src="{% static 'assets/images/superhero.jpg' %}" 
+                                 alt>
+                           </label>
+                        </div>
+                        <br>
+                        <div class="form-check">
+                           <input class="form-check-input" type="radio"
+                              name="option"
+                              id="OptionE" value="optionE">
+                           <label class="form-check-label" for="OptionE">Other</label>
+                        </div>
+                     </div>
+                     <div id="input-field"
+                        class="form-group col-12  pb-3 d-none">
+                        <label for="avatorName" class="form-label">Avatar
+                           Name</label>
+                        <input type="text" class="form-control"
+                           id="avatorName"
+                           placeholder="Enter Avatar">
+                     </div>
+                  </form>
+               </div>
+               <div class="modal-footer">
+                  <button type="button" class="btn gradient-button"
+                     data-bs-dismiss="modal">Close</button>
+                  <div>
+                     <button
+                        type="submit"
+                        class="btn gradient-button">Save</button>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+
+      <script
+         src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+         integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+         crossorigin="anonymous">
+      </script>
+      <script
+         src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
+         integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
+         crossorigin="anonymous">
+      </script>
+
+      <script
+         src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js">
+      </script>
+      <script src="{% static 'assets/js/index.js' %}"></script>
+
+      <script>
+         var image_name = '{{user.user_avatar.name}}'.toLowerCase()
+         var pic = "{% static 'assets/images/imagePreviewEmail.png' %}";
+         $('#idAvatar').prop('src', pic.replace('imagePreviewEmail.png', `${image_name}.jpg`))
+         
+         $("input[name='Territories']").click(function () {
+            
+            if($('#TerritoriesA').is(':checked')) 
+            { 
+               $('#stateInput').val('');
+               $('#zipInput').val('');
+
+               $('#stateInput').prop('required',false);
+               $('#zipInput').prop('required',false);
+   
+            } 
+
+            if($('#TerritoriesB').is(':checked')) 
+            { 
+               $('#stateInput').prop('required',true);
+               $('#zipInput').val('');
+               $('#zipInput').prop('required',false);
+   
+   
+            }             
+   
+            if($('#TerritoriesC').is(':checked')) 
+            { 
+               $('#zipInput').prop('required',true);
+               $('#stateInput').prop('required',false);
+               $('#stateInput').val('');
+            } 
+            
+         });
+
+
+
+
+         var user_territory = '{{user.user_avatar.territory}}';
+         const userTerr = user_territory.split(",");
+         
+         
+         if(userTerr[0] == 'National'){
+            $("#TerritoriesA").attr("checked", true);  
+         }
+         else if(userTerr[0] == 'State'){
+            $("#TerritoriesB").attr("checked", true);
+            $("#input-field-state").removeClass("d-none");  
+            $(`#stateInput option[value='${userTerr[1]}']`).attr("selected", true);
+         }
+         else if(userTerr[0] == 'Local'){
+            $("#TerritoriesC").attr("checked", true);
+            $("#zipInput").val(userTerr[1]);  
+         }
+
+         const sales_area_vals = ["SMB", "Mid-Market", "Enterprise", "Government"];
+         var sale_area_text = '{{user.user_avatar.sale_area}}';
+         const myArray = sale_area_text.split(",");
+         for (var i = 0; i<myArray.length; i++) {
+            $(`input[value='${myArray[i]}'] `).attr("checked", true);
+            if(i == myArray.length-1 && !sales_area_vals.includes(myArray[i])){
+                  $("#salesAreaName").val(myArray[i]);         // Do something
+            }
+        }
+         $("#exampleSelect option[value='{{user.user_avatar.industry}}']").attr("selected", true);
+         document.addEventListener("DOMContentLoaded", function() {
+            var optionE = document.getElementById("OptionE");
+            var inputField = document.getElementById("input-field");
+
+            optionE.addEventListener("change", function() {
+            if (optionE.checked) {
+               inputField.classList.remove("d-none");
+            } else {
+               inputField.classList.add("d-none");
+            }
+            });
+         });
+      </script>
+      <script>
+         var slider = document.getElementById("myRange");
+         var output = document.getElementById("demo");
+         output.innerHTML = slider.value; // Display the default slider value
+
+         // Update the current slider value (each time you drag the slider handle)
+         slider.oninput = function() {
+            output.innerHTML = this.value;
+         }
+      </script>
+      <script>
+         document.addEventListener("DOMContentLoaded", function() {
+            var nationalRadio = document.getElementById("TerritoriesA");
+            var stateRadio = document.getElementById("TerritoriesB");
+            var stateInputField = document.getElementById("input-field-state");
+            var localRadio = document.getElementById("TerritoriesC");
+            var zipInputField = document.getElementById("input-field-zip");
+
+            nationalRadio.addEventListener("change", function() {
+            stateInputField.classList.add("d-none");
+            zipInputField.classList.add("d-none");
+            });
+
+            stateRadio.addEventListener("change", function() {
+            stateInputField.classList.remove("d-none");
+            zipInputField.classList.add("d-none");
+            });
+
+            localRadio.addEventListener("change", function() {
+            stateInputField.classList.add("d-none");
+            zipInputField.classList.remove("d-none");
+            });
+         });
+  </script>
+
+   </body>
+</html>

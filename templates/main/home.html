@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+<section>
+   <div class="py-2 mb-3 mb-md-5">
+      <div class="row justify-content-center mb-5">
+         <h1
+            class="col-12 col-lg-9 text-center display-2 fw-bolder ">
+            The Next Level
+            <br>
+            <span class="gradient-heading">
+               Sales Force
+            </span>
+         </h1>
+      </div>
+      <div class="text-center fs-5 pb-4">
+         <p class="p-0 m-0">
+            Empower Your Front-Line Sales Force with NextGen
+            Sales Accelerator
+         </p>
+      </div>
+      <div class="d-flex justify-content-center">
+         <a class="nav-link"
+            href="{% url 'SignUp' %}">
+            <button
+               class="btn btn-outline-primary gradient-button">Try it now!</button>
+         </a>
+      </div>
+   </div>
+   <div class="video-outer mb-lg-5 ">
+      <div class="video-container pb-5">
+         <iframe src="https://www.youtube.com/embed/i1e_FXKphUE" frameborder="0"
+            allowfullscreen></iframe>
+      </div>
+   </div>
+   <div
+      class="fs-5 text-center my-0 my-md-3 my=lg-5 mb-lg-5 px-0 px-md-3 px-lg-5 ">
+      <h3 class="fw-bolder pb-4 display-6">
+         Unlock the Power of Next Level Sales Acceleration
+      </h3>
+      <p class="pb-3">
+         Experience the magic of AI-driven sales acceleration. With our fully
+         <b>
+            AI-powered
+            platform,
+         </b>
+         you can supercharge your sales process and close deals faster
+         than
+         ever before. Dominate your market and accelerate growth with Next Level
+         SalesForce. Experience the future of sales today
+      </p>
+   </div>
+   <hr />
+   <div class="about row align-items-center mb-5 py-5">
+      <div class="col-12 col-lg-6 d-flex flex-column gap-3">
+         <div class="border rounded p-3 card"
+            onmouseover="changeBackgroundColor(this, 'imagePreviewEmail.png')"
+            onmouseout="resetBackgroundColor(this)">
+            <h4>Effortless Email Generation</h4>
+            <p class="p-0">
+               Unlock the potential of personalized communication with our
+               advanced email generation feature. Craft compelling and tailored
+               emails in minutes, leveraging the power of AI to engage your
+               prospects and drive conversions.
+            </p>
+         </div>
+         <div class="border rounded p-3 card"
+            onmouseover="changeBackgroundColor(this,'10k.jpg')"
+            onmouseout="resetBackgroundColor(this)">
+            <h4>Strategic 10K Report Analysis</h4>
+            <p class="p-0">
+               Gain a competitive edge with our comprehensive 10K report
+               analysis tool. Dive deep into financial data, identify key growth
+               opportunities, and align your sales pitch with the prospect's
+               financial landscape.
+            </p>
+         </div>
+         <div class="border rounded p-3 card"
+         onmouseover="changeBackgroundColor(this, 'image.png')"
+         onmouseout="resetBackgroundColor(this)">
+            <h4>Streamlined Grant Comparison</h4>
+            <p class="p-0">
+               Navigate the complex world of grants effortlessly with our
+               intuitive grant comparison feature. Access a vast database of
+               grant opportunities, analyze eligibility criteria, and discover
+               funding options that perfectly align with your business
+               objectives.
+            </p>
+         </div>
+      </div>
+      <div class="col-12 col-lg-6">
+         <div class="bg-img">
+            <img class="w-100" id="selectedImage"
+               src= "{% static 'assets/images/imagePreviewEmail.png' %}"  alt="Img email">
+         </div>
+      </div>
+   </div>
+
+   <div
+      class=" my-3 my-md-5 row align-items-center rounded bg-dark px-2 px-md-4 py-3 py-md-5 text-light">
+      <div class="col-12 col-md-9 col-lg-8 text-center text-md-start">
+         <h2 class="fw-bold">Try it out for free now!</h2>
+         <p>
+            Start saving time and reaching a larger audience for your business
+            now.
+            No credit card required to begin.</p>
+      </div>
+      <div class="col-12 col-md-3 col-lg-4 d-flex justify-content-center">
+         <a class="nav-link"
+         href="{% url 'SignUp' %}">
+            <button
+               class="btn btn-outline-primary px-4 px-md-2 px-lg-5  py-2 py-md-1 py-lg-2 fs-5 gradient-button">Sign
+               up
+               free</button>
+         </a>
+      </div>
+   </div>
+
+</section>
+<script>
+   function changeBackgroundColor(card, url) {
+      card.style.backgroundColor = "lightblue";
+      selectImage(url)
+   }
+
+   function resetBackgroundColor(card) {
+      card.style.backgroundColor = "";
+   }
+
+   function selectImage(url) {
+      var image_src = "{% static 'assets/images/xyz' %}"
+      var selectedImage = document.getElementById("selectedImage");
+      var img = image_src.replace('xyz',url)
+      selectedImage.src = img;
+   }
+
+</script>
+{% endblock%}
+href="{% static 'assets/styles/Style.css' %}"
+onmouseover="changeBackgroundColor(this,'/assats/images/10k.jpg')"
+var url = "{% url 'manager_admin:deleteClass' 123 %}";

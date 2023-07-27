@@ -1,0 +1,475 @@
+ <!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>The Next Leavel AI</title>
+      <link
+         href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+         rel="stylesheet"
+         integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+         crossorigin="anonymous">
+      <link rel="stylesheet"
+         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      <link rel="stylesheet" href="/assats/styles/Style.css">
+   </head>
+   <body class="dashoboard-main">
+      <header class="shadow-sm">
+         <nav class="navbar navbar-expand-md bg-transparent header-content">
+            <div class="container">
+               <a class="nav-link navbar-brand  logo"
+                  href="./dashboard.html">
+                  <img
+                     class="w-100 h-100"
+                     src="/assats/images/transparent-logo.png"
+                     alt>
+               </a>
+               <div
+                  class="button py-1 d-flex  bg-warning bg-opacity-10 gap-3 rounded-5 border px-2 border-2 border-danger ">
+                  <p class="p-0 ps-1 m-0 py-1">
+                     5 AI Calls Left Today.
+                  </p>
+                  <div
+                     class="bg-primary bg-opacity-10 gradient-button text-dark px-3 py-1 rounded-5">
+                     upgrade to Pro
+                  </div>
+               </div>
+               <div class="d-flex gap-3">
+                  <!-- add classes 22/7 -->
+                  <div class="d-flex gap-3">
+                     <!-- Add Icon 22/7 -->
+                     <div
+                        class="social-icon  gradient-button p-1 rounded-2 border-0">
+                        <a href="../Settings/Settings.html">
+                           <img class="w-100 p-1 h-100"
+                              src="/assats/images/setting.png" alt>
+                        </a>
+                     </div>
+                     <a class="nav-link"
+                        href="../../../index.html">
+                        <button
+                           class="btn gradient-button active">Logout</button>
+                     </a>
+                  </div>
+               </div>
+
+            </div>
+         </nav>
+      </header>
+
+      <main class="p-0 m-0 d-flex ">
+         <div class=" py-3 shadow  mt-auo side-bar">
+            <div class="d-flex flex-column h-100 justify-content-center">
+               <a href="./dashboard.html"
+                  class="cursor-pointer nav-link ">
+                  <p
+                     class="p-0 m-0 px-3 py-2 fw-semibold border-bottom gradient-button border-0">
+                     Email
+                  </p>
+               </a>
+               <a href="./10KReport.html"
+                  class="cursor-pointer nav-link ">
+                  <!-- Class Name change -->
+                  <p
+                     class="p-0 m-0 ps-3 py-2 btn-active border-bottom   fw-semibold gradient-button border-0">
+                     Financial Insights
+                  </p>
+               </a>
+               <!-- Changes 23/7 -->
+               <a href="./Grant.html"
+                  class="cursor-pointer nav-link ">
+                  <p
+                     class="p-0 m-0 px-3 py-2 border-bottom   fw-semibold gradient-button border-0">
+                     Grant
+                  </p>
+               </a>
+            </div>
+         </div>
+         <div class="row justify-content-between py-4 dashbpard-content">
+            <div class="d-flex gap-2 h-100">
+               <div class="col-4 w-33 shadow h-100 rounded">
+                  <div
+                     class="col-12 w-100 position-relative h-100 d-flex flex-column p-3">
+                     <div class="d-flex justify-content-between w-100">
+                        <small class="p-0 fw-semibold m-0">SR Company</small>
+                        <small class="p-0 text-end fw-semibold m-0">Prospect
+                           Compnay</small>
+                     </div>
+                     <div
+                        class="d-flex border-bottom mb-2 pb-2 justify-content-between">
+                        <div class="d-flex gap-2  align-items-center pb-2">
+                           <div
+                              class="user-avatar overflow-hidden border border-2 border-danger rounded-circle">
+                              <img class="h-100 w-100"
+                                 src="../../images/imagePreviewEmail.png"
+                                 alt="User Avatar">
+                           </div>
+                           <div class="text-start">
+                              <small class="p-0  m-0">Name</small>
+                           </div>
+                        </div>
+                        <div class="handshake-Icon">
+                           <img class="w-100 h-100"
+                              src="/assats/images/handShake.png"
+                              alt="hand shacke">
+                        </div>
+
+                        <div class="d-flex gap-2  align-items-center pb-2">
+                           <div class="text-end">
+                              <small class="p-0 m-0">Name</small>
+                           </div>
+                           <div
+                              class="user-avatar overflow-hidden border border-2 border-danger rounded-circle">
+                              <img class="h-100 w-100"
+                                 src="../../images/imagePreviewEmail.png"
+                                 alt="User Avatar">
+                           </div>
+                        </div>
+
+                     </div>
+                     <div class="form-group pb-2 col-12">
+                        <label for="pcompany">Financial Raw Data</label>
+                     </div>
+                     <!-- Changes 23/7 -->
+                     <div
+                        class="shadow-sm position-relative msg-area rounded bg-white border-dark  pe-2 ">
+                        <div class="col-12 ">
+                           <textarea id="input-text"
+                              placeholder="Input Financial Raw Data Here"
+                              rows="15"
+                              class="w-100 msg-area form-control no-border"
+                              oninput="updateWordCount()"></textarea>
+                           <div id="word-count" class="text-end pt-2 mt-1">0/1000</div>
+                        </div>
+                        <div id="showContent"
+                           class="position-absolute top-0 end-0 start-0 mt-3"
+                           style="display: none;">
+                           <img class="w-100 h-100"
+                              src="/assats/images/dotline-unscreen.gif"
+                              class="img-fluid" alt="Your GIF">
+                        </div>
+                     </div>
+                     <!-- Changes 23/7 -->
+                     <div
+                        class="d-flex mt-auto justify-content-end gap-2  pt-3">
+                        <button id="processBtn"
+                           class="btn-sm btn gradient-button px-5">Process</button>
+                     </div>
+                     <!-- Changes 23/7 -->
+                  </div>
+               </div>
+               <div class="col-4 w-33 h-100 shadow rounded">
+                  <div
+                     class="col-12 overflow-auto h-100 mx-auto focus-area shadow rounded p-3 ">
+                     <div
+                        class="form-group position-relative pb-2 pb-lg-4 col-12">
+                        <label for="focus-area" class="fw-bold">Focus Areas</label>
+                        <!-- Changes 23/7 -->
+                        <textarea class="form-control" id="focus-area"
+                           rows="8"
+                           placeholder="Input areas you want to highlight in the email"
+                           maxlength="500"></textarea>
+                        <!-- Changes 23/7 -->
+
+                        <div id="char-count" class="text-end text-danger">0/500</div>
+                     </div>
+
+                     <div class="mt-auto d-flex justify-content-center">
+                        <button id="genEmail"
+                           class=" btn px-5 fs-6 gradient-button">
+                           Submit</button>
+                     </div>
+                  </div>
+
+               </div>
+               <div class="col-4 w-33 shadow h-100 rounded">
+                  <div
+                     class="col-12 w-100 position-relative h-100 d-flex flex-column p-3">
+                     <!-- Changes 23/7 -->
+                     <h5 class="p-0 text-center m-0 py-3">Financial Insights</h5>
+                     <div
+                        class="shadow-sm position-relative msg-area rounded bg-white border-dark  py-3">
+                        <div class="col-12 pb-2 px-3">
+                           <div class="d-flex align-items-center gap-3">
+                              <div
+                                 class="user-avatar pb-3 overflow-hidden border border-2 border-danger rounded-circle">
+                                 <img class="h-100 w-100"
+                                    src="../../images/imagePreviewEmail.png"
+                                    alt="User Avatar">
+                              </div>
+                              <h5 id="heading" class="clickable  pb-0 mb-0">UC
+                                 Health</h5>
+                           </div>
+                           <small id="paragraph" class="clickable mb-3">Aphem
+                              text pakist a bvas.</small>
+
+                        </div>
+                        <div id="showContent"
+                           class="position-absolute top-0 end-0 start-0 mt-3"
+                           style="display: none;">
+                           <img class="w-100 h-100"
+                              src="/assats/images/dotline-unscreen.gif"
+                              class="img-fluid" alt="Your GIF">
+                        </div>
+                     </div>
+                     <div
+                        class="d-flex mt-auto justify-content-end pt-3">
+                        <button class="btn-sm btn gradient-button">Embed</button>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         </main>
+
+         <!--   Remove The MOdal  from the 10K report File this line  21/7   textarea.css("max-height", "200px"); -->
+
+         <script
+            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+            integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+            crossorigin="anonymous">
+      </script>
+         <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
+            integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
+            crossorigin="anonymous">
+      </script>
+
+         <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js">
+      </script>
+         <script>
+    function makeEditable(element) {
+      element.contentEditable = 'true';
+      element.focus();
+    }
+
+    function saveContent(element) {
+      element.contentEditable = 'false';
+    }
+
+    document.addEventListener('click', function (event) {
+      const clickableElements = document.querySelectorAll('.clickable');
+
+      for (const element of clickableElements) {
+        if (event.target === element) {
+          makeEditable(element);
+        } else {
+          saveContent(element);
+        }
+      }
+    });
+           function autoResize(textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = textarea.scrollHeight + 'px';
+            }
+            
+            function selectButton(button) {
+               var buttons = document.getElementsByClassName('btn-selected');
+               for (var i = 0; i < buttons.length; i++) {
+               buttons[i].classList.remove('btn-active');
+               }
+               
+               button.classList.add('btn-active');
+            }
+
+             function selectedButton(button) {
+               var buttons = document.getElementsByClassName(' intent');
+               
+               for (var i = 0; i < buttons.length; i++) {
+               buttons[i].classList.remove('btn-active');
+               }
+               
+               button.classList.add('btn-active');
+            }
+         $(document).ready(function() {
+            $('#myModal').modal('show1');
+         });
+
+          $(document).ready(function () {
+            $("#processBtn2").on("click", function () {
+                $("#showContent").fadeIn();
+                setTimeout(function () {
+                    $("#showContent").fadeOut();
+                }, 2000); 
+            });
+         });
+         $(document).ready(function () {
+            $("#genEmail").on("click", function () {
+                $("#showgif").fadeIn();
+                setTimeout(function () {
+                    $("#showgif").fadeOut();
+                }, 2000); 
+            });
+         });
+         $(document).ready(function () {
+            $("#genEmail").on("click", function () {
+                $("#showgiftab3").fadeIn();
+                setTimeout(function () {
+                    $("#showgiftab3").fadeOut();
+                }, 2000); 
+            });
+          });
+         $(document).ready(function () {
+            var textarea = $("#textArea");
+            var saveBtn = $("#saveBtn");
+            var cancelBtn = $("#cancelBtn");
+            var originalText = textarea.val();
+            var updatedText = "";
+            var isFocused = false;
+
+            textarea.on("input", function () {
+                updatedText = textarea.val();
+            });
+
+            textarea.on("focus", function () {
+                isFocused = true;
+                textarea.val(updatedText);
+                textarea.css("white-space", "normal");
+                saveBtn.show();
+                cancelBtn.show();
+            });
+
+            textarea.on("blur", function () {
+                isFocused = false;
+                var trimmedText = updatedText.substring(0, 50);
+                if (updatedText.length > 50) {
+                    trimmedText += "...";
+                }
+                textarea.val(trimmedText);
+                saveBtn.hide();
+                cancelBtn.hide();
+            });
+
+            saveBtn.on("click", function () {
+                originalText = updatedText;
+                textarea.trigger("blur");
+            });
+
+            cancelBtn.on("click", function () {
+                textarea.val(originalText.substring(0, 50));
+                if (originalText.length > 50) {
+                    textarea.val(textarea.val() + "...");
+                }
+                textarea.trigger("blur");
+            });
+
+            // Initialize the textarea with ellipsis
+            textarea.trigger("blur");
+        });
+         $(document).ready(function () {
+            var textarea = $("#textAreaB");
+            var saveBtn = $("#saveBtnB");
+            var cancelBtn = $("#cancelBtnB");
+            var originalText = textarea.val();
+            var updatedText = "";
+            var isFocused = false;
+
+            textarea.on("input", function () {
+                updatedText = textarea.val();
+            });
+
+            textarea.on("focus", function () {
+                isFocused = true;
+                textarea.val(updatedText);
+                textarea.css("white-space", "normal");
+                saveBtn.show();
+                cancelBtn.show();
+            });
+
+            textarea.on("blur", function () {
+                isFocused = false;
+                var trimmedText = updatedText.substring(0, 50);
+                if (updatedText.length > 50) {
+                    trimmedText += "...";
+                }
+                textarea.val(trimmedText);
+                saveBtn.hide();
+                cancelBtn.hide();
+            });
+
+            saveBtn.on("click", function () {
+                originalText = updatedText;
+                textarea.trigger("blur");
+            });
+
+            cancelBtn.on("click", function () {
+                textarea.val(originalText.substring(0, 50));
+                if (originalText.length > 50) {
+                    textarea.val(textarea.val() + "...");
+                }
+                textarea.trigger("blur");
+            });
+
+            // Initialize the textarea with ellipsis
+            textarea.trigger("blur");
+        });
+
+ $(document).ready(function () {
+            // Function to update the border color of the selected option
+            function updateSelectedOption() {
+                $(".form-check-label").each(function () {
+                    if ($(this).find(".form-check-input").prop("checked")) {
+                        $(this).find(".option-label").addClass("selected-option");
+                    } else {
+                        $(this).find(".option-label").removeClass("selected-option");
+                    }
+                });
+            }
+
+            // Call the function on page load and whenever a radio button is clicked
+            updateSelectedOption();
+            $(".form-check-input").on("click", updateSelectedOption);
+        });
+      
+
+      //   /////////////////////
+      const focusArea = document.getElementById('focus-area');
+    const charCount = document.getElementById('char-count');
+
+    focusArea.addEventListener('input', function () {
+      const currentLength = this.value.length;
+      const maxLength = parseInt(this.getAttribute('maxlength'));
+
+      charCount.innerText = `${currentLength}/${maxLength}`;
+
+      if (currentLength >= maxLength) {
+        charCount.classList.add('text-danger');
+      } else {
+        charCount.classList.remove('text-danger');
+      }
+    });
+
+    // If the user navigates back to the page, update the character count
+    window.addEventListener('pageshow', function () {
+      const currentLength = focusArea.value.length;
+      const maxLength = parseInt(focusArea.getAttribute('maxlength'));
+
+      charCount.innerText = `${currentLength}/${maxLength}`;
+
+      if (currentLength >= maxLength) {
+        charCount.classList.add('text-danger');
+      } else {
+        charCount.classList.remove('text-danger');
+      }
+    });
+
+
+function updateWordCount() {
+  const textarea = document.getElementById("input-text");
+  const wordCount = textarea.value.trim().split(/\s+/).length;
+  const wordCountElement = document.getElementById("word-count");
+
+  if (wordCount > 1000) {
+    textarea.value = textarea.value.trim().split(/\s+/).slice(0, 1000).join(" ");
+  }
+
+  wordCountElement.textContent = `${wordCount}/1000`;
+}  
+
+     </script>
+
+         <script src="/assats/js/index.js"></script>
+
+      </body>
+   </html>

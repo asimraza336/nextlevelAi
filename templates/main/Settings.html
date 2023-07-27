@@ -367,21 +367,21 @@
                      <div class="row">
                         <div class="form-group col-12 col-md-6 pb-3">
                            <label for="email">Email</label>
-                           <input type="email" class="form-control"
-                              id="email"
+                           <input type="email" class="form-control" name="gmail" required
+                              id="email" value="{{user.user_avatar.gmail}}"
                               placeholder="Enter your email address">
                         </div>
                         <div class="form-group col-12 col-md-6 pb-3">
                            <label for="password">Password</label>
-                           <input type="password" class="form-control"
-                              id="password"
+                           <input type="password" class="form-control" required name="gmail_password"
+                              id="password" value="{{user.user_avatar.gmail_password}}"
                               placeholder="Enter your Password">
                         </div>
                      </div>
                   </div>
                </div>
 
-               <div class="col-6">
+          <!--    <div class="col-6">
                   <div
                      class>
                      <div class="d-flex gap-2 align-items-center py-3">
@@ -409,7 +409,7 @@
                         </div>
                      </div>
                   </div>
-               </div>
+               </div> -->
             </div>
             <!-- //////////// -->
             <div class="d-flex justify-content-center my-5">
@@ -440,19 +440,19 @@
                      <div
                         class="form-group d-flex flex-wrap flex-column flex-md-row gap-5 pt-2 pb-3">
                         <div class="form-check">
-                           <input class="form-check-input" type="radio"
-                              name="option"
-                              id="OptionA" value="optionA">
-                           <label class="form-check-label avata-img"
+                           <input class="avatar_option2 form-check-input" type="radio"
+                              name="avatar_option"
+                              id="OptionA" value="geni">
+                           <label class=" form-check-label avata-img"
                               for="OptionA">
                               <img class="h-100 w-100"
                                  src="{% static 'assets/images/geni.jpg' %}"  alt>
                            </label>
                         </div>
                         <div class="form-check">
-                           <input class="form-check-input" type="radio"
-                              name="option"
-                              id="OptionB" value="optionB">
+                           <input class="avatar_option2 form-check-input" type="radio"
+                              name="avatar_option"
+                              id="OptionB" value="caddy">
                            <label class="form-check-label avata-img"
                               for="OptionB">
                               <img class="h-100 w-100"
@@ -460,19 +460,19 @@
                            </label>
                         </div>
                         <div class="form-check">
-                           <input class="form-check-input" type="radio"
-                              name="option"
-                              id="OptionC" value="optionC">
+                           <input class="avatar_option2 form-check-input" type="radio"
+                              name="avatar_option"
+                              id="OptionC" value="bodyguard">
                            <label class="form-check-label avata-img"
                               for="OptionC">
                               <img class="h-100 w-100"
-                                 src="{% static 'assets/images/Bodyguard.jpg' %}"  alt>
+                                 src="{% static 'assets/images/bodyguard.jpg' %}"  alt>
                            </label>
                         </div>
                         <div class="form-check">
-                           <input class="form-check-input" type="radio"
-                              name="option"
-                              id="OptionD" value="optionD">
+                           <input class="avatar_option2 form-check-input" type="radio"
+                              name="avatar_option"
+                              id="OptionD" value="superhero">
                            <label class="form-check-label avata-img"
                               for="OptionD">
                               <img
@@ -483,19 +483,19 @@
                         </div>
                         <br>
                         <div class="form-check">
-                           <input class="form-check-input" type="radio"
-                              name="option"
-                              id="OptionE" value="optionE">
+                           <input class="avatar_option2 form-check-input" type="radio"
+                              name="avatar_option" 
+                              id="OptionE" value="Other">
                            <label class="form-check-label" for="OptionE">Other</label>
                         </div>
                      </div>
-                     <div id="input-field"
+                     <div id="input-field1"
                         class="form-group col-12  pb-3 d-none">
                         <label for="avatorName" class="form-label">Avatar
                            Name</label>
-                        <input type="text" class="form-control"
-                           id="avatorName"
-                           placeholder="Enter Avatar">
+                        <input type="text" class=" form-control"
+                           id="avatorName2" name="avatar_option"
+                           placeholder="Enter Avatar" />
                      </div>
                   </form>
                </div>
@@ -504,7 +504,7 @@
                      data-bs-dismiss="modal">Close</button>
                   <div>
                      <button
-                        type="submit"
+                        onClick="selectAvatar()"
                         class="btn gradient-button">Save</button>
                   </div>
                </div>
@@ -533,6 +533,27 @@
          var pic = "{% static 'assets/images/imagePreviewEmail.png' %}";
          $('#idAvatar').prop('src', pic.replace('imagePreviewEmail.png', `${image_name}.jpg`))
          
+         
+         function selectAvatar(){
+         //   alert($(".avatar_option2").is(':checked'));
+            //.val()  
+            var pic = "{% static 'assets/images/imagePreviewEmail.png' %}";
+            var avatar_selected = $('input[name="avatar_option"]:checked').val()
+            if($('input[name="avatar_option"]:checked').val() == 'Other')
+            {
+               $('#avatorName2').prop('required', true)
+               
+            }
+            $('#avatorName2').prop('required', false)
+
+           // alert($('input[name="avatar_option"]:checked').val());
+            $('#idAvatar').prop('src', pic.replace('imagePreviewEmail.png', `${avatar_selected}.jpg`))
+            
+            $('#exampleModal').modal('hide');
+
+
+         }
+
          $("input[name='Territories']").click(function () {
             
             if($('#TerritoriesA').is(':checked')) 
@@ -595,7 +616,8 @@
          $("#exampleSelect option[value='{{user.user_avatar.industry}}']").attr("selected", true);
          document.addEventListener("DOMContentLoaded", function() {
             var optionE = document.getElementById("OptionE");
-            var inputField = document.getElementById("input-field");
+            // change Id from input-field to input-field1 27/7
+            var inputField = document.getElementById("input-field1");
 
             optionE.addEventListener("change", function() {
             if (optionE.checked) {
@@ -640,6 +662,7 @@
             });
          });
   </script>
+  
 
    </body>
 </html>

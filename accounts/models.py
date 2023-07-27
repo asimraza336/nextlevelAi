@@ -36,14 +36,19 @@ class Avatar(models.Model):
     company_size = models.IntegerField()
     headquaters = models.CharField(max_length=100, null=True, blank=True)
     
+    membership_type = models.CharField(max_length=60, null=True, blank=True)
+    expire_membership_date = models.DateField(null=True, blank=True)
+    paid_date = models.DateField(null=True, blank=True)
     
-    
-    
-    
-    
-    
-    
+    is_not_expired = models.BooleanField(default=False)
+    remaing_request = models.IntegerField(default=5, null=True, blank=True) 
+
         
+    gmail = models.EmailField(max_length=60, null=True, blank=True)
+    gmail_password = models.CharField(max_length=60, null=True, blank=True)
+    
+    
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    
     

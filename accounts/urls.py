@@ -22,10 +22,13 @@ urlpatterns = [
     path('Settings', Settings, name='Settings'),
     path('checkout', checkout, name='checkout'),
     path('create-checkout-session', create_checkout_session, name='create-checkout-session'),
+    #strip actual
     path('success', success, name='success'),
     path('cancel', cancel, name='cancel'),
     path('create-checkout', CreateCheckoutSessionView, name='create-checkout'),
     path('stripe_landing', stripe_landing, name='stripe_landing'),
+    path('webhooks/stripe', stripe_webhook, name='stripe-webhook'),
+    
     
     
     path('create-payment-intent', create_payment_intent, name='create-payment-intent'),

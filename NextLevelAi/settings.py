@@ -26,10 +26,19 @@ SECRET_KEY = 'django-insecure-w^$00d&@_rdy6)!0ir_-=@ys#=iz4hqd=2g2kfl#fte1!x4_fx
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+# stripe_sign_key ="whsec_950530349f955878e0280a9b1a9d1c680bf8207933cec995c985174d3cf36faa"
 
 # Application definition
+# EMAIL_BACKEND = "django.core.mail.backends"
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'asimraza336@gmail.com'
+EMAIL_HOST_PASSWORD = 'bkhkixuovsmegjgc'
+# EMAIL_HOST_PASSWORD = 'Anonymous1$'
 
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -85,7 +94,12 @@ DATABASES = {
     }
 }
 
-
+# EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+# EMAIL_USE_TLS = True
+# EMAIL_HOST = "smtp.gmail.com"
+# EMAIL_HOST_USER = "asimraza336336@gmail.com"
+# EMAIL_HOST_PASSWORD = "Accord786$"
+# EMAIL_PORT = 587
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 

@@ -11,11 +11,11 @@
   <body>
     <section>
       <div class="product">
-        <img src="https://i.imgur.com/EHyR2nP.png" alt="The cover of Stubborn Attachments" />
-        <div class="description">
-          <h3>Stubborn Attachments</h3>
-          <h5>$20.00</h5>
-        </div>
+        {% comment %} <img src="https://i.imgur.com/EHyR2nP.png" alt="The cover of Stubborn Attachments" /> {% endcomment %}
+        {% comment %} <div class="description"> {% endcomment %}
+          {% comment %} <h3>Stubborn Attachments</h3> {% endcomment %}
+          {% comment %} <h5>$20.00</h5> {% endcomment %}
+        {% comment %} </div> {% endcomment %}
       </div>
       <form action="/create-checkout" method="POST">
         {% csrf_token %}

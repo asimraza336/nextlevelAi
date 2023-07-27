@@ -281,7 +281,18 @@ def GenerateFinancialReport(request):
 @login_required
 def Settings(request):
     if request.method == "POST":
-        print(request.POST)
+        # print(request.POST)
+        
+        avatar_option = request.POST.getlist('avatar_option', None)
+        
+        print('avatar_option    avatar_option    avatar_option    avatar_option    avatar_option    avatar_option    ')
+        if avatar_option == 'Other':
+            avatar_option = avatar_option[0] + ', ' + avatar_option[1] 
+        else:
+            avatar_option = avatar_option[0]
+        
+        
+        
         fullName = request.POST.get('fullName', None)
         companyName = request.POST.get('companyName', None)
         jobTitle = request.POST.get('jobTitle', None)
@@ -298,27 +309,13 @@ def Settings(request):
         headquarters = request.POST.get('headquarters', None)
         company_size = request.POST.get('company_size', None)
         
+        gmail = request.POST.get('gmail', None)
+        gmail_password = request.POST.get('gmail_password', None)
         
-        print(fullName)
-        print(companyName)
-        print(jobTitle)
-        # print(email)
-        print(phone)
-        print(role)
-        print(salesArea)
-        print(Industries)
-        print(Territories)
-        print(overview)
-        print(specialities)
-        print(website)
-        print(industry_type)
-        print(headquarters)
         
         user_object = User.objects.get( id=request.user.id)
         avatar_object = Avatar.objects.get( user=user_object)
 
-        print(user_object)
-        print(avatar_object)
         
         user_object.first_name = fullName
         # user_object.email = email
@@ -326,6 +323,7 @@ def Settings(request):
         user_object.job_title = jobTitle
         user_object.phone_number = phone
         user_object.job_title = jobTitle
+        
         user_object.save()
         
         # avatar_object.name
@@ -345,7 +343,8 @@ def Settings(request):
                     Territory_result = Territory_result + ',' + terr
                 else:
                     Territory_result = Territory_result + terr
-        
+        avatar_val = avatar_option
+        avatar_object.name = avatar_val
         
         avatar_object.role = role
         avatar_object.industry = Industries
@@ -357,31 +356,13 @@ def Settings(request):
         avatar_object.specialities = specialities
         avatar_object.company_size = company_size
         avatar_object.headquaters = headquarters
+        
+        avatar_object.gmail = gmail
+        avatar_object.gmail_password = gmail_password
         avatar_object.save()
         
         print('accounts user updated -------------------------------')
         print('accounts user updated -------------------------------')
-        print('accounts user updated -------------------------------')
-        print('accounts user updated -------------------------------')
-        print('accounts user updated -------------------------------')
-        print('accounts user updated -------------------------------')
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         
     context = {
         "user": request.user, 'USA_STATES': USA_STATES
@@ -481,7 +462,7 @@ def CreateCheckoutSessionView(request):
                     # 'price': 20,
                     'price_data':{
                         'currency': 'usd',
-                        'unit_amount': 200,
+                        'unit_amount': 2082,
                         'product_data':{
                             'name': 'abc'
                         }
@@ -489,9 +470,14 @@ def CreateCheckoutSessionView(request):
                     'quantity': 1,
                 },
             ],
+            metadata={
+              "user_id": request.user.id,
+              "payment_type": "yearly"
+            },
             mode='payment',
             success_url=domain + 'success',
             cancel_url=domain + 'cancel',
+            automatic_tax={'enabled': True}
         )
         print(checkout_session)
         return redirect(checkout_session.url)
@@ -501,6 +487,97 @@ def CreateCheckoutSessionView(request):
         # return JsonResponse({
         #     'clientSecret': intent['client_secret']
         # })
+import smtplib
+import os
+
+
+from django.conf import settings
+
+
+
+# from django.core.mail import EmailMessage
+
+# email = EmailMessage(
+#     'Hello',
+#     'Body goes here',
+#     settings.EMAIL_HOST_USER,
+#     ['asimraza336336@gmail.com',],
+#     ['asimraza336336@gmail.com'],
+# ).send()
+
+from django.views.decorators.csrf import csrf_exempt
+
+from django.core.mail import send_mail
+# import datetime
+# import data
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
+@csrf_exempt
+def stripe_webhook(request):
+
+    # For now, you only need to print out the webhook payload so you can see
+    # the structure.
+    # print(payload.json())
+
+    payload = request.body
+    # result = json.loads(request.body)
+    # print(json.loads(payload))
+    sig_header = request.META['HTTP_STRIPE_SIGNATURE']
+    event = None
+
+    try:
+        event = stripe.Webhook.construct_event(
+            payload, sig_header, "whsec_950530349f955878e0280a9b1a9d1c680bf8207933cec995c985174d3cf36faa"
+        )
+    except ValueError as e:
+        # Invalid payload
+        return HttpResponse(status=400)
+    except stripe.error.SignatureVerificationError as e:
+        # Invalid signature
+        return HttpResponse(status=400)
+    if event['type'] == 'checkout.session.completed':
+    # Retrieve the session. If you require line items in the response, you may include them by expanding line_items.
+        session = stripe.checkout.Session.retrieve(
+            event['data']['object']['id'],
+            expand=['line_items'],
+        )
+        # print(session)
+        line_items = session.line_items
+        # Fulfill the purchase...
+        print(session['payment_status'])
+        # print(event['type'])
+        customer_email = session['customer_details']['email']
+        user_id = session['metadata']['user_id']
+        payment_type = session['metadata']['payment_type']
+        user_instance = User.objects.get(id=user_id)
+        user_avatar_instance = Avatar.objects.get(user=user_instance)
+        user_avatar_instance.membership_type = payment_type
+        user_avatar_instance.paid_date = datetime.today().date()
+        user_avatar_instance.is_not_expired = True
+
+        if payment_type == 'monthly':
+            print("monthly   monthly   monthly   monthly   monthly   monthly   monthly")
+            date_after_month = datetime.today()+ relativedelta(months=1)
+            user_avatar_instance.expire_membership_date = date_after_month.strftime('%Y-%m-%d')
+            # user_avatar_instance.remaing_request = ?
+
+        if payment_type == 'yearly':
+            print('YEarly   YEarly   YEarly   YEarly   YEarly   YEarly   YEarly   YEarly   YEarly   ')
+            date_after_year = datetime.today()+ relativedelta(years=1)
+            #  ['“27/08/2023” value has an invalid date format. It must be in YYYY-MM-DD format.']
+            user_avatar_instance.expire_membership_date = date_after_year.strftime('%Y-%m-%d')
+            # user_avatar_instance.remaing_request = ?
+            
+        user_avatar_instance.save()
+        # print(customer_email)
+        # send_mail(
+        #     subject="here is your",
+        #     message="Thanks for your purchase",
+        #     recipient_list = ["asimraza336@gmail.com"],
+        #     from_email="matt@test.com"
+        # )
+    # Passed signature verification
+    return HttpResponse(status=200)
 
 def create_payment_intent(request):
     try:

@@ -218,9 +218,9 @@
                            <h1
                               class="fs-1 year_pkg pb-3 fw-bolder gradient-heading"
                               id="heading1">
-                              $249.9
+                              $20.82
                               <span class="fs-6 text-muted">
-                                 /year
+                                 /monthly
                               </span>
                            </h1>
                            <h1
@@ -311,10 +311,10 @@
                         </div>
                         <div class="mt-auto py-3 border-top">
                            <a
-                              href="{% url 'checkout' %}"
+                              href="{% url 'stripe_landing' %}"
                               class="btn btn-lg fs-5 py-2 btn-outline-primary w-100 gradient-button">
-                              Start free trial
-                           </a>
+                              Pay
+                        </a>
                         </div>
 
                      </div>
@@ -527,7 +527,9 @@
       <script
          src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js">
       </script>
-
+      <script>
+       
+      </script>
       <script src="{% static 'assets/js/index.js' %}"></script>
 
    </body>

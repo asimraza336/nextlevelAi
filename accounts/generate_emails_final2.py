@@ -6,7 +6,10 @@ import json
             # - Founded: {data["sales_rep_company_Founded"]}
 
 def generate_sales_email(data):
-    openai.api_key = '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'
+    # openai.api_key = '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'
+    openai.api_key = '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'
+    
+    
 
     sales_rep_company_name = data["sales_rep_company_name"]
     sales_rep_company_Industry = data["sales_rep_company_Industry"]

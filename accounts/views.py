@@ -31,6 +31,13 @@ from django.http import JsonResponse, HttpResponse, Http404
 
 def SignIn(request):
     # return render(request, 'accounts/SignIn.html')
+    
+    if request.user.is_authenticated:
+        avatar_exist =Avatar.objects.filter(user=request.user).exists()
+        if not avatar_exist:
+            return redirect('Onboarding', pk=request.user.id)
+        return redirect('dashboard')
+        
     if request.method == 'POST':
         form = SignInForm(request.POST)
         if form.is_valid():
@@ -42,6 +49,10 @@ def SignIn(request):
             if user is not None :
                 login(request,user)
                 # messages.success(request, 'successfully login')
+                avatar_exist =Avatar.objects.filter(user=request.user).exists()
+                if not avatar_exist:
+                    return redirect('Onboarding', pk=request.user.id)
+                
                 return redirect('dashboard')
             else:
                 # messages.error(
@@ -150,6 +161,9 @@ def GenerateEmail(request):
     # print(data['Prospect_Company_specialties'])
     # print(data['focus_area'])
     # print(data['Intent'])
+    print('ajksnkjans')
+    print('ajksnkjans')
+    
     generated_emails = generate_sales_email(data)
     # print('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=')
     # print(generated_emails)
@@ -284,8 +298,6 @@ def Settings(request):
         # print(request.POST)
         
         avatar_option = request.POST.getlist('avatar_option', None)
-        
-        print('avatar_option    avatar_option    avatar_option    avatar_option    avatar_option    avatar_option    ')
         if avatar_option == 'Other':
             avatar_option = avatar_option[0] + ', ' + avatar_option[1] 
         else:
@@ -343,8 +355,10 @@ def Settings(request):
                     Territory_result = Territory_result + ',' + terr
                 else:
                     Territory_result = Territory_result + terr
+                
         avatar_val = avatar_option
-        avatar_object.name = avatar_val
+        if avatar_val:
+            avatar_object.name = avatar_val
         
         avatar_object.role = role
         avatar_object.industry = Industries
@@ -363,6 +377,7 @@ def Settings(request):
         
         print('accounts user updated -------------------------------')
         print('accounts user updated -------------------------------')
+        return redirect('dashboard')
         
     context = {
         "user": request.user, 'USA_STATES': USA_STATES
@@ -373,7 +388,6 @@ def Settings(request):
        
 
 
-@login_required
 def SignUp(request):
 
     if request.method == 'POST':

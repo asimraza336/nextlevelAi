@@ -162,6 +162,8 @@
                            <small id="paragraph2" class="clickable mb-3 px-3">
                               
                            </small>
+                           <h6 id="heading"
+                              class="clickable px-3 mt-3 pb-0 mb-0">Specialities</h6>
                            <small id="paragraphSpecialitites" class="clickable mb-3 px-3">
                               
                            </small>
@@ -490,9 +492,7 @@
                   <div
                      class="col-12 w-100 position-relative h-100 d-flex flex-column p-3">
                      <div class="d-flex justify-content-between w-100">
-                        <small class="p-0 fw-semibold m-0">SR Company</small>
-                        <small class="p-0 text-end fw-semibold m-0">Prospect
-                           Compnay</small>
+                        
                      </div>
                      <div
                         class="d-flex border-bottom mb-2 pb-2 justify-content-between">
@@ -514,6 +514,7 @@
                         </div>
 
                         <div class="d-flex gap-2  align-items-center pb-2">
+                           
                            <div class="text-end">
                               <small class="p-0 m-0 IdProspectNames" id="IdProspectName">Name</small>
                            </div>
@@ -632,9 +633,7 @@
                   <div
                      class="col-12 w-100 position-relative h-100 d-flex flex-column p-3">
                      <div class="d-flex justify-content-between w-100">
-                        <small class="p-0 fw-semibold m-0">SR Company</small>
-                        <small class="p-0 text-end fw-semibold m-0">Prospect
-                           Compnay</small>
+                        
                      </div>
                      <div
                         class="d-flex border-bottom mb-2 pb-2 justify-content-between">
@@ -646,7 +645,7 @@
                                  alt="User Avatar">
                            </div>
                            <div class="text-start">
-                              <small class="p-0  m-0">{{user.first_name}}</small>
+                              <small class="p-0  m-0">{{user.company}}</small>
                            </div>
                         </div>
                         <div class="handshake-Icon">
@@ -805,7 +804,14 @@
             for (var i = 0; i < buttons.length; i++) {
                buttons[i].classList.remove('btn-active');
             }
-            button.classList.add('btn-active');
+
+            if(button.classList.contains('btn-active')){
+               button.classList.remove('btn-active');
+            }
+            else{
+               button.classList.add('btn-active');
+
+            }
          }
       
          function selectedButton(button) {
@@ -1170,7 +1176,7 @@ $("#processBtn3").click(function () {
                         $("#showgiftab3").fadeIn();
                       //  $("#showgif").fadeIn();
 
-                      $("#showgif").fadeIn();
+                      //$("#showgif").fadeIn();
 
                     },
                      success : function(response){

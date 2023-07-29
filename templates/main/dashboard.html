@@ -29,18 +29,25 @@
                      src="{% static 'assets/images/transparent-logo.png' %}"
                      alt>
                </a>
-               <div
-                  class="button py-1 d-flex  bg-warning bg-opacity-10 gap-3 rounded-5 border px-2 border-2 border-danger ">
-                  <p class="p-0 ps-1 m-0 py-1">
-                     5 AI Calls Left Today.
+               <div class="button py-1 d-flex  bg-warning bg-opacity-10 gap-3 rounded-5 border px-2 border-2 border-danger ">
+                  <p class="p-0 ps-1 m-0 py-1" id="IdAICall">
+                     {{user.user_avatar.remaing_email_request}} Emails Calls Left.
                   </p>
-                  <div
+                  <div id="IdUpgrade" style="display: none"
                      class="bg-primary bg-opacity-10 gradient-button text-dark px-3 py-1 rounded-5">
                      <a href="{% url 'Pricing' %}">
                         upgrade to Pro
                         </a>
                   </div>
+
                </div>
+
+       
+
+
+
+            
+
                <div class="d-flex gap-3">
                   <!-- add classes 22/7 -->
                   <div class="d-flex gap-3">
@@ -97,6 +104,9 @@
             </div>
          </div>
 
+         <input type="hidden" name="email_calls" value="{{user.user_avatar.remaing_email_request}}" id="IdEmailCalls">
+         <input type="hidden" name="financial_calls" value="{{user.user_avatar.remaing_financial_request}}" id="IdFinancialCalls">
+         <input type="hidden" name="grant_calls" value="{{user.user_avatar.remaing_grant_request}}" id="IdGrantCalls">
 
 
          
@@ -110,7 +120,7 @@
                      <div class="d-flex gap-2  align-items-center pb-2">
                         <div
                            class="user-avatar overflow-hidden border border-2 border-danger rounded-circle">
-                           <img class="h-100 w-100"
+                           <img class="h-100 w-100 avatarIcons" id="IdEmailTab1Image"
                               src="{% static 'assets/images/imagePreviewEmail.png' %}"
                               alt="User Avatar">
                         </div>
@@ -132,6 +142,9 @@
                               oninput="autoResize(this)"
                               placeholder="View and edit project company details"></textarea>
                         </div>
+                        <input type="hidden" name="Prospect_Company_logo" id="id_Prospect_Company_logo" >
+
+
                         <input type="hidden" name="Prospect_Company_name" id="id_Prospect_Company_name" >
                         <input type="hidden" name="Prospect_Company_Overview" id="id_Prospect_Company_Overview">
                         <input type="hidden" name="Prospect_Company_Industry" id="id_Prospect_Company_Industry">
@@ -300,7 +313,7 @@
                   <div
                      class="position-absolute d-flex align-items-center justify-content-start mt-5">
                      <img
-                        id="showgiftab3" style="display: none;"
+                        id="showgiftab3" style="display: none; " 
                         class="w-100 h-100"
                         src="{% static 'assets/images/dotline-unscreen.gif' %}"
                         class="img-fluid" alt="Your GIF">
@@ -311,16 +324,16 @@
                      class="bg-warning shadow-s fixed-top position-absolute start-0 end-0  bg-opacity-10 ">
                      <div
                         class="d-flex  gap-3 justify-content-end py-2 px-3  border-top">
-                        <div
+                        <div id="IdGmailClick"
                            class="social-icon  gradient-button p-1 rounded-2 border-0">
                            <img class="w-100 p-1 h-100"
                               src="{% static 'assets/images/gmail.png' %}" alt>
                         </div>
-                        <div
+                        {% comment %} <div
                            class="social-icon  gradient-button p-1 rounded-2 border-0">
                            <img class="w-100 p-1 h-100"
                               src="{% static 'assets/images/outlook.png' %}" alt>
-                        </div>
+                        </div> {% endcomment %}
                         {% comment %} <div
                            class="social-icon  gradient-button  rounded-2 border-0">
                            <img class="w-100 p-1 h-100"
@@ -497,12 +510,12 @@
                      <div
                         class="d-flex border-bottom mb-2 pb-2 justify-content-between">
                         <div class="d-flex gap-2  align-items-center pb-2">
-                           {% comment %} <div
+                           <div
                               class="user-avatar overflow-hidden border border-2 border-danger rounded-circle">
-                              <img class="h-100 w-100"
+                              <img class="h-100 w-100 avatarIcons"
                                  src="{% static 'assets/images/imagePreviewEmail.png' %}" 
                                  alt="User Avatar">
-                           </div> {% endcomment %}
+                           </div> 
                            <div class="text-start">
                               <small class="p-0  m-0">{{user.company}}</small>
                            </div>
@@ -605,7 +618,7 @@
                            <small id="financialOutput" class="clickable mb-3"></small>
 
                         </div>
-                        <div id="showContent"
+                        <div id="showContent123"
                            class="position-absolute top-0 end-0 start-0 mt-3"
                            style="display: none;">
                            <img class="w-100 h-100"
@@ -640,7 +653,7 @@
                         <div class="d-flex gap-2  align-items-center pb-2">
                            <div
                               class="user-avatar overflow-hidden border border-2 border-danger rounded-circle">
-                              <img class="h-100 w-100"
+                              <img class="h-100 w-100 avatarIcons" 
                                  src="{% static 'assets/images/imagePreviewEmail.png' %}"
                                  alt="User Avatar">
                            </div>
@@ -707,7 +720,19 @@
                   </div>
                </div>
                <div class="col-6 w-40 h-100 shadow rounded">
+
                   <div class="pb-2 pe-4 py-3 h-100 d-flex flex-column justify-content-between">
+                  
+                  
+                  <div
+                     class="position-absolute d-flex align-items-center justify-content-start mt-5">
+                     <img
+                        id="showgiftabGrant3" style="display: none; " 
+                        class="w-100 h-100"
+                        src="{% static 'assets/images/dotline-unscreen.gif' %}"
+                        class="img-fluid" alt="Your GIF">
+                  </div>
+
                      <div class="col-12 pt-2 " id="IdGrantCards">
 
                         
@@ -725,12 +750,14 @@
 
 
 
+<input type="hidden" name="count_textarea" id="id_count_textarea" value="0">
+<input type="hidden" name="count_textare" id="id_count_textare" value="0">
 
 
 
          </main>
 
-         <div class="modal fade"
+ <!--        <div class="modal fade"
             id="myModal" tabindex="-1" role="dialog"
             tabindex="-1"
             aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -770,14 +797,107 @@
 
                      </div>
                   </div>
-                  <!-- 
-               <div class="modal-footer">
-                  <button type="button" class="btn gradient-button"
-                     data-bs-dismiss="modal">Close</button>
-               </div> -->
+                  
+               </div>
+            </div>
+         </div>-->
+
+
+      <div class="modal fade"
+         id="myModal" tabindex="-1" role="dialog"
+         tabindex="-1"
+         aria-labelledby="exampleModalLabel" aria-hidden="true">
+         <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+               <div class="modal-header d-flex gap-2">
+                  <div
+                     class="user-avatar overflow-hidden border border-2 border-danger rounded-circle">
+                     <img class="h-100 w-100"
+                        src="{% static 'assets/images/imagePreviewEmail.png' %}"
+                        alt="User Avatar">
+                  </div>
+                  <!--Title Change 22/7 -->
+                  <!--Classes added 22/7 -->
+                  <h1 class="modal-title fs-5 fw-bold gradient-heading"
+                     id="exampleModalLabel">Lets build Something great today!</h1>
+                  <button type="button" class="btn-close"
+                     data-bs-dismiss="modal" aria-label="Close"></button>
+               </div>
+               <div class="modal-body">
+                  <div>
+                     <p>
+                        “You only have to be right once.” — Drew Houston,
+                        founder
+                        of Dropbox
+                     </p>
+                  </div>
                </div>
             </div>
          </div>
+      </div>
+
+
+
+
+
+
+
+
+
+      <div class="modal fade" id="exampleModalbcd" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+         <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+               <div class="modal-header">
+                  <h1 class="modal-title fs-4 gradient-heading"
+                     id="exampleModalLabel">Send Email</h1>
+                  <button type="button" class="btn-close"
+                     data-bs-dismiss="modal" aria-label="Close"></button>
+               </div>
+   
+   
+   
+               <div class="modal-body">
+                 <form method="POST" name="" >
+                    {% csrf_token %}
+                    <input type="hidden" name="User_id" value="{{user_id}}">
+                    
+                    <div  class="form-group col-12 col-md-12 col-lg-12 pb-3 ">
+                        <label for="avatorName1" class="form-label">Receiver's Email: </label>
+                        <input type="Email" class="form-control"  name=""
+                           id="" value=""
+                           placeholder="Enter Email you want to Send">
+                     </div>
+              </div>
+   
+   
+              <div class="modal-footer">
+                 <button type="button" class="btn gradient-button"
+                    data-bs-dismiss="modal">Close</button>
+                 <div>
+                    <a class="nav-link"
+                       >
+                       <button
+                          type="submit"
+                          class="btn gradient-button" id="">Send Email</button>
+                    </a>
+                 </div>
+              </div>
+   
+   
+                  <div>
+                    
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+
+
+
+
+
+
+
 
          <script
             src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
@@ -796,9 +916,31 @@
       
       <script>
          
+         var image_name = '{{user.user_avatar.name}}'.toLowerCase()
+         var pic = "{% static 'assets/images/imagePreviewEmail.png' %}";
+         $('.avatarIcons').prop('src', pic.replace('imagePreviewEmail.png', `${image_name}.jpg`))
+         
+         
+         
+         $("#IdGmailClick").click(function () {
+            $('#exampleModalbcd').modal('show');
+        });
 
 
+         let quotation_status = '{{quotation.displayed_status}}'
+         if(quotation_status == 'False') 
+         {  
+            $(document).ready(function() {
+               $('#myModal').modal('show');
+            });
+         }
 
+         var email_calls = parseInt($("#IdEmailCalls").val());
+            
+         if (email_calls == 0){
+            $("#IdUpgrade").show();
+
+         }
          function selectButton(button) {
             var buttons = document.getElementsByClassName('btn-selected');
             for (var i = 0; i < buttons.length; i++) {
@@ -830,6 +972,14 @@
                $('#IdButtonEmail').removeClass('btn-active');
                $('#IdButtonGrant').removeClass('btn-active');
                
+               $("#IdAICall").text(parseInt($("#IdFinancialCalls").val()) + '  Financial Insights Calls Left.')
+
+               var financial_calls = parseInt($("#IdFinancialCalls").val());
+               if (financial_calls == 0){
+                  $("#IdUpgrade").show();
+
+               }
+
            });
            
          $(".IdButtonGrants").click(function () {
@@ -840,7 +990,16 @@
             $('#IdButtonGrant').addClass('btn-active');
             $('#IdButtonEmail').removeClass('btn-active');
             $('#IdButtonFInancialInsight').removeClass('btn-active');
+
+            $("#IdAICall").text(parseInt($("#IdGrantCalls").val()) + '  Grant Calls Left.')
+
+            var grant_calls = parseInt($("#IdGrantCalls").val());
             
+               if (financial_calls == 0){
+                  $("#IdUpgrade").show();
+
+               }
+
         });
         $("#IdButtonEmail").click(function () {
          $('#IdGrantTab').hide();
@@ -851,6 +1010,14 @@
          $('#IdButtonGrant').removeClass('btn-active');
          $('#IdButtonFInancialInsight').removeClass('btn-active');
          
+         $("#IdAICall").text(parseInt($("#IdEmailCalls").val()) + '  Email Calls Left.')
+
+         var email_calls = parseInt($("#IdEmailCalls").val());
+            
+               if (email_calls == 0){
+                  $("#IdUpgrade").show();
+
+               }
      });
         
          
@@ -894,6 +1061,68 @@
           //  $("#processBtn").click(function () {
              //  $('#submitBtnId').prop('disabled',false);
 //            });
+  // function emailCards(){
+   //   count = $("#id_count_textarea").val()
+//      for(var i=0; i<=count; i++){
+
+  //       var textarea = $("#textArea"+i);
+    //     var saveBtn = $("#saveBtn"+i);
+      //   var cancelBtn = $("#cancelBtn"+i);
+//         var originalText = textarea.val();
+  //       var updatedText = "";
+    //     var isFocused = false;
+
+////         textarea.on("input", function () {
+    //        updatedText = textarea.val();
+      //   });
+
+//         textarea.on("focus", function () {
+  //          isFocused = true;
+    //        textarea.val(updatedText);
+        //    textarea.css("white-space", "normal");
+          //  saveBtn.show();
+//            cancelBtn.show();
+  //       });
+
+//         textarea.on("blur", function () {
+  //          isFocused = false;
+    //        var trimmedText = updatedText.substring(0, 50);
+      //      if (updatedText.length > 50) {
+        //       trimmedText += "...";
+          //  }
+            //textarea.val(trimmedText);
+//            saveBtn.hide();
+  //          cancelBtn.hide();
+    //     });
+
+//         saveBtn.on("click", function () {
+  ////          originalText = updatedText;
+      //      textarea.trigger("blur");
+//         });
+
+  //       cancelBtn.on("click", function () {
+    //        textarea.val(originalText.substring(0, 50));
+      //      if (originalText.length > 50) {
+        //       textarea.val(textarea.val() + "...");
+  //          }
+    //        textarea.trigger("blur");
+      //   });
+
+         // Initialize the textarea with ellipsis
+//         textarea.trigger("blur");
+
+
+  //    }
+
+
+ //  }
+   
+
+
+
+
+
+
 
 $("#processBtn3").click(function () {
    
@@ -961,13 +1190,8 @@ $("#processBtn3").click(function () {
                $('#genEmail').prop('disabled',false);
             });
 
-           function autoResize(textarea) {
-            textarea.style.height = 'auto';
-            textarea.style.height = textarea.scrollHeight + 'px';
-            }
-         $(document).ready(function() {
-            $('#myModal').modal('show1');
-         });
+           
+         
 
           $(document).ready(function () {
             
@@ -1008,6 +1232,8 @@ $("#processBtn3").click(function () {
                            $("#paragraph6").text(response.results.Prospect_Company_founded);
                            $("#paragraph3").text(response.results.Prospect_Company_Size);
 
+
+                           $("#id_Prospect_Company_logo").val(response.results.Prospect_Company_logo);
 
                            $("#id_Prospect_Company_name").val(response.results.Prospect_Company_name);
                            $("#id_Prospect_Company_Overview").val(response.results.Prospect_Company_Overview);
@@ -1052,6 +1278,10 @@ $("#processBtn3").click(function () {
             var buttons = document.getElementsByClassName('targetClass');
 
             $("#genEmail").on("click", function () {
+                  var email_calls = parseInt($("#IdEmailCalls").val());
+               if(email_calls > 0){
+                            $("#IdUpgrade").hide();
+
               var focus_input = $("#focus-area").val();
                if(focus_input !=''){
                   var Prospect_Company_name =   $("#id_Prospect_Company_name").val();
@@ -1069,6 +1299,8 @@ $("#processBtn3").click(function () {
                      }
                   
                   }
+                  $('.deleteClass').remove();
+
                   var url = "{% url 'GenerateEmail'  %}";
                   $.ajax({
                      type:'POST',
@@ -1085,6 +1317,7 @@ $("#processBtn3").click(function () {
                         Prospect_Company_specialties: Prospect_Company_specialties,
                         Intent: intentVal,
                         Prospect_Title_list: targetArray,
+                        EmailCalls: targetArray.length,
                         csrfmiddlewaretoken: '{{ csrf_token }}'
                      },
                      beforeSend: function () {
@@ -1099,26 +1332,56 @@ $("#processBtn3").click(function () {
                            if (response.success == true){
                               $("#showgif").fadeOut();
                               $("#showgiftab3").fadeOut();
-
+                              $("#IdEmailCalls").val(response.Email_Count)
+                              
+                              $("#IdAICall").text(response.Email_Count + '  Email Calls Left.')
+                              count = 0
                               for (var key in response.results) {
-                                 var html_data ='';
-                                 html_data += '<div class="form-check w-100 position-relative"> <input class="form-check-input position-absolute bottom-0 end-0 mb-2 me-2" type="radio" name="radioOptions"  value="A" checked>'
-                                 html_data += '<label class="form-check-label w-100" for="optionA"> <div class="btn w-100 p-0 m-0 option-label"> <div class="col-12 bg-light overflow-hidden rounded-4 p-3 shadow">'    
-                                 html_data += '<div class="d-flex align-items-start justify-content-between"> <div class="d-flex gap-2 align-items-center pb-2"> <div class="user-avatar overflow-hidden rounded-circle"> '
-                                 html_data += '<img class="h-100 w-100" src="{% static 'assets/images/imagePreviewEmail.png' %}" alt="User Avatar"> '   
-                                 html_data += '</div> <div> <p class="p-0 text-dark m-0">'+ response.results[key].title +'</p>'
-                                 html_data += '<span class="text-muted fs-12 p-0 m-0">'+ 'Just Now •'
-                                 html_data += '<span> <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-globe-europe-africa" viewBox="0 0 16 16">'
-                                 html_data += '<path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0ZM3.668 2.501l-.288.646a.847.847 0 0 0 1.479.815l.245-.368a.809.809 0 0 1 1.034-.275.809.809 0 0 0 .724 0l.261-.13a1 1 0 0 1 .775-.05l.984.34c.078.028.16.044.243.054.784.093.855.377.694.801-.155.41-.616.617-1.035.487l-.01-.003C8.274 4.663 7.748 4.5 6 4.5 4.8 4.5 3.5 5.62 3.5 7c0 1.96.826 2.166 1.696 2.382.46.115.935.233 1.304.618.449.467.393 1.181.339 1.877C6.755 12.96 6.674 14 8.5 14c1.75 0 3-3.5 3-4.5 0-.262.208-.468.444-.7.396-.392.87-.86.556-1.8-.097-.291-.396-.568-.641-.756-.174-.133-.207-.396-.052-.551a.333.333 0 0 1 .42-.042l1.085.724c.11.072.255.058.348-.035.15-.15.415-.083.489.117.16.43.445 1.05.849 1.357L15 8A7 7 0 1 1 3.668 2.501Z" /> </svg>'
-                                 html_data += '</span></span> </div> </div> <div class="px-2 pb-2 pt-0 border-0 rounded-2 bg-opacity-25 btn gradient-button bg-success "> '
-                                 html_data += '<i class="bi bi-text-paragraph"></i> </div> </div> <div class="pt-2 "> <div class="col-12 ms-auto pe-1 pb-2">'
-                                 html_data += '<textarea class="form-control p-0 m-0 no-border bg-transparent" id="textArea" rows="1" oninput="autoResize(this)">'+response.results[key].Subject+'"\n"'+ response.results[key].Body+'</textarea> '
-                                 html_data += '<div class="d-flex gap-3 justify-content-start"> <button id="saveBtn" class="btn py-0 btn-primary gradient-button mt-2" style="display: none;">Save</button>'
-                                 html_data += '<button id="cancelBtn" class="btn gradient-button btn-secondary bg-opacity-25 py-0 mt-2" style="display: none;">Cancel</button>'
-                                 html_data += '</div> </div> </div> </div> </div> </label> </div>'             
-                                 $("#IdCardsPlace").append(html_data);
-                               }
 
+                                 var html_data ='';
+                          //       html_data += '<div class="deleteClass form-check w-100 position-relative"> <input class="form-check-input position-absolute bottom-0 end-0 mb-2 me-2" type="radio" name="radioOptions"  value="A" checked>'
+                          //       html_data += ' <div class="btn w-100 p-0 m-0 option-label"> <div class="col-12 bg-light overflow-hidden rounded-4 p-3 shadow">'    
+                             //    html_data += '<label class="form-check-label w-100" for="optionA"><div class="d-flex align-items-start justify-content-between"> <div class="d-flex gap-2 align-items-center pb-2"> <div class="user-avatar overflow-hidden rounded-circle"> '
+                            //     html_data += '<img class="h-100 w-100" src="{% static 'assets/images/imagePreviewEmail.png' %}" alt="User Avatar"> '   
+                            //     html_data += '</div> <div> <p class="p-0 text-dark m-0">'+ response.results[key].title +'</p>'
+                            //     html_data += '<span class="text-muted fs-12 p-0 m-0">'+ 'Just Now •'
+                            //     html_data += '<span> <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-globe-europe-africa" viewBox="0 0 16 16">'
+                            //     html_data += '<path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0ZM3.668 2.501l-.288.646a.847.847 0 0 0 1.479.815l.245-.368a.809.809 0 0 1 1.034-.275.809.809 0 0 0 .724 0l.261-.13a1 1 0 0 1 .775-.05l.984.34c.078.028.16.044.243.054.784.093.855.377.694.801-.155.41-.616.617-1.035.487l-.01-.003C8.274 4.663 7.748 4.5 6 4.5 4.8 4.5 3.5 5.62 3.5 7c0 1.96.826 2.166 1.696 2.382.46.115.935.233 1.304.618.449.467.393 1.181.339 1.877C6.755 12.96 6.674 14 8.5 14c1.75 0 3-3.5 3-4.5 0-.262.208-.468.444-.7.396-.392.87-.86.556-1.8-.097-.291-.396-.568-.641-.756-.174-.133-.207-.396-.052-.551a.333.333 0 0 1 .42-.042l1.085.724c.11.072.255.058.348-.035.15-.15.415-.083.489.117.16.43.445 1.05.849 1.357L15 8A7 7 0 1 1 3.668 2.501Z" /> </svg>'
+                             //    html_data += '</span></span> </div> </div> <div class="px-2 pb-2 pt-0 border-0 rounded-2 bg-opacity-25 btn gradient-button bg-success "> '
+                                // html_data += '<i class="bi bi-text-paragraph"></i> </div> </div> <div class="pt-2 "> <div class="col-12 ms-auto pe-1 pb-2">'
+                                // html_data += '<textarea class="form-control p-0 m-0 no-border bg-transparent" id="textArea" rows="1" oninput="autoResize(this)">'+response.results[key].Subject+'"\n"'+ response.results[key].Body+'</textarea> '
+                               //  html_data += '<div class="d-flex gap-3 justify-content-start"> <button id="saveBtn" class="btn py-0 btn-primary gradient-button mt-2" style="display: none;">Save</button>'
+                              //   html_data += '<button id="cancelBtn" class="btn gradient-button btn-secondary bg-opacity-25 py-0 mt-2" style="display: none;">Cancel</button>'
+                              //   html_data += '</div> </div> </div> </div> </div> </label> </div>'   
+                                 
+                                 
+
+
+
+                                 html_data += `<div class="deleteClass form-check w-100 position-relative"> <input class="form-check-input position-absolute bottom-0 end-0 mb-2 me-2" type="radio" name="radioOptions" id="option${count}" value="B" checked> `
+                                 html_data += `<div class="btn w-100 p-0 m-0 option-label"> <div class="col-12 bg-light overflow-hidden rounded-4 p-3 shadow">` 
+                                 html_data += `<label class="form-check-label w-100" for="option${count}"> <div class="d-flex align-items-start justify-content-between">` 
+                                 html_data += `<div class="d-flex gap-2 align-items-center pb-2"> <div class="user-avatar overflow-hidden rounded-circle"> `
+                                 html_data += `<img class="h-100 w-100" src="{% static 'assets/images/imagePreviewEmail.png' %}" alt="User Avatar"> </div> <div> <p class="p-0 text-dark m-0">`
+                                 html_data +=  response.results[key].title +'</p>'
+                                     
+                                 //html_data += <span class="text-muted fs-12 p-0 m-0"> Just Now • <span> 
+                                 html_data += '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-globe-europe-africa" viewBox="0 0 16 16"> <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0ZM3.668 2.501l-.288.646a.847.847 0 0 0 1.479.815l.245-.368a.809.809 0 0 1 1.034-.275.809.809 0 0 0 .724 0l.261-.13a1 1 0 0 1 .775-.05l.984.34c.078.028.16.044.243.054.784.093.855.377.694.801-.155.41-.616.617-1.035.487l-.01-.003C8.274 4.663 7.748 4.5 6 4.5 4.8 4.5 3.5 5.62 3.5 7c0 1.96.826 2.166 1.696 2.382.46.115.935.233 1.304.618.449.467.393 1.181.339 1.877C6.755 12.96 6.674 14 8.5 14c1.75 0 3-3.5 3-4.5 0-.262.208-.468.444-.7.396-.392.87-.86.556-1.8-.097-.291-.396-.568-.641-.756-.174-.133-.207-.396-.052-.551a.333.333 0 0 1 .42-.042l1.085.724c.11.072.255.058.348-.035.15-.15.415-.083.489.117.16.43.445 1.05.849 1.357L15 8A7 7 0 1 1 3.668 2.501Z" /> </svg>'
+                                 html_data += `</span></span> </div> </div> <div onclick="copyText(textArea${count})" class="px-2 pb-2 pt-0 border-0 rounded-2 bg-opacity-25 btn gradient-button bg-success ">`
+                                 html_data += `<i class="bi bi-text-paragraph"></i> </div> </div> </label> <div class="pt-2 "> <div class="col-12 ms-auto pe-1 pb-2">` 
+                                 html_data += `<textarea class="form-control p-0 m-0 no-border bg-transparent" id="textArea${count}" rows="1" onblur="autoShrink(this)" onfocus="autoResize(this)" placeholder="Post Content">`
+                                 html_data +=   response.results[key].Subject+'"\n"'+ response.results[key].Body+  '</textarea>' 
+                                 html_data += `<div class="d-flex gap-3 justify-content-start"> <button id="saveBtn${count}" class="btn py-0 btn-primary gradient-button mt-2" style="display: none;">Save</button>`
+                                 html_data += `<button id="cancelBtn${count}" class="btn gradient-button btn-secondary bg-opacity-25 py-0 mt-2" style="display: none;">Cancel</button> `
+                                 html_data += '</div> </div> </div> </div> </div> </div>'
+
+
+                                 $("#IdCardsPlace").append(html_data);
+                                 $("#id_count_textarea").val(count);
+                                 count ++;
+
+                              }
+                          //    emailCards()
                            }
                            else{
                               $("#showgif").fadeOut();
@@ -1135,6 +1398,14 @@ $("#processBtn3").click(function () {
                else{
                   alert("Please write something in Focus Area Field");
                }
+
+
+            }else{
+               alert("You have Consumed All Email Generation Calls");
+                            $("#IdUpgrade").show();
+      
+            }
+
             });
           });
 
@@ -1147,7 +1418,13 @@ $("#processBtn3").click(function () {
 
             $("#submitBtn3").on("click", function () {
               var input_input2 = $("#input-text2").val();
+
+              var grant_calls = parseInt($("#IdGrantCalls").val());
+               if(grant_calls > 0){
+
                if(input_input2 !=''){
+                            $("#IdUpgrade").hide();
+
                   var Prospect_Company_name =   $("#id_Prospect_Company_name").val();
                   var Prospect_Company_Overview =   $("#id_Prospect_Company_Overview").val();
                   var Prospect_Company_Industry =   $("#id_Prospect_Company_Industry").val();
@@ -1173,30 +1450,63 @@ $("#processBtn3").click(function () {
                         csrfmiddlewaretoken: '{{ csrf_token }}'
                      },
                      beforeSend: function () {
-                        $("#showgiftab3").fadeIn();
+                      //  $("#showgiftab3").fadeIn();
+                        $("#showgiftabGrant3").fadeIn();
+
+                        
                       //  $("#showgif").fadeIn();
 
                       //$("#showgif").fadeIn();
 
                     },
                      success : function(response){
-                        $("#showgiftab3").fadeOut();
+                       // $("#showgiftab3").fadeOut();
+                       $("#showgiftabGrant3").fadeOut();
+
 
                            if (response.success == true){
+                              $('.deleteClass2').remove();
+
+                              $("#IdGrantCalls").val(response.GrantCalls_count)
+                              
+                              $("#IdAICall").text(response.GrantCalls_count + '  Grant Calls Left.')
+                              count = 0
                               for (var key in response.grantsResult) {
                                  var html_data ='';
-                                 html_data += '<div class="form-check w-100 position-relative"> <input class="form-check-input position-absolute bottom-0 end-0 mb-2 me-2" type="radio" name="radioOptions" id="optionA" value="A" checked>'
-                                 html_data += '<label class="form-check-label w-100" for="optionA"> <div class="btn w-100 p-0 m-0 option-label"> <div class="col-12 bg-light overflow-hidden rounded-4 p-3 shadow"> <div class="d-flex align-items-start justify-content-between"> '
-                                 html_data += '<div class="d-flex gap-2 align-items-center pb-2"> <div class="user-avatar overflow-hidden rounded-circle">'
-                                 html_data += '<img class="h-100 w-100" src="{% static 'assets/images/imagePreviewEmail.png' %}" alt="User Avatar"> </div> <div>'
-                                 html_data += '<p class="p-0 text-dark m-0">'+response.grantsResult[key].title +'</p> <span class="text-muted fs-12 p-0 m-0"> Just Now • <span>' 
-                                 html_data += '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-globe-europe-africa" viewBox="0 0 16 16"> <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0ZM3.668 2.501l-.288.646a.847.847 0 0 0 1.479.815l.245-.368a.809.809 0 0 1 1.034-.275.809.809 0 0 0 .724 0l.261-.13a1 1 0 0 1 .775-.05l.984.34c.078.028.16.044.243.054.784.093.855.377.694.801-.155.41-.616.617-1.035.487l-.01-.003C8.274 4.663 7.748 4.5 6 4.5 4.8 4.5 3.5 5.62 3.5 7c0 1.96.826 2.166 1.696 2.382.46.115.935.233 1.304.618.449.467.393 1.181.339 1.877C6.755 12.96 6.674 14 8.5 14c1.75 0 3-3.5 3-4.5 0-.262.208-.468.444-.7.396-.392.87-.86.556-1.8-.097-.291-.396-.568-.641-.756-.174-.133-.207-.396-.052-.551a.333.333 0 0 1 .42-.042l1.085.724c.11.072.255.058.348-.035.15-.15.415-.083.489.117.16.43.445 1.05.849 1.357L15 8A7 7 0 1 1 3.668 2.501Z" /> </svg>'
-                                 html_data += '</span></span> </div> </div> <div class="px-2 pb-2 pt-0 border-0 rounded-2 bg-opacity-25 btn gradient-button bg-success "> <i class="bi bi-text-paragraph"></i>'
-                                 html_data += '</div> </div> <div class="pt-2 "> <div class=" "> <p class="text-start p-0 m-0">'+response.grantsResult[key].grant+'</p> </div> </div> </div> </div> </label> </div>'       
+                                // html_data += `<div for="espresso" class="form-check w-100 position-relative"><label class="form-check-label w-100" for="optionA">  <input class="form-check-input position-absolute bottom-0 end-0 mb-2 me-2" type="radio" name="radioOptions" id="option${count}" value="A" checked>`
+                                // html_data += '<div class="btn w-100 p-0 m-0 option-label"> <div class="col-12 bg-light overflow-hidden rounded-4 p-3 shadow"> <div class="d-flex align-items-start justify-content-between"> '
+                               //  html_data += '<div class="d-flex gap-2 align-items-center pb-2"> <div class="user-avatar overflow-hidden rounded-circle">'
+                               //  html_data += '<img class="h-100 w-100" src="{% static 'assets/images/imagePreviewEmail.png' %}" alt="User Avatar"> </div> <div>'
+                               //  html_data += '<p class="p-0 text-dark m-0">'+response.grantsResult[key].title +'</p> <span class="text-muted fs-12 p-0 m-0"> Just Now • <span>' 
+                               //  html_data += '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-globe-europe-africa" viewBox="0 0 16 16"> <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0ZM3.668 2.501l-.288.646a.847.847 0 0 0 1.479.815l.245-.368a.809.809 0 0 1 1.034-.275.809.809 0 0 0 .724 0l.261-.13a1 1 0 0 1 .775-.05l.984.34c.078.028.16.044.243.054.784.093.855.377.694.801-.155.41-.616.617-1.035.487l-.01-.003C8.274 4.663 7.748 4.5 6 4.5 4.8 4.5 3.5 5.62 3.5 7c0 1.96.826 2.166 1.696 2.382.46.115.935.233 1.304.618.449.467.393 1.181.339 1.877C6.755 12.96 6.674 14 8.5 14c1.75 0 3-3.5 3-4.5 0-.262.208-.468.444-.7.396-.392.87-.86.556-1.8-.097-.291-.396-.568-.641-.756-.174-.133-.207-.396-.052-.551a.333.333 0 0 1 .42-.042l1.085.724c.11.072.255.058.348-.035.15-.15.415-.083.489.117.16.43.445 1.05.849 1.357L15 8A7 7 0 1 1 3.668 2.501Z" /> </svg>'
+                               //  html_data += '</span></span> </div> </div> <div class="px-2 pb-2 pt-0 border-0 rounded-2 bg-opacity-25 btn gradient-button bg-success "> <i class="bi bi-text-paragraph"></i>'
+                               //  html_data += '</div> </div> <div class="pt-2 "> <div class=" "> <p class="text-start p-0 m-0">'+response.grantsResult[key].grant+'</p> </div> </div> </div> </div> </label> </div>'       
+
+
+
+                                 html_data += `<div class="deleteClass2 form-check w-100 position-relative"> <input class="form-check-input position-absolute bottom-0 end-0 mb-2 me-2" type="radio" name="radioOptions" id="optio${count}" value="A" checked>`
+                                 html_data += '<div class="btn w-100 p-0 m-0 option-label"> <div class="col-12 bg-light overflow-hidden rounded-4 p-3 shadow">' 
+                                 html_data += `<label class="form-check-label w-100" for="optio${count}"> <div class="d-flex align-items-start justify-content-between">` 
+                                 html_data += '<div class="d-flex gap-2 align-items-center pb-2"> <div class="user-avatar overflow-hidden rounded-circle">' 
+                                 html_data += `<img class="h-100 w-100" src="{% static 'assets/images/imagePreviewEmail.png' %}" alt="User Avatar"> </div> <div> `
+                                 html_data += '<p class="p-0 text-dark m-0">'+response.grantsResult[key].title +'</p>' 
+                                 //html_data += <span class="text-muted fs-12 p-0 m-0"> Just Now • <span> 
+                                 html_data += '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-globe-europe-africa" viewBox="0 0 16 16"> <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0ZM3.668 2.501l-.288.646a.847.847 0 0 0 1.479.815l.245-.368a.809.809 0 0 1 1.034-.275.809.809 0 0 0 .724 0l.261-.13a1 1 0 0 1 .775-.05l.984.34c.078.028.16.044.243.054.784.093.855.377.694.801-.155.41-.616.617-1.035.487l-.01-.003C8.274 4.663 7.748 4.5 6 4.5 4.8 4.5 3.5 5.62 3.5 7c0 1.96.826 2.166 1.696 2.382.46.115.935.233 1.304.618.449.467.393 1.181.339 1.877C6.755 12.96 6.674 14 8.5 14c1.75 0 3-3.5 3-4.5 0-.262.208-.468.444-.7.396-.392.87-.86.556-1.8-.097-.291-.396-.568-.641-.756-.174-.133-.207-.396-.052-.551a.333.333 0 0 1 .42-.042l1.085.724c.11.072.255.058.348-.035.15-.15.415-.083.489.117.16.43.445 1.05.849 1.357L15 8A7 7 0 1 1 3.668 2.501Z" /> </svg> '
+                                 html_data += '</span></span> </div> </div> '
+                                 //<div class="px-2 pb-2 pt-0 border-0 rounded-2 bg-opacity-25 btn gradient-button bg-success "> <i class="bi bi-text-paragraph"></i> </div>
+                                 html_data += ' </div> </label> <div class="pt-2 ">  <div class="col-12 ms-auto pe-1 pb-2">' 
+                                 html_data += `<textarea class="form-control p-0 m-0 no-border bg-transparent" id="textAre${count}" rows="1" onblur="autoShrink(this)" onfocus="autoResize(this)" placeholder="Post Content">`
+                                 html_data += response.grantsResult[key].grant
+                                 html_data += `</textarea> <div class="d-flex gap-3 justify-content-start"> <button id="savBtn${count}" class="btn py-0 btn-primary gradient-button mt-2" style="display: none;">Save</button>` 
+                                 html_data += `<button id="canceBtn${count}" class="btn gradient-button btn-secondary bg-opacity-25 py-0 mt-2" style="display: none;">Cancel</button> </div> </div> </div> </div> </div> </div>`
+
 
 
                                  $("#IdGrantCards").append(html_data);
+                                 $("#id_count_textare").val(count);
+                                 count++
                                }
+
                                $("#IdbtnEmbed2").prop("disabled", false);
                                
 
@@ -1212,59 +1522,27 @@ $("#processBtn3").click(function () {
                else{
                   alert("Please write something in Focus Area Field");
                }
+
+            }else{
+               alert("You have Consumed All Grant Generation Calls");
+                            $("#IdUpgrade").show();
+                           // $("#submitBtn3").show();
+
+                            
+
+            }
+
+
             });
           });
 
 
 
 
-         $(document).ready(function () {
-            var textarea = $("#textArea");
-            var saveBtn = $("#saveBtn");
-            var cancelBtn = $("#cancelBtn");
-            var originalText = textarea.val();
-            var updatedText = "";
-            var isFocused = false;
+       
 
-            textarea.on("input", function () {
-                updatedText = textarea.val();
-            });
 
-            textarea.on("focus", function () {
-                isFocused = true;
-                textarea.val(updatedText);
-                textarea.css("white-space", "normal");
-                saveBtn.show();
-                cancelBtn.show();
-            });
 
-            textarea.on("blur", function () {
-                isFocused = false;
-                var trimmedText = updatedText.substring(0, 50);
-                if (updatedText.length > 50) {
-                    trimmedText += "...";
-                }
-                textarea.val(trimmedText);
-                saveBtn.hide();
-                cancelBtn.hide();
-            });
-
-            saveBtn.on("click", function () {
-                originalText = updatedText;
-                textarea.trigger("blur");
-            });
-
-            cancelBtn.on("click", function () {
-                textarea.val(originalText.substring(0, 50));
-                if (originalText.length > 50) {
-                    textarea.val(textarea.val() + "...");
-                }
-                textarea.trigger("blur");
-            });
-
-            // Initialize the textarea with ellipsis
-            textarea.trigger("blur");
-        });
          $(document).ready(function () {
             var textarea = $("#textAreaB");
             var saveBtn = $("#saveBtnB");
@@ -1366,10 +1644,18 @@ $("#processBtn3").click(function () {
      }
    });
           function autoResize(textarea) {
-           textarea.style.height = 'auto';
-           textarea.style.height = textarea.scrollHeight + 'px';
+            textarea.style.height = 'auto';
+            textarea.style.height = textarea.scrollHeight + 'px';
            }
-           
+           function autoShrink(textarea) {
+               textarea.style.height = "70px"
+           }
+
+           function copyText(textareaID) {
+            
+            $("#"+textareaID.id).select();
+            document.execCommand('copy');
+         }
            
 
 
@@ -1557,14 +1843,20 @@ function updateWordCount2() {
    wordCountElement.textContent = `${wordCount}/1000`;
   }  
 
-
+  
 
 
  $(document).ready(function () {
-   $("#genEmail2").on("click", function () {
-            var focus_area2 = $("#focus-area2").val();
+  $("#genEmail2").on("click", function () {
+      var financial_calls = parseInt($("#IdFinancialCalls").val());
+      
+      var focus_area2 = $("#focus-area2").val();
+      if(financial_calls > 0){
+
             if(focus_area2 !='')
             {
+                            $("#IdUpgrade").hide();
+
                var Prospect_Company_name =   $("#id_Prospect_Company_name").val();   
                var Prospect_Company_Overview =   $("#id_Prospect_Company_Overview").val();
                var Prospect_Company_Industry =   $("#id_Prospect_Company_Industry").val();
@@ -1593,28 +1885,35 @@ function updateWordCount2() {
                      csrfmiddlewaretoken: '{{ csrf_token }}'
                   },
                   beforeSend: function () {
-                   $("#showgiftab3").fadeIn();
+                  // $("#showgiftab3").fadeIn();
+                  //$("#showContent").fadeIn();
+                  $("#showContent123").fadeIn();
 
-                     $("#showgif").fadeIn();
+                     //$("#showgif").fadeIn();
     
                   },
                   success : function(response){
                      
                      $("#IdbtnEmbed").prop('disabled', false);
+                     $("#showContent123").fadeOut();
+
 
                      if (response.success == true){
                         $("#showgif").fadeOut();
                         $("#showgiftab3").fadeOut();
-                        $("#financialOutput").text(response.insights);
 
+                        $("#financialOutput").text(response.insights);
+                        $("#IdFinancialCalls").val(response.FinancialCount);
+                              
+                        $("#IdAICall").text(response.FinancialCount + '  Financial Insights Calls Left.')
                         
  
                      }
-                     else{
-                        $("#showgiftab3").fadeOut();
-                        $("#showgif").fadeOut();
+                  //   else{
+                       // $("#showgiftab3").fadeOut();
+                       // $("#showgif").fadeOut();
 //                        $("#overview").val(response.results);
-                     }
+                    // }
                   
                },
 
@@ -1629,6 +1928,15 @@ function updateWordCount2() {
                alert("Please write something in Focus Area Field");
 
             }
+
+         }
+         else{
+            alert("You have Consumed All Financial Insight Calls");
+                            $("#IdUpgrade").show();
+
+         }
+
+
        setTimeout(function () {
            $("#showgif").fadeOut();
        }, 2000); 

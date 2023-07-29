@@ -25,6 +25,15 @@ def Home(request):
 @login_required
 def dashboard(request):
     context ={"user": request.user }
+    quotes = Quotes.objects.all()
+    print(quotes[0])
+    # if datetime.today().date()
+    context['quotation'] = quotes[0]
+    if quotes[0]:
+        if quotes[0].id:
+            obj = Quotes.objects.get(id=quotes[0].id)
+            obj.displayed_status = True
+            obj.save()     
     return render(request, 'main/dashboard.html', context)
     
 from django.http import JsonResponse, HttpResponse, Http404
@@ -99,6 +108,8 @@ def GenerateEmail(request):
     # print(request.POST)
     
     # if request.is_ajax():
+    EmailCalls = request.POST.get('EmailCalls', None)
+    
     data['sales_rep_name'] = request.user.first_name
     data['sales_rep_company_name'] = request.user.company
     data['sales_rep_Contact_Number'] = request.user.phone_number
@@ -173,11 +184,19 @@ def GenerateEmail(request):
 
     # print(generated_emails['results'])
     if generated_emails['message'] == 'Success':
+        avatar_object = Avatar.objects.get(user= request.user)
+        
+        if avatar_object.remaing_email_request > 0:
+            EmailCalls_int = int(EmailCalls)
+            avatar_object.remaing_email_request -= EmailCalls_int
+            email_count = avatar_object.remaing_email_request
+            avatar_object.save()
         return JsonResponse(
             {
                 "success": True, 
                 "status_code": generated_emails['status_code'],
                 "results": generated_emails['results'],
+                "Email_Count": email_count 
             
             }
         ) # return the json response to ajax request.
@@ -232,12 +251,18 @@ def GenerateGrant(request):
     grants = generate_grants(data)
     print(grants)
     # print(grants[0])
-    
+    avatar_object = Avatar.objects.get(user= request.user)
+        
+    if avatar_object.remaing_grant_request > 0:
+        avatar_object.remaing_grant_request -= 1
+        GrantCalls_count = avatar_object.remaing_grant_request
+        avatar_object.save()
     return JsonResponse(
         {
             "success": True, 
             "status_code": 200,
-            "grantsResult": grants
+            "grantsResult": grants,
+            "GrantCalls_count": GrantCalls_count if GrantCalls_count else None 
         
         }
     ) 
@@ -274,12 +299,20 @@ def GenerateFinancialReport(request):
 
     # print(generate_financial_insight['results'])
     if generate_financial_insight['message'] == 'Success':
+        avatar_object = Avatar.objects.get(user= request.user)
+        
+        if avatar_object.remaing_financial_request > 0:
+            avatar_object.remaing_financial_request -= 1
+            FinancialCalls_count = avatar_object.remaing_financial_request
+            avatar_object.save()
+            
         return JsonResponse(
             {
                 "success": True, 
                 "status_code": 200,
-                "insights": generate_financial_insight['insights']
-            
+                "insights": generate_financial_insight['insights'],
+                "FinancialCount": FinancialCalls_count 
+                # if FinancialCalls_count else None
             }
         ) # return the json response to ajax request.
     # elif generated_emails['status_code'] == 500:
@@ -465,6 +498,17 @@ def stripe_landing(request):
 @login_required
 def CreateCheckoutSessionView(request):
     if request.method == 'POST':
+        print(request.POST)
+        price = request.POST.get('price')
+        payment_plan = request.POST.get('payment_plan', None)
+        print(price)
+        print(price)        
+        print(price)        
+                
+        print(type(price))
+        price_in_float = float(price)
+        print(price_in_float)
+        price_in_cents = price_in_float * 100
         # price = Price.objects.get(id=self.kwargs["pk"])
         domain = "http://127.0.0.1:8000/"
         # if settings.DEBUG:
@@ -476,7 +520,7 @@ def CreateCheckoutSessionView(request):
                     # 'price': 20,
                     'price_data':{
                         'currency': 'usd',
-                        'unit_amount': 2082,
+                        'unit_amount': int(price_in_cents),
                         'product_data':{
                             'name': 'abc'
                         }
@@ -486,7 +530,7 @@ def CreateCheckoutSessionView(request):
             ],
             metadata={
               "user_id": request.user.id,
-              "payment_type": "yearly"
+              "payment_type": payment_plan
             },
             mode='payment',
             success_url=domain + 'success',
@@ -509,14 +553,14 @@ from django.conf import settings
 
 
 
-# from django.core.mail import EmailMessage
+from django.core.mail import EmailMessage
 
 # email = EmailMessage(
 #     'Hello',
 #     'Body goes here',
 #     settings.EMAIL_HOST_USER,
-#     ['asimraza336336@gmail.com',],
-#     ['asimraza336336@gmail.com'],
+#     ['asimraza336@gmail.com',],
+#     ['asimraza336@gmail.com'],
 # ).send()
 
 from django.views.decorators.csrf import csrf_exempt
@@ -532,7 +576,12 @@ def stripe_webhook(request):
     # For now, you only need to print out the webhook payload so you can see
     # the structure.
     # print(payload.json())
-
+    print('webhook   webhook   webhook   webhook   webhook   webhook   ')
+    print('webhook   webhook   webhook   webhook   webhook   webhook   ')
+    print('webhook   webhook   webhook   webhook   webhook   webhook   ')
+    print('webhook   webhook   webhook   webhook   webhook   webhook   ')
+    print('webhook   webhook   webhook   webhook   webhook   webhook   ')
+    
     payload = request.body
     # result = json.loads(request.body)
     # print(json.loads(payload))
@@ -568,15 +617,24 @@ def stripe_webhook(request):
         user_avatar_instance.membership_type = payment_type
         user_avatar_instance.paid_date = datetime.today().date()
         user_avatar_instance.is_not_expired = True
+        
+        
+        
 
         if payment_type == 'monthly':
             print("monthly   monthly   monthly   monthly   monthly   monthly   monthly")
+            user_avatar_instance.remaing_email_request = 1000
+            user_avatar_instance.remaing_financial_request = 20
+            user_avatar_instance.remaing_grant_request = 30    
             date_after_month = datetime.today()+ relativedelta(months=1)
             user_avatar_instance.expire_membership_date = date_after_month.strftime('%Y-%m-%d')
             # user_avatar_instance.remaing_request = ?
 
         if payment_type == 'yearly':
             print('YEarly   YEarly   YEarly   YEarly   YEarly   YEarly   YEarly   YEarly   YEarly   ')
+            user_avatar_instance.remaing_email_request = 1000 * 12
+            user_avatar_instance.remaing_financial_request = 20 * 12
+            user_avatar_instance.remaing_grant_request = 30 * 12
             date_after_year = datetime.today()+ relativedelta(years=1)
             #  ['“27/08/2023” value has an invalid date format. It must be in YYYY-MM-DD format.']
             user_avatar_instance.expire_membership_date = date_after_year.strftime('%Y-%m-%d')

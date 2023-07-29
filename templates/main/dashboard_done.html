@@ -17,28 +17,50 @@
 
    </head>
    <body class="dashoboard-main">
+     
+
       <header class="shadow-sm">
          <nav class="navbar navbar-expand-md bg-transparent header-content">
             <div class="container">
                <a class="nav-link navbar-brand  logo"
-                  href="{% url 'Home' %}">
+               href="{% url 'Home' %}">
                   <img
                      class="w-100 h-100"
                      src="{% static 'assets/images/transparent-logo.png' %}"
                      alt>
                </a>
-               <div
-                  class="button py-1 d-flex  bg-warning bg-opacity-10 gap-3 rounded-5 border px-2 border-2 border-danger ">
+               <div class="button py-1 d-flex  bg-warning bg-opacity-10 gap-3 rounded-5 border px-2 border-2 border-danger ">
                   <p class="p-0 ps-1 m-0 py-1">
-                     5 AI Calls Left Today.
+                     <span> 5</span> AI Calls Left Today.
                   </p>
+                  {% if not user.user_avatar.membership_type %}
                   <div
                      class="bg-primary bg-opacity-10 gradient-button text-dark px-3 py-1 rounded-5">
-                     upgrade to Pro
+                     <a href="{% url 'Pricing' %}">
+                        upgrade to Pro
+                        </a>
                   </div>
+                  {% endif %}
+
                </div>
+
+       
+
+
+
+            
+
                <div class="d-flex gap-3">
-                  <div>
+                  <!-- add classes 22/7 -->
+                  <div class="d-flex gap-3">
+                     <!-- Add Icon 22/7 -->
+                     <div
+                        class="social-icon  gradient-button p-1 rounded-2 border-0">
+                        <a href="{% url 'Settings' %}">
+                           <img class="w-100 p-1 h-100"
+                              src="{% static 'assets/images/setting.png' %}"   alt>
+                        </a>
+                     </div>
                      <a class="nav-link"
                         href="{% url 'logout' %}">
                         <button
@@ -51,34 +73,49 @@
          </nav>
       </header>
 
+
+
+
       <main class="p-0 m-0 d-flex ">
          <div class=" py-3 shadow  mt-auo side-bar">
             <div class="d-flex flex-column h-100 justify-content-center">
-               <a href="{% url 'dashboard' %}"
-                  class="cursor-pointer nav-link ">
-                  <p
+                  <p id="IdButtonEmail"
                      class="p-0 m-0 px-3 py-2 fw-semibold border-bottom gradient-button btn-active border-0">
                      Email
                   </p>
-               </a>
-               <a href="./10KReport.html"
-                  class="cursor-pointer nav-link ">
-                  <p
-                     class="p-0 m-0 px-3 py-2 border-bottom   fw-semibold gradient-button border-0">
-                     10K Report
-                  </p>
-               </a>
-               <a href=" #"
-                  class="cursor-pointer nav-link ">
-                  <p
-                     class="p-0 m-0 px-3 py-2 border-bottom   fw-semibold gradient-button border-0">
+               {% comment %} <a class="cursor-pointer nav-link ">
+
+               </a> {% endcomment %}
+               
+             <!--<a href="./10KReport.html"
+                  class="cursor-pointer nav-link "> -->  
+                  <!-- Class Name change -->
+                  <button id="IdButtonFInancialInsight"
+                     class="IdButtonFInancialInsights p-0 m-0 ps-3 py-2 border-bottom   fw-semibold gradient-button border-0" >
+                     Financial Insights
+                  </button>
+                  
+              <!--  </a> -->
+             <!--  <a href=" #"
+                  class="cursor-pointer nav-link "> -->
+                  <p id="IdButtonGrant"
+                     class="IdButtonGrants p-0 m-0 px-3 py-2 border-bottom   fw-semibold gradient-button border-0">
                      Grant
-                  </p>
-               </a>
+             </p>
+              <!--  </a> -->
             </div>
          </div>
-         <div class="row justify-content-between py-4 dashbpard-content">
+
+         <input type="hidden" name="email_calls" value="{{user.user_avatar.remaing_email_request}}" id="IdEmailCalls">
+         <input type="hidden" name="financial_calls" value="{{user.user_avatar.remaing_financial_request}}" id="IdFinancialCalls">
+         <input type="hidden" name="grant_calls" value="{{user.user_avatar.remaing_grant_request}}" id="IdGrantCalls">
+
+
+         
+         <div class="row justify-content-between py-4 dashbpard-content"  id="IdEmail">
             <div class="d-flex gap-2 h-100">
+             
+
                <div class="col-4 w-33 shadow h-100 rounded">
                   <div
                      class="col-12 w-100 position-relative h-100 d-flex flex-column p-3">
@@ -89,13 +126,13 @@
                               src="{% static 'assets/images/imagePreviewEmail.png' %}"
                               alt="User Avatar">
                         </div>
-                        <p class="p-0 fw-bold m-0">User Name</p>
+                        <p class="p-0 fw-bold m-0">{{user.first_name}} </p>
                      </div>
                      <div class="form-group  pb-1 col-12">
                         <label for="pcompany">Prospect Company</label>
                         <input type="text" class="form-control py-1"
                            id="pcompany"
-                           placeholder="Company Name or Linkedin URL">
+                           placeholder="Linkedin URL">
                      </div>
                      <div
                         class="shadow-sm position-relative msg-area rounded bg-white border-dark  py-3">
@@ -118,8 +155,8 @@
 
 
                            
-                        <div class="col-12 pb-2" id="outputId2" style="display:none">
-                           <div class="px-3 d-flex align-items-center gap-3">
+                        <div class="col-12 pb-2 px-3" id="outputId2" style="display:none">
+                           <div class=" d-flex align-items-center gap-3">
                               <div class="user-avatar pb-3 overflow-hidden border border-2 border-danger rounded-circle">
                                  <img id="CompanyImage" class="h-100 w-100" src=""
                                     alt="User Avatar">
@@ -137,6 +174,8 @@
                            <small id="paragraph2" class="clickable mb-3 px-3">
                               
                            </small>
+                           <h6 id="heading"
+                              class="clickable px-3 mt-3 pb-0 mb-0">Specialities</h6>
                            <small id="paragraphSpecialitites" class="clickable mb-3 px-3">
                               
                            </small>
@@ -185,7 +224,7 @@
                         class="form-group position-relative pb-2 pb-lg-4 col-12">
                         <label for="focus-area" class="fw-bold">Focus Areas</label>
                         <textarea class="form-control" id="focus-area" rows="6"
-                           placeholder="Input areas you want to highlight in the email"></textarea>
+                           placeholder="Input key focus areas for the email e.g “show how we can improve the prospect company's customer experience and technology aspects”"></textarea>
                         <div
                            class="position-absolute d-flex justify-content-center top-0 mt-5 pt-4">
                            <img id="showgif" style="display: none;"
@@ -250,13 +289,14 @@
                      </div>
                      <div class="pb-3">
                         <p class="pb-2 fw-bold m-0">Next Level Insights</p>
+                        <!--classes added 22/7 -->
                         <div
-                           class="d-flex justify-content-center flex-wrap gap-3">
-                           <button type="button"
-                              class=" bg-warning bg-opacity-10  btn gradient-button text-dark btn-sm rounded-2 py-1 px-3 btn-select">10K
-                              Report</button>
-                           <button type="button"
-                              class=" bg-warning bg-opacity-10  btn gradient-button text-dark btn-sm rounded-2 py-1 px-3 btn-select">Grants</button>
+                           class="d-flex justify-content-center row flex-wrap gap-3">
+                           <!--btn Name Change 22/7 -->
+                           <button type="button" id="IDFinancial"
+                              class="IdButtonFInancialInsights bg-warning bg-opacity-10 col-5  btn gradient-button text-dark btn-sm rounded-2 py-1 px-3 btn-select">Financial Insights</button>
+                           <button type="button" id="IDGrants"
+                              class="IdButtonGrants bg-warning bg-opacity-10 col-5 btn gradient-button text-dark btn-sm rounded-2 py-1 px-3 btn-select">Grants</button>
                         </div>
                      </div>
                      <div class="mt-auto d-flex justify-content-center">
@@ -293,11 +333,11 @@
                            <img class="w-100 p-1 h-100"
                               src="{% static 'assets/images/outlook.png' %}" alt>
                         </div>
-                        <div
+                        {% comment %} <div
                            class="social-icon  gradient-button  rounded-2 border-0">
                            <img class="w-100 p-1 h-100"
                               src="{% static 'assets/images/linkedin.png' %}" alt>
-                        </div>
+                        </div> {% endcomment %}
 
                      </div>
                   </div>
@@ -307,7 +347,7 @@
 
 
                         
-                        <div class="form-check w-100 position-relative">
+                        {% comment %} <div class="form-check w-100 position-relative">
                            <input
                               class="form-check-input position-absolute bottom-0 end-0 mb-2 me-2"
                               type="radio"
@@ -443,12 +483,263 @@
                                  </div>
                               </div>
                            </label>
-                        </div>
+                        </div> {% endcomment %}
 
                      </div>
                   </div>
                </div>
             </div>
+         </div>
+
+
+
+
+
+
+
+
+         <div class="row justify-content-between py-4 dashbpard-content" id="IdFinanicalInsight" style="display:none;">
+            <div class="d-flex gap-2 h-100">
+               <div class="col-4 w-33 shadow h-100 rounded">
+                  <div
+                     class="col-12 w-100 position-relative h-100 d-flex flex-column p-3">
+                     <div class="d-flex justify-content-between w-100">
+                        
+                     </div>
+                     <div
+                        class="d-flex border-bottom mb-2 pb-2 justify-content-between">
+                        <div class="d-flex gap-2  align-items-center pb-2">
+                           {% comment %} <div
+                              class="user-avatar overflow-hidden border border-2 border-danger rounded-circle">
+                              <img class="h-100 w-100"
+                                 src="{% static 'assets/images/imagePreviewEmail.png' %}" 
+                                 alt="User Avatar">
+                           </div> {% endcomment %}
+                           <div class="text-start">
+                              <small class="p-0  m-0">{{user.company}}</small>
+                           </div>
+                        </div>
+                        <div class="handshake-Icon">
+                           <img class="w-100 h-100" 
+                              src="{% static 'assets/images/handShake.png' %}" 
+                              alt="hand shake">
+                        </div>
+
+                        <div class="d-flex gap-2  align-items-center pb-2">
+                           
+                           <div class="text-end">
+                              <small class="p-0 m-0 IdProspectNames" id="IdProspectName">Name</small>
+                           </div>
+                           <div
+                              class="user-avatar overflow-hidden border border-2 border-danger rounded-circle">
+                              <img class="h-100 w-100" id="IdImageProspect"
+                                 src="{% static 'assets/images/imagePreviewEmail.png' %}"  
+                                 alt="User Avatar">
+                           </div>
+                        </div>
+
+                     </div>
+                     <div class="form-group pb-2 col-12">
+                        <label for="pcompany">Financial Raw Data</label>
+                     </div>
+                     <!-- Changes 23/7 -->
+                     <div
+                        class="shadow-sm position-relative msg-area rounded bg-white border-dark  pe-2 ">
+                        <div class="col-12 ">
+                           <textarea id="input-text"
+                              placeholder="Input Financial Raw Data Here"
+                              rows="20"
+                              class="w-100 msg-area form-control no-border"
+                              oninput="updateWordCount()"></textarea>
+
+                        </div>
+
+                        <div id="showContent"
+                           class="position-absolute top-0 end-0 start-0 mt-3"
+                           style="display: none;">
+                           <img class="w-100 h-100"
+                              src="{% static 'assets/images/dotline-unscreen.gif' %}" 
+                              class="img-fluid" alt="Your GIF">
+                        </div>
+                     </div>
+                     <div id="word-count" class="text-end pt-2 mt-1">0/1000</div>
+
+                     <!-- Changes 23/7 -->
+                     <div
+                        class="d-flex mt-auto justify-content-end gap-2  pt-3">
+                        <button id="processBtn2"
+                           class="btn-sm btn gradient-button px-5">Process</button>
+                     </div>
+                     <!-- Changes 23/7 -->
+                  </div>
+               </div>
+               <div class="col-4 w-33 h-100 shadow rounded">
+                  <div class="col-12 overflow-auto h-100 mx-auto focus-area shadow rounded p-3 ">
+                     <div
+                        class="form-group position-relative pb-2 pb-lg-4 col-12">
+                        <label for="focus-area" class="fw-bold">Focus Areas</label>
+                        <!-- Changes 23/7 -->
+                        <textarea class="form-control" id="focus-area2"
+                           rows="8"
+                           placeholder="Input areas you want to highlight in the email"
+                           maxlength="500"></textarea>
+                        <!-- Changes 23/7 -->
+
+                        <div id="char-count" class="text-end text-danger">0/500</div>
+                     </div>
+
+                     <div class="mt-auto d-flex justify-content-center">
+                        <button id="genEmail2" disabled
+                           class=" btn px-5 fs-6 gradient-button">
+                           Submit</button>
+                     </div>
+                  </div>
+
+               </div>
+               <div class="col-4 w-33 shadow h-100 rounded">
+                  <div
+                     class="col-12 w-100 position-relative h-100 d-flex flex-column p-3">
+                     <!-- Changes 23/7 -->
+                     <h5 class="p-0 text-center m-0 py-3">Financial Insights</h5>
+                     <div
+                        class="shadow-sm position-relative msg-area rounded bg-white border-dark  py-3">
+                        <div class="col-12 pb-2 px-3">
+                           <div class="d-flex align-items-center gap-3">
+                              <div
+                                 class="user-avatar pb-3 overflow-hidden border border-2 border-danger rounded-circle">
+                                 <img class="h-100 w-100 imageFinancials" id="imageFinancial"
+                                    src="{% static 'assets/images/imagePreviewEmail.png' %}"
+                                    alt="User Avatar">
+                              </div>
+                              <h5 id="headingFinancial" class="clickable  pb-0 mb-0">UC
+                                 Health</h5>
+                           </div>
+                           <small id="financialOutput" class="clickable mb-3"></small>
+
+                        </div>
+                        <div id="showContent123"
+                           class="position-absolute top-0 end-0 start-0 mt-3"
+                           style="display: none;">
+                           <img class="w-100 h-100"
+                              src="{% static 'assets/images/dotline-unscreen.gif'  %}"
+                              class="img-fluid" alt="Your GIF">
+                        </div>
+                     </div>
+                     <div
+                        class="d-flex mt-auto justify-content-end pt-3">
+                        <button id="IdbtnEmbed" disabled class="btn-sm btn gradient-button">Embed</button>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+
+
+
+
+
+
+         <div class="row justify-content-between py-4 dashbpard-content" id="IdGrantTab" style="display:none;"  >
+            <div class="d-flex gap-2 h-100">
+               <div class="col-6 w-40 shadow h-100 rounded">
+                  <div
+                     class="col-12 w-100 position-relative h-100 d-flex flex-column p-3">
+                     <div class="d-flex justify-content-between w-100">
+                        
+                     </div>
+                     <div
+                        class="d-flex border-bottom mb-2 pb-2 justify-content-between">
+                        <div class="d-flex gap-2  align-items-center pb-2">
+                           <div
+                              class="user-avatar overflow-hidden border border-2 border-danger rounded-circle">
+                              <img class="h-100 w-100"
+                                 src="{% static 'assets/images/imagePreviewEmail.png' %}"
+                                 alt="User Avatar">
+                           </div>
+                           <div class="text-start">
+                              <small class="p-0  m-0">{{user.company}}</small>
+                           </div>
+                        </div>
+                        <div class="handshake-Icon">
+                           <img class="w-100 h-100"
+                              src="{% static 'assets/images/handShake.png' %}"
+                              alt="hand shacke">
+                        </div>
+
+                        <div class="d-flex gap-2  align-items-center pb-2">
+                           <div class="text-end">
+                              <small class="p-0 m-0 IdProspectNames">Name</small>
+                           </div>
+                           <div
+                              class="user-avatar overflow-hidden border border-2 border-danger rounded-circle">
+                              <img class="h-100 w-100 imageFinancials"
+                                 src="{% static 'assets/images/imagePreviewEmail.png' %}"
+                                 alt="User Avatar">
+                           </div>
+                        </div>
+
+                     </div>
+                     <div class="form-group  pb-2 col-12">
+                        <form id="uploadForm"  >
+                           <label for="fileUp">Upload Grants.gov CSV File</label>
+
+                           <input type="file" id="file" name="grantcsv" accept=".csv" class="form-control py-1"
+                              id="fileUp" />
+                        </form>
+                        </div>
+                     <div
+                        class="shadow-sm position-relative msg-area rounded bg-white border-dark px-2  py-3">
+                        <div class="col-12 pb-2">
+                           <textarea id="input-text2"
+                              placeholder="Input Grant Raw Data Here"
+                              rows="20"
+                              class="w-100 msg-area form-control no-border"
+                              oninput="updateWordCount2()"></textarea>
+                        </div>
+
+                        <div id="showContent3"
+                           class="position-absolute top-0 end-0 start-0 mt-3"
+                           style="display: none;">
+                           <img class="w-100 h-100"
+                              src="{% static 'assets/images/dotline-unscreen.gif' %}"
+                              class="img-fluid" alt="Your GIF">
+                        </div>
+
+                     </div>
+                     <div id="word-count2" class="text-end pt-2 mt-1">0/1000</div>
+
+                     <div
+                        class="d-flex mt-auto justify-content-end gap-2 ps-3 pt-3">
+                        <button id="processBtn3"
+                           class="btn-sm btn gradient-button px-5">Process</button>
+                        <button id="submitBtn3" disabled
+                           class="btn-sm btn gradient-button px-5">Submit</button>
+                     </div>
+
+                  </div>
+               </div>
+               <div class="col-6 w-40 h-100 shadow rounded">
+                  <div class="pb-2 pe-4 py-3 h-100 d-flex flex-column justify-content-between">
+                     <div class="col-12 pt-2 " id="IdGrantCards">
+
+                        
+                        
+                     </div>
+
+                     <div class="d-flex pb-3 justify-content-end pt-3">
+                        <button id="IdbtnEmbed2" disabled class="btn-sm btn px-4 gradient-button">Embed</button>
+                     </div>
+                  </div>
+
+               </div>
+            </div>
+         </div>
+
+
+
+
+
+
          </main>
 
          <div class="modal fade"
@@ -514,11 +805,169 @@
          <script
             src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js">
       </script>
+      
+      <script>
+         
+
+
+
+         function selectButton(button) {
+            var buttons = document.getElementsByClassName('btn-selected');
+            for (var i = 0; i < buttons.length; i++) {
+               buttons[i].classList.remove('btn-active');
+            }
+
+            if(button.classList.contains('btn-active')){
+               button.classList.remove('btn-active');
+            }
+            else{
+               button.classList.add('btn-active');
+
+            }
+         }
+      
+         function selectedButton(button) {
+            var buttons = document.getElementsByClassName('intent');
+            for (var i = 0; i < buttons.length; i++) {
+               buttons[i].classList.remove('btn-active');
+            }
+            button.classList.add('btn-active');
+         }
+         $(".IdButtonFInancialInsights").click(function () {
+               $('#IdFinanicalInsight').show();
+               $('#IdEmail').hide();
+               $('#IdGrantTab').hide();
+               
+               $('#IdButtonFInancialInsight').addClass('btn-active');
+               $('#IdButtonEmail').removeClass('btn-active');
+               $('#IdButtonGrant').removeClass('btn-active');
+               
+           });
+           
+         $(".IdButtonGrants").click(function () {
+            $('#IdGrantTab').show();
+            $('#IdEmail').hide();
+            $('#IdFinanicalInsight').hide();
+
+            $('#IdButtonGrant').addClass('btn-active');
+            $('#IdButtonEmail').removeClass('btn-active');
+            $('#IdButtonFInancialInsight').removeClass('btn-active');
+            
+        });
+        $("#IdButtonEmail").click(function () {
+         $('#IdGrantTab').hide();
+         $('#IdEmail').show();
+         $('#IdFinanicalInsight').hide();
+         $('#IdButtonEmail').addClass('btn-active');
+
+         $('#IdButtonGrant').removeClass('btn-active');
+         $('#IdButtonFInancialInsight').removeClass('btn-active');
+         
+     });
+        
+         
+         $("#IdbtnEmbed").click(function () {
+            $('#IDFinancial').addClass('btn-active');
+
+            $('#IdFinanicalInsight').hide();
+            $('#IdEmail').show();
+            $('#IdGrantTab').hide();
+
+            $('#IdButtonFInancialInsight').removeClass('btn-active');
+            $('#IdButtonEmail').addClass('btn-active');
+            
+            
+            
+        });
+
+        $("#IdbtnEmbed2").click(function () {
+         $('#IdEmail').show();
+         $('#IdFinanicalInsight').hide();
+         $('#IdGrantTab').hide();
+            
+         $('#IDGrants').addClass('btn-active');
+
+         $('#IdButtonGrant').removeClass('btn-active');
+         $('#IdButtonFInancialInsight').removeClass('btn-active');
+         $('#IdButtonEmail').addClass('btn-active');
+         $("#showgif").fadeOut();
+         
+         
+         
+         
+     });
+           
+      </script>
+
+
+
          <script>
             
           //  $("#processBtn").click(function () {
              //  $('#submitBtnId').prop('disabled',false);
 //            });
+
+$("#processBtn3").click(function () {
+   
+   var input_text_2 = $('#input-text2').val();
+   if($('#file').val() != ''){
+      $('#submitBtn3').prop('disabled',false);
+      var data = new FormData();
+      data.append("file", $("input[id^='file']")[0].files[0]);
+
+      data.append("csrfmiddlewaretoken", "{{ csrf_token }}");
+
+      var url = "{% url 'ExtractGrantCsv'  %}";
+     // alert(input_text_2)
+      $.ajax({
+         method:'POST',
+         url :  url,
+         contentType: false,
+         processData:false,
+         data: data,
+
+         mimeType: 'multipart/form-data',
+         
+         beforeSend: function () {
+            $("#showContent3").fadeIn();
+
+         //   $("#showgif").fadeIn();
+            
+
+       },
+         success : function(response){
+            $("#showContent3").fadeOut();
+
+          //  $("#IdbtnEmbed").prop('disabled', false);
+            var response=JSON.parse(response);
+            if (response.success == true){
+               $("#input-text2").text(response.result);
+               $("#showgif").fadeOut();
+               $("#showgiftab3").fadeOut();
+            }
+            else{
+               $("#input-text2").text(response.result);
+               $("#showgiftab3").fadeOut();
+               $("#showgif").fadeOut();
+            }
+         
+         },
+         error : function(response){
+            $("#showContent3").fadeOut();
+
+         }
+         
+      });
+
+
+
+   }
+   else if(input_text_2 != '' ){
+      $('#submitBtn3').prop('disabled',false);
+
+   }
+});
+
 
             $("#submitBtnId").click(function () {
                $('#genEmail').prop('disabled',false);
@@ -527,25 +976,6 @@
            function autoResize(textarea) {
             textarea.style.height = 'auto';
             textarea.style.height = textarea.scrollHeight + 'px';
-            }
-            
-            function selectButton(button) {
-               var buttons = document.getElementsByClassName('btn-selected');
-               for (var i = 0; i < buttons.length; i++) {
-               buttons[i].classList.remove('btn-active');
-               }
-               
-               button.classList.add('btn-active');
-            }
-
-             function selectedButton(button) {
-               var buttons = document.getElementsByClassName(' intent');
-               
-               for (var i = 0; i < buttons.length; i++) {
-               buttons[i].classList.remove('btn-active');
-               }
-               
-               button.classList.add('btn-active');
             }
          $(document).ready(function() {
             $('#myModal').modal('show1');
@@ -558,9 +988,7 @@
                var linkedInCompany = $('#pcompany').val()
                if (linkedInCompany != '')
                   {
-
                      var url = "{% url 'linkedinCompanyData'  %}";
-                     //var ur = u.replace('123', ID);
                      $.ajax({
                         type:'POST',
                         dataType:'JSON',
@@ -601,6 +1029,16 @@
                            $("#id_Prospect_Company_founded").val(response.results.Prospect_Company_founded);
                            $("#id_Prospect_Company_specialties").val(response.results.Prospect_Company_specialties);
 
+
+
+                           $("#IdImageProspect").prop("src", response.results.Prospect_Company_logo);
+                           $(".IdProspectNames").text(response.results.Prospect_Company_name);
+
+                           $("#headingFinancial").text(response.results.Prospect_Company_name);
+                           $(".imageFinancials").prop("src", response.results.Prospect_Company_logo);
+
+                           
+                           
                         }
                         else{
                            $("#overview").val(response.results);
@@ -619,32 +1057,15 @@
                   alert('Please enter link of company');
                }
 
-        //        setTimeout(function () {
-           //     }, 2000); 
             });
           });
-          $(document).ready(function () {
-            $("#genEmail").on("click", function () {
-                $("#showgif").fadeIn();
-         //       setTimeout(function () {
-            //        $("#showgif").fadeOut();
-             //   }, 2000); 
-            });
-          });
+          
           $(document).ready(function () {
             var buttons = document.getElementsByClassName('targetClass');
-               
-
-
 
             $("#genEmail").on("click", function () {
-          //     setTimeout(function () {
-             //     $("#showgif").fadeOut();
-             // }, 2000); 
               var focus_input = $("#focus-area").val();
-
                if(focus_input !=''){
-                  
                   var Prospect_Company_name =   $("#id_Prospect_Company_name").val();
                   var Prospect_Company_Overview =   $("#id_Prospect_Company_Overview").val();
                   var Prospect_Company_Industry =   $("#id_Prospect_Company_Industry").val();
@@ -652,7 +1073,6 @@
                   var Prospect_Company_Size =   $("#id_Prospect_Company_Size").val();
                   var Prospect_Company_founded =   $("#id_Prospect_Company_founded").val();
                   var Prospect_Company_specialties =   $("#id_Prospect_Company_specialties").val();
-
                   var intentVal = $('.intent.btn-active').text()
                   let targetArray = []
                   for (var i = 0; i < buttons.length; i++) {
@@ -661,11 +1081,7 @@
                      }
                   
                   }
-
                   var url = "{% url 'GenerateEmail'  %}";
-
-
-
                   $.ajax({
                      type:'POST',
                      dataType:'JSON',
@@ -687,26 +1103,21 @@
                         $("#showgiftab3").fadeIn();
                       //  $("#showgif").fadeIn();
 
+                    //  $("#showgif").fadeIn();
 
                     },
                      success : function(response){
 
                            if (response.success == true){
                               $("#showgif").fadeOut();
-
                               $("#showgiftab3").fadeOut();
-                              console.log(response.results)
-                              console.log(typeof(response.results))
+                              $('.deleteClass').remove();
 
                               for (var key in response.results) {
-                                 console.log(response.results[key]);
-                                 console.log(response.results[key].title);
-                                 console.log(response.results[key].Subject);
-
 
                                  var html_data ='';
-                                 html_data += '<div class="form-check w-100 position-relative"> <input class="form-check-input position-absolute bottom-0 end-0 mb-2 me-2" type="radio" name="radioOptions" id="optionA" value="A" checked>'
-                                 html_data += '<label class="form-check-label w-100" for="optionA"> <div class="btn w-100 p-0 m-0 option-label"> <div class="col-12 bg-light overflow-hidden rounded-4 p-3 shadow">'    
+                                 html_data += '<div class="deleteClass form-check w-100 position-relative"><label class="form-check-label w-100" for="optionA"> <input class="form-check-input position-absolute bottom-0 end-0 mb-2 me-2" type="radio" name="radioOptions"  value="A" checked>'
+                                 html_data += ' <div class="btn w-100 p-0 m-0 option-label"> <div class="col-12 bg-light overflow-hidden rounded-4 p-3 shadow">'    
                                  html_data += '<div class="d-flex align-items-start justify-content-between"> <div class="d-flex gap-2 align-items-center pb-2"> <div class="user-avatar overflow-hidden rounded-circle"> '
                                  html_data += '<img class="h-100 w-100" src="{% static 'assets/images/imagePreviewEmail.png' %}" alt="User Avatar"> '   
                                  html_data += '</div> <div> <p class="p-0 text-dark m-0">'+ response.results[key].title +'</p>'
@@ -719,68 +1130,109 @@
                                  html_data += '<div class="d-flex gap-3 justify-content-start"> <button id="saveBtn" class="btn py-0 btn-primary gradient-button mt-2" style="display: none;">Save</button>'
                                  html_data += '<button id="cancelBtn" class="btn gradient-button btn-secondary bg-opacity-25 py-0 mt-2" style="display: none;">Cancel</button>'
                                  html_data += '</div> </div> </div> </div> </div> </label> </div>'             
-                                         
-                                 
                                  $("#IdCardsPlace").append(html_data);
-
-
-
-
-
-
-
-
-
-                                 
                                }
 
                            }
                            else{
                               $("#showgif").fadeOut();
-
-                              console.log(response.results)
-
                               $("#showgiftab3").fadeOut();
-
                               $("#overview").val(response.results);
-
                            }
-                        
                         
                      },
                      error : function(response){
                             $("#showgiftab3").fadeOut();
                      }
                   })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                }
                else{
                   alert("Please write something in Focus Area Field");
                }
-
-
-                
             });
           });
-              $(document).ready(function () {
+
+
+
+{% comment %}  {% endcomment %}
+
+          
+          $(document).ready(function () {
+
+            $("#submitBtn3").on("click", function () {
+              var input_input2 = $("#input-text2").val();
+               if(input_input2 !=''){
+                  var Prospect_Company_name =   $("#id_Prospect_Company_name").val();
+                  var Prospect_Company_Overview =   $("#id_Prospect_Company_Overview").val();
+                  var Prospect_Company_Industry =   $("#id_Prospect_Company_Industry").val();
+                  var Prospect_Company_Headquarters =   $("#id_Prospect_Company_Headquarters").val();
+                  var Prospect_Company_Size =   $("#id_Prospect_Company_Size").val();
+                  var Prospect_Company_founded =   $("#id_Prospect_Company_founded").val();
+                  var Prospect_Company_specialties =   $("#id_Prospect_Company_specialties").val();
+                 
+                  var url = "{% url 'GenerateGrant'  %}";
+                  $.ajax({
+                     type:'POST',
+                     dataType:'JSON',
+                     url :  url,
+                     data : {
+                        Prospect_Company_name: Prospect_Company_name,
+                        Prospect_Company_Overview: Prospect_Company_Overview,
+                        Prospect_Company_Industry: Prospect_Company_Industry,
+                        Prospect_Company_Headquarters: Prospect_Company_Headquarters,
+                        Prospect_Company_Size: Prospect_Company_Size,
+                        Prospect_Company_founded: Prospect_Company_founded,
+                        Prospect_Company_specialties: Prospect_Company_specialties,
+                        grants_raw_data: input_input2,
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                     },
+                     beforeSend: function () {
+                        $("#showgiftab3").fadeIn();
+                      //  $("#showgif").fadeIn();
+
+                      //$("#showgif").fadeIn();
+
+                    },
+                     success : function(response){
+                        $("#showgiftab3").fadeOut();
+
+                           if (response.success == true){
+                              for (var key in response.grantsResult) {
+                                 var html_data ='';
+                                 html_data += '<div for="espresso" class="form-check w-100 position-relative"><label class="form-check-label w-100" for="optionA">  <input class="form-check-input position-absolute bottom-0 end-0 mb-2 me-2" type="radio" data-preference="Espresso" name="radioOptions" id="optionA" value="A" checked>'
+                                 html_data += '<div class="btn w-100 p-0 m-0 option-label"> <div class="col-12 bg-light overflow-hidden rounded-4 p-3 shadow"> <div class="d-flex align-items-start justify-content-between"> '
+                                 html_data += '<div class="d-flex gap-2 align-items-center pb-2"> <div class="user-avatar overflow-hidden rounded-circle">'
+                                 html_data += '<img class="h-100 w-100" src="{% static 'assets/images/imagePreviewEmail.png' %}" alt="User Avatar"> </div> <div>'
+                                 html_data += '<p class="p-0 text-dark m-0">'+response.grantsResult[key].title +'</p> <span class="text-muted fs-12 p-0 m-0"> Just Now • <span>' 
+                                 html_data += '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-globe-europe-africa" viewBox="0 0 16 16"> <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0ZM3.668 2.501l-.288.646a.847.847 0 0 0 1.479.815l.245-.368a.809.809 0 0 1 1.034-.275.809.809 0 0 0 .724 0l.261-.13a1 1 0 0 1 .775-.05l.984.34c.078.028.16.044.243.054.784.093.855.377.694.801-.155.41-.616.617-1.035.487l-.01-.003C8.274 4.663 7.748 4.5 6 4.5 4.8 4.5 3.5 5.62 3.5 7c0 1.96.826 2.166 1.696 2.382.46.115.935.233 1.304.618.449.467.393 1.181.339 1.877C6.755 12.96 6.674 14 8.5 14c1.75 0 3-3.5 3-4.5 0-.262.208-.468.444-.7.396-.392.87-.86.556-1.8-.097-.291-.396-.568-.641-.756-.174-.133-.207-.396-.052-.551a.333.333 0 0 1 .42-.042l1.085.724c.11.072.255.058.348-.035.15-.15.415-.083.489.117.16.43.445 1.05.849 1.357L15 8A7 7 0 1 1 3.668 2.501Z" /> </svg>'
+                                 html_data += '</span></span> </div> </div> <div class="px-2 pb-2 pt-0 border-0 rounded-2 bg-opacity-25 btn gradient-button bg-success "> <i class="bi bi-text-paragraph"></i>'
+                                 html_data += '</div> </div> <div class="pt-2 "> <div class=" "> <p class="text-start p-0 m-0">'+response.grantsResult[key].grant+'</p> </div> </div> </div> </div> </label> </div>'       
+
+
+                                 $("#IdGrantCards").append(html_data);
+                               }
+                               $("#IdbtnEmbed2").prop("disabled", false);
+                               
+
+                           }
+                           
+                        
+                     },
+                     error : function(response){
+                            $("#showgiftab3").fadeOut();
+                     }
+                  })
+               }
+               else{
+                  alert("Please write something in Focus Area Field");
+               }
+            });
+          });
+
+
+
+
+         $(document).ready(function () {
             var textarea = $("#textArea");
             var saveBtn = $("#saveBtn");
             var cancelBtn = $("#cancelBtn");
@@ -892,6 +1344,338 @@
             $(".form-check-input").on("click", updateSelectedOption);
         });
      </script>
+
+
+
+
+
+
+
+
+
+
+
+{% comment %} // grant js {% endcomment %}
+<script>
+   
+
+   function makeEditable(element) {
+     element.contentEditable = 'true';
+     element.focus();
+   }
+
+   function saveContent(element) {
+     element.contentEditable = 'false';
+   }
+
+   document.addEventListener('click', function (event) {
+     const clickableElements = document.querySelectorAll('.clickable');
+
+     for (const element of clickableElements) {
+       if (event.target === element) {
+         makeEditable(element);
+       } else {
+         saveContent(element);
+       }
+     }
+   });
+          function autoResize(textarea) {
+           textarea.style.height = 'auto';
+           textarea.style.height = textarea.scrollHeight + 'px';
+           }
+           
+           
+
+
+         $(document).ready(function () {
+           $("#processBtn2").on("click", function () {
+               var input_text = $("#input-text").val();
+
+               if(input_text !=''){
+
+               $('#genEmail2').prop('disabled',false);
+                  
+               }
+
+
+               
+           });
+        });
+        
+        
+        $(document).ready(function () {
+           var textarea = $("#textArea");
+           var saveBtn = $("#saveBtn");
+           var cancelBtn = $("#cancelBtn");
+           var originalText = textarea.val();
+           var updatedText = "";
+           var isFocused = false;
+
+           textarea.on("input", function () {
+               updatedText = textarea.val();
+           });
+
+           textarea.on("focus", function () {
+               isFocused = true;
+               textarea.val(updatedText);
+               textarea.css("white-space", "normal");
+               saveBtn.show();
+               cancelBtn.show();
+           });
+
+           textarea.on("blur", function () {
+               isFocused = false;
+               var trimmedText = updatedText.substring(0, 50);
+               if (updatedText.length > 50) {
+                   trimmedText += "...";
+               }
+               textarea.val(trimmedText);
+               saveBtn.hide();
+               cancelBtn.hide();
+           });
+
+           saveBtn.on("click", function () {
+               originalText = updatedText;
+               textarea.trigger("blur");
+           });
+
+           cancelBtn.on("click", function () {
+               textarea.val(originalText.substring(0, 50));
+               if (originalText.length > 50) {
+                   textarea.val(textarea.val() + "...");
+               }
+               textarea.trigger("blur");
+           });
+
+           // Initialize the textarea with ellipsis
+           textarea.trigger("blur");
+       });
+        $(document).ready(function () {
+           var textarea = $("#textAreaB");
+           var saveBtn = $("#saveBtnB");
+           var cancelBtn = $("#cancelBtnB");
+           var originalText = textarea.val();
+           var updatedText = "";
+           var isFocused = false;
+
+           textarea.on("input", function () {
+               updatedText = textarea.val();
+           });
+
+           textarea.on("focus", function () {
+               isFocused = true;
+               textarea.val(updatedText);
+               textarea.css("white-space", "normal");
+               saveBtn.show();
+               cancelBtn.show();
+           });
+
+           textarea.on("blur", function () {
+               isFocused = false;
+               var trimmedText = updatedText.substring(0, 50);
+               if (updatedText.length > 50) {
+                   trimmedText += "...";
+               }
+               textarea.val(trimmedText);
+               saveBtn.hide();
+               cancelBtn.hide();
+           });
+
+           saveBtn.on("click", function () {
+               originalText = updatedText;
+               textarea.trigger("blur");
+           });
+
+           cancelBtn.on("click", function () {
+               textarea.val(originalText.substring(0, 50));
+               if (originalText.length > 50) {
+                   textarea.val(textarea.val() + "...");
+               }
+               textarea.trigger("blur");
+           });
+
+           // Initialize the textarea with ellipsis
+           textarea.trigger("blur");
+       });
+
+$(document).ready(function () {
+           // Function to update the border color of the selected option
+           function updateSelectedOption() {
+               $(".form-check-label").each(function () {
+                   if ($(this).find(".form-check-input").prop("checked")) {
+                       $(this).find(".option-label").addClass("selected-option");
+                   } else {
+                       $(this).find(".option-label").removeClass("selected-option");
+                   }
+               });
+           }
+
+           // Call the function on page load and whenever a radio button is clicked
+           updateSelectedOption();
+           $(".form-check-input").on("click", updateSelectedOption);
+       });
+     
+
+     //   /////////////////////
+     const focusArea = document.getElementById('focus-area2');
+   const charCount = document.getElementById('char-count');
+
+   focusArea.addEventListener('input', function () {
+     const currentLength = this.value.length;
+     const maxLength = parseInt(this.getAttribute('maxlength'));
+
+     charCount.innerText = `${currentLength}/${maxLength}`;
+
+     if (currentLength >= maxLength) {
+       charCount.classList.add('text-danger');
+     } else {
+       charCount.classList.remove('text-danger');
+     }
+   });
+
+   // If the user navigates back to the page, update the character count
+   window.addEventListener('pageshow', function () {
+     const currentLength = focusArea.value.length;
+     const maxLength = parseInt(focusArea.getAttribute('maxlength'));
+
+     charCount.innerText = `${currentLength}/${maxLength}`;
+
+     if (currentLength >= maxLength) {
+       charCount.classList.add('text-danger');
+     } else {
+       charCount.classList.remove('text-danger');
+     }
+   });
+
+
+function updateWordCount() {
+ const textarea = document.getElementById("input-text");
+ const wordCount = textarea.value.trim().split(/\s+/).length;
+ const wordCountElement = document.getElementById("word-count");
+
+ if (wordCount > 1000) {
+   textarea.value = textarea.value.trim().split(/\s+/).slice(0, 1000).join(" ");
+ }
+
+ wordCountElement.textContent = `${wordCount}/1000`;
+}  
+function updateWordCount2() {
+   const textarea = document.getElementById("input-text2");
+   const wordCount = textarea.value.trim().split(/\s+/).length;
+   const wordCountElement = document.getElementById("word-count2");
+  
+   if (wordCount > 1000) {
+     textarea.value = textarea.value.trim().split(/\s+/).slice(0, 1000).join(" ");
+   }
+  
+   wordCountElement.textContent = `${wordCount}/1000`;
+  }  
+
+
+
+
+ $(document).ready(function () {
+   $("#genEmail2").on("click", function () {
+            var focus_area2 = $("#focus-area2").val();
+            if(focus_area2 !='')
+            {
+               var Prospect_Company_name =   $("#id_Prospect_Company_name").val();   
+               var Prospect_Company_Overview =   $("#id_Prospect_Company_Overview").val();
+               var Prospect_Company_Industry =   $("#id_Prospect_Company_Industry").val();
+               var Prospect_Company_Headquarters =   $("#id_Prospect_Company_Headquarters").val();
+               var Prospect_Company_Size =   $("#id_Prospect_Company_Size").val();
+               var Prospect_Company_founded =   $("#id_Prospect_Company_founded").val();
+               var Prospect_Company_specialties =   $("#id_Prospect_Company_specialties").val();
+               var financial_raw_data = $("#input-text").val();
+
+               var url = "{% url 'GenerateFinancialReport'  %}";
+
+               $.ajax({
+                  type:'POST',
+                  dataType:'JSON',
+                  url :  url,
+                  data : {
+                     focus_area: focus_area2,
+                     Prospect_Company_name: Prospect_Company_name,
+                     Prospect_Company_Overview: Prospect_Company_Overview,
+                     Prospect_Company_Industry: Prospect_Company_Industry,
+                     Prospect_Company_Headquarters: Prospect_Company_Headquarters,
+                     Prospect_Company_Size: Prospect_Company_Size,
+                     Prospect_Company_founded: Prospect_Company_founded,
+                     Prospect_Company_specialties: Prospect_Company_specialties,
+                     financial_raw_data: financial_raw_data,
+                     csrfmiddlewaretoken: '{{ csrf_token }}'
+                  },
+                  beforeSend: function () {
+                  // $("#showgiftab3").fadeIn();
+                  //$("#showContent").fadeIn();
+                  $("#showContent123").fadeIn();
+
+                     //$("#showgif").fadeIn();
+    
+                  },
+                  success : function(response){
+                     
+                     $("#IdbtnEmbed").prop('disabled', false);
+                     $("#showContent123").fadeOut();
+
+
+                     if (response.success == true){
+                        $("#showgif").fadeOut();
+                        $("#showgiftab3").fadeOut();
+                        $("#financialOutput").text(response.insights);
+
+                        
+ 
+                     }
+                  //   else{
+                       // $("#showgiftab3").fadeOut();
+                       // $("#showgif").fadeOut();
+//                        $("#overview").val(response.results);
+                    // }
+                  
+               },
+
+                  error : function(response){
+                     $("#showgiftab3").fadeOut();
+                  }
+                  
+               });
+
+            }
+            else{
+               alert("Please write something in Focus Area Field");
+
+            }
+       setTimeout(function () {
+           $("#showgif").fadeOut();
+       }, 2000); 
+   });
+});
+
+
+
+ 
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
          <script src="{% static 'assets/js/index.js' %}"></script>
 

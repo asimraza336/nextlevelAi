@@ -90,7 +90,7 @@
           <div class="modal-content">
              <div class="modal-header">
                 <h1 class="modal-title fs-4 gradient-heading"
-                   id="exampleModalLabel">Avatr
+                   id="exampleModalLabel">Avatar
                    List</h1>
                 <button type="button" class="btn-close"
                    data-bs-dismiss="modal" aria-label="Close"></button>
@@ -168,15 +168,22 @@
             </div>
 
 
+            <div class="modal-footer">
+               <button type="button" class="btn gradient-button"
+                  data-bs-dismiss="modal">Close</button>
+               <div>
+                  <a class="nav-link"
+                     >
+                     <button
+                        type="submit"
+                        class="btn gradient-button" id="btnnext1">Next</button>
+                  </a>
+               </div>
+            </div>
 
 
-
-
-                <button type="button" class="btn gradient-button"
-                   data-bs-dismiss="modal">Close</button>
                 <div>
-                      <button
-                         class="btn gradient-button" id="btnnext1">Next</button>
+                  
                 </div>
              </div>
           </div>
@@ -184,7 +191,18 @@
     </div>
 
  </main>
-
+<style>
+   .buttons {
+      width: 50px;
+      margin: 0 auto;
+    }
+    
+    .action_btn {
+      display: inline-block;
+      width: calc(50% - 4px);
+      margin: 0 auto;
+    }
+</style>
  <!-- 2222222222222222222222222222222222222222222222222222222222222222222222222222222222 -->
 
 
@@ -637,7 +655,16 @@
      <script
         src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js">
                        </script>
-
+                       <script>
+                        var slider = document.getElementById("myRange");
+                        var output = document.getElementById("demo");
+                        output.innerHTML = slider.value; // Display the default slider value
+               
+                        // Update the current slider value (each time you drag the slider handle)
+                        slider.oninput = function() {
+                           output.innerHTML = this.value;
+                        }
+                     </script>
      <script>
 
 user_id = "{{user_id}}"

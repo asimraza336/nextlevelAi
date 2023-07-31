@@ -78,8 +78,8 @@ def SignIn(request):
 def linkedinCompanyData(request):
     if request.is_ajax():
         # print(request.POST.get('linkedInCompany', None))
-        linkedin_url = request.POST.get('linkedInCompany', None)
-        # linkedin_url = "https://www.linkedin.com/company/arthrex"
+        # linkedin_url = request.POST.get('linkedInCompany', None)
+        linkedin_url = "https://www.linkedin.com/company/arthrex"
         # linkedin_url = "https://www.linken.com/company/arthrex"
 
         company_info_final = get_linkedin_company_info(linkedin_url)
@@ -695,7 +695,7 @@ def send_email_dashboard(request):
     avatar_obj = Avatar.objects.get(user=request.user)
     
     
-    with mail.get_connection() as connection:
+    with mail.get_connection(username="asimraza336@gmail.com", password="bkhkixuovsmegjgc") as connection:
         mail.send_mail(
             subject="NextLevelAi",
             message= email_body,

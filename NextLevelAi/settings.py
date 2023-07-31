@@ -28,16 +28,13 @@ DEBUG = True
 ALLOWED_HOSTS = []
 # stripe_sign_key ="whsec_950530349f955878e0280a9b1a9d1c680bf8207933cec995c985174d3cf36faa"
 # EMAIL_BACKEND = "django.core.mail.backends"
-
+# from accounts.models import User
+# print(request)
 # Application definition
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'asimraza336@gmail.com'
 
-EMAIL_HOST_PASSWORD = 'bkhkixuovsmegjgc'
 
-# EMAIL_HOST_USER = 'asimraza336336@gmail.com'
-# EMAIL_HOST_PASSWORD = 'rbxnloboscoedbre'
 
 
 EMAIL_PORT = 587

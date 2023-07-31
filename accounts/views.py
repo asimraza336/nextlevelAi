@@ -78,8 +78,8 @@ def SignIn(request):
 def linkedinCompanyData(request):
     if request.is_ajax():
         # print(request.POST.get('linkedInCompany', None))
-        # linkedin_url = request.POST.get('linkedInCompany', None)
-        linkedin_url = "https://www.linkedin.com/company/arthrex"
+        linkedin_url = request.POST.get('linkedInCompany', None)
+        # linkedin_url = "https://www.linkedin.com/company/arthrex"
         # linkedin_url = "https://www.linken.com/company/arthrex"
 
         company_info_final = get_linkedin_company_info(linkedin_url)

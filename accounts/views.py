@@ -78,7 +78,8 @@ def SignIn(request):
 def linkedinCompanyData(request):
     if request.is_ajax():
         # print(request.POST.get('linkedInCompany', None))
-        linkedin_url = "https://www.linkedin.com/company/arthrex"
+        linkedin_url = request.POST.get('linkedInCompany', None)
+        # linkedin_url = "https://www.linkedin.com/company/arthrex"
         # linkedin_url = "https://www.linken.com/company/arthrex"
 
         company_info_final = get_linkedin_company_info(linkedin_url)
@@ -553,7 +554,7 @@ from django.conf import settings
 
 
 
-from django.core.mail import EmailMessage
+from django.core.mail import EmailMessage, send_mail
 
 # email = EmailMessage(
 #     'Hello',
@@ -561,6 +562,41 @@ from django.core.mail import EmailMessage
 #     settings.EMAIL_HOST_USER,
 #     ['asimraza336@gmail.com',],
 #     ['asimraza336@gmail.com'],
+# ).send()
+
+
+from django.core import mail
+
+# from django.core.mail import get_connection
+# from django.core import mail
+# connection = get_connection(
+#     host='smtp.gmail.com',
+#     port=587,
+#     # username='asimraza336@gmail.com',
+#     # password='bkhkixuovsmegjgc'
+# )
+# connection = get_connection(username='asimraza336@gmail.com', password='bkhkixuovsmegjgc', fail_silently=True)
+
+    # .send()
+    # mail.EmailMessage(
+    #     "ABC",
+    #     "XYZ HIII HELLO",
+    #     "asimraza336@gmail.com",
+    #     ["asimraza336@gmail.com"],
+    #     auth_user="asimraza336@gmail.com",
+    #     auth_password="bkhkixuovsmegjgc",
+    #     connection=connection,
+    # ).send()
+
+# email = EmailMessage(
+#     'Hello',
+#     'Body goes here',
+#     settings.EMAIL_HOST_USER,
+#     ['asimraza336@gmail.com',],
+#     ['asimraza336@gmail.com'],
+#     # auth_user="asimraza336@gmail.com",
+#     # auth_password="bkhkixuovsmegjgc",
+#     connection=connection
 # ).send()
 
 from django.views.decorators.csrf import csrf_exempt
@@ -650,6 +686,33 @@ def stripe_webhook(request):
         # )
     # Passed signature verification
     return HttpResponse(status=200)
+
+def send_email_dashboard(request):
+    # User.objects.get(id=)
+    email_receiver = request.POST.get('email_rec', None)
+    email_body = request.POST.get('email_body', None)
+    
+    avatar_obj = Avatar.objects.get(user=request.user)
+    
+    
+    with mail.get_connection() as connection:
+        mail.send_mail(
+            subject="NextLevelAi",
+            message= email_body,
+            from_email = avatar_obj.gmail,
+            recipient_list =[email_receiver],
+            # auth_user="asimraza336@gmail.com",
+            # auth_password="bkhkixuovsmegjgc",
+            auth_user=avatar_obj.gmail,
+            auth_password=avatar_obj.gmail_password,
+            # auth_password="Anonymous1$",
+            fail_silently=True,
+            connection=connection,
+        )
+        return JsonResponse({
+            'emailSent': True,
+            'Success': True 
+        })
 
 def create_payment_intent(request):
     try:

@@ -2,7 +2,9 @@ import openai
 import json
 # from config import *
 # API = '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'
-API = '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'
+# API = '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'
+API = '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'
+
 
 
 openai.api_key = API

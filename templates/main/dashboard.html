@@ -844,12 +844,12 @@
 
 
 
-      <div class="modal fade" id="exampleModalbcd" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal fade" id="exampleModalbcd" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
          <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                <div class="modal-header">
                   <h1 class="modal-title fs-4 gradient-heading"
-                     id="exampleModalLabel">Send Email</h1>
+                     id="exampleModalLabel2">Send Email</h1>
                   <button type="button" class="btn-close"
                      data-bs-dismiss="modal" aria-label="Close"></button>
                </div>
@@ -864,7 +864,7 @@
                     <div  class="form-group col-12 col-md-12 col-lg-12 pb-3 ">
                         <label for="avatorName1" class="form-label">Receiver's Email: </label>
                         <input type="Email" class="form-control"  name=""
-                           id="" value=""
+                           id="recEmail" value=""
                            placeholder="Enter Email you want to Send">
                      </div>
               </div>
@@ -874,12 +874,9 @@
                  <button type="button" class="btn gradient-button"
                     data-bs-dismiss="modal">Close</button>
                  <div>
-                    <a class="nav-link"
-                       >
                        <button
-                          type="submit"
-                          class="btn gradient-button" id="">Send Email</button>
-                    </a>
+                          
+                          class="btn gradient-button" onclick="sendingEmail()">Send Email</button>
                  </div>
               </div>
    
@@ -915,6 +912,58 @@
       </script>
       
       <script>
+
+         function sendingEmail() {
+            
+            if($('#recEmail').val() != ''){
+               
+               radButtons = $('input[name="radioOptions"]')
+                  for(i=0; i<radButtons.length; i++){
+                     if (radButtons[i].checked) {
+                        var url = "{% url 'send_email_dashboard'  %}";
+                        
+                        email_rec = $('#recEmail').val()
+                        email_body = $('#textArea'+i).val()  
+                        $.ajax({
+                           type:'POST',
+                           dataType:'JSON',
+                           url :  url,
+                           data : {
+                              email_rec: email_rec,
+                              email_body: email_body,
+                              csrfmiddlewaretoken: '{{ csrf_token }}'
+                           },
+                      //     beforeSend: function () {
+                         
+                         //  },
+                           success : function(response){
+                              if (response.success == true){
+                                 alert('Email Sent.')
+                              }
+                          //    else{
+                                // alert('Email Sent.')
+
+                             // }
+                           
+                           },
+                           error : function(response){
+                  
+                           }
+                           
+                        });
+
+
+
+
+                      }
+                  }
+            }
+            else{
+               alert('Please provide Email address.')
+
+            }
+
+         }
          
          var image_name = '{{user.user_avatar.name}}'.toLowerCase()
          var pic = "{% static 'assets/images/imagePreviewEmail.png' %}";
@@ -1158,9 +1207,13 @@ $("#processBtn3").click(function () {
           //  $("#IdbtnEmbed").prop('disabled', false);
             var response=JSON.parse(response);
             if (response.success == true){
-               $("#input-text2").text(response.result);
+               let text_output =response.result;
+
+               //.substr(1,1000)
+               $("#input-text2").text(text_output);
                $("#showgif").fadeOut();
                $("#showgiftab3").fadeOut();
+               updateWordCount2()
             }
             else{
                $("#input-text2").text(response.result);
@@ -1484,7 +1537,7 @@ $("#processBtn3").click(function () {
 
 
 
-                                 html_data += `<div class="deleteClass2 form-check w-100 position-relative"> <input class="form-check-input position-absolute bottom-0 end-0 mb-2 me-2" type="radio" name="radioOptions" id="optio${count}" value="A" checked>`
+                                 html_data += `<div class="deleteClass2 form-check w-100 position-relative"> <input class="form-check-input form-email-check position-absolute bottom-0 end-0 mb-2 me-2" type="radio" name="radioOptions2" id="optio${count}" value="A" checked>`
                                  html_data += '<div class="btn w-100 p-0 m-0 option-label"> <div class="col-12 bg-light overflow-hidden rounded-4 p-3 shadow">' 
                                  html_data += `<label class="form-check-label w-100" for="optio${count}"> <div class="d-flex align-items-start justify-content-between">` 
                                  html_data += '<div class="d-flex gap-2 align-items-center pb-2"> <div class="user-avatar overflow-hidden rounded-circle">' 
@@ -1838,9 +1891,12 @@ function updateWordCount2() {
   
    if (wordCount > 1000) {
      textarea.value = textarea.value.trim().split(/\s+/).slice(0, 1000).join(" ");
+     wordCountElement.textContent = '1000/1000'
    }
-  
-   wordCountElement.textContent = `${wordCount}/1000`;
+   else{
+      wordCountElement.textContent = `${wordCount}/1000`;
+
+   }
   }  
 
   

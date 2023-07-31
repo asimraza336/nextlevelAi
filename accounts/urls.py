@@ -29,6 +29,7 @@ urlpatterns = [
     path('stripe_landing', stripe_landing, name='stripe_landing'),
     path('webhooks/stripe', stripe_webhook, name='stripe-webhook'),
     
+    path('send_email_dashboard', send_email_dashboard, name='send_email_dashboard'),
     
     
     path('create-payment-intent', create_payment_intent, name='create-payment-intent'),

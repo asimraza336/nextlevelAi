@@ -8,7 +8,9 @@ import json
 def generate_sales_email(data):
     # openai.api_key = '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'
     # openai.api_key = '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'
-    openai.api_key = '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'
+    # openai.api_key = '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'
+    openai.api_key = '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'
+    
     
     
     

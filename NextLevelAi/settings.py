@@ -30,16 +30,15 @@ ALLOWED_HOSTS = []
 # EMAIL_BACKEND = "django.core.mail.backends"
 
 # Application definition
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST = 'smtp.gmail.com'
-# # EMAIL_HOST_USER = 'asimraza336@gmail.com'
-# EMAIL_HOST_USER = 'asimraza336336@gmail.com'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'asimraza336@gmail.com'
 
-# # EMAIL_HOST_PASSWORD = 'bkhkixuovsmegjgc'
+EMAIL_HOST_PASSWORD = 'bkhkixuovsmegjgc'
+
+# EMAIL_HOST_USER = 'asimraza336336@gmail.com'
 # EMAIL_HOST_PASSWORD = 'rbxnloboscoedbre'
 
-# 
-# EMAIL_HOST_PASSWORD = 'Anonymous1$'
 
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True

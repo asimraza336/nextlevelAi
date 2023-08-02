@@ -258,7 +258,7 @@
                            <input type="text"
                               class="rounded-2 bg-transparent px-2 py-0"
                               name="custom"
-                              id="custom" placeholder="Add Custom Option">
+                              id="custom" value="" placeholder="Add Custom Option">
                            <button type="button"
                               class="targetClass bg-warning bg-opacity-10  btn gradient-button btn-active text-dark btn-sm rounded-2 py-1 px-3 btn-select"
                               onclick="selectButton(this)">CEO</button>
@@ -307,11 +307,11 @@
                      </div>
                   </div>
 
-               </div>
+               </div> 
                <div
                   class="col-4 h-100 w-33 focus-area position-relative px-3 shadow rounded flex-column">
-                  <div
-                     class="position-absolute d-flex align-items-center justify-content-start mt-5">
+                  <div class="position-absolute d-flex align-items-center justify-content-start mt-5">
+
                      <img
                         id="showgiftab3" style="display: none; " 
                         class="w-100 h-100"
@@ -320,31 +320,20 @@
                   </div>
                   <!-- <div
                      class="col-12 w-100  bg-dark bg-opacity-10  "> -->
-                  <div
-                     class="bg-warning shadow-s fixed-top position-absolute start-0 end-0  bg-opacity-10 ">
-                     <div
-                        class="d-flex  gap-3 justify-content-end py-2 px-3  border-top">
+                  <div class="bg-warning shadow-s fixed-top position-absolute start-0 end-0  bg-opacity-10 ">
+                     
+                     <div class="d-flex  gap-3 justify-content-end py-2 px-3  border-top">
                         <div id="IdGmailClick"
                            class="social-icon  gradient-button p-1 rounded-2 border-0">
-                           <img class="w-100 p-1 h-100"
-                              src="{% static 'assets/images/gmail.png' %}" alt>
+                           <img class="w-100 p-1 h-100" src="{% static 'assets/images/gmail.png' %}" alt>
                         </div>
-                        {% comment %} <div
-                           class="social-icon  gradient-button p-1 rounded-2 border-0">
-                           <img class="w-100 p-1 h-100"
-                              src="{% static 'assets/images/outlook.png' %}" alt>
-                        </div> {% endcomment %}
-                        {% comment %} <div
-                           class="social-icon  gradient-button  rounded-2 border-0">
-                           <img class="w-100 p-1 h-100"
-                              src="{% static 'assets/images/linkedin.png' %}" alt>
-                        </div> {% endcomment %}
-
                      </div>
                   </div>
-                  <!-- </div> -->
                   <div class="pb-2 mt-5 pt-4  card1">
                      <div class="col-12 pt-2 " id="IdCardsPlace">
+
+
+                        
 
 
                         
@@ -548,7 +537,7 @@
                         class="shadow-sm position-relative msg-area rounded bg-white border-dark  pe-2 ">
                         <div class="col-12 ">
                            <textarea id="input-text"
-                              placeholder="Input Financial Raw Data Here"
+                              placeholder="Copy and paste financial data of prospects annual reporting from DEF14A, 10k,4k etc. HERE !! We only need the financial chart table ONLY."
                               rows="20"
                               class="w-100 msg-area form-control no-border"
                               oninput="updateWordCount()"></textarea>
@@ -719,13 +708,11 @@
 
                   </div>
                </div>
-               <div class="col-6 w-40 h-100 shadow rounded">
+              <!--  <div class="col-6 w-40 h-100 shadow rounded"> pb-2 pe-4 py-3 h-100 d-flex flex-column justify-content-between-->
 
-                  <div class="pb-2 pe-4 py-3 h-100 d-flex flex-column justify-content-between">
-                  
-                  
-                  <div
-                     class="position-absolute d-flex align-items-center justify-content-start mt-5">
+               <div class="col-6 h-100 w-40 focus-area position-relative px-3 shadow rounded flex-column">
+                     
+                  <div class="position-absolute d-flex align-items-center justify-content-start mt-5">
                      <img
                         id="showgiftabGrant3" style="display: none; " 
                         class="w-100 h-100"
@@ -738,13 +725,13 @@
                         
                         
                      </div>
-
                      <div class="d-flex pb-3 justify-content-end pt-3">
                         <button id="IdbtnEmbed2" disabled class="btn-sm btn px-4 gradient-button">Embed</button>
                      </div>
                   </div>
 
-               </div>
+
+             <!--  </div> -->
             </div>
          </div>
 
@@ -912,7 +899,16 @@
       </script>
       
       <script>
+        /*radButtons2 = $('input[name="radioOptions2"]')
+         for(i=0; i<radButtons2.length; i++){
+            if (radButtons2[i].checked) {
+            
+               grant_text = $('#grantparaid'+i).text()
 
+               
+            }
+
+         }*/ 
          function sendingEmail() {
             
             if($('#recEmail').val() != ''){
@@ -1210,6 +1206,8 @@ $("#processBtn3").click(function () {
                let text_output =response.result;
 
                //.substr(1,1000)
+               $("#input-text2").val(text_output);
+
                $("#input-text2").text(text_output);
                $("#showgif").fadeOut();
                $("#showgiftab3").fadeOut();
@@ -1336,7 +1334,10 @@ $("#processBtn3").click(function () {
                             $("#IdUpgrade").hide();
 
               var focus_input = $("#focus-area").val();
-               if(focus_input !=''){
+             
+
+
+             //  if(focus_input !=''){
                   var Prospect_Company_name =   $("#id_Prospect_Company_name").val();
                   var Prospect_Company_Overview =   $("#id_Prospect_Company_Overview").val();
                   var Prospect_Company_Industry =   $("#id_Prospect_Company_Industry").val();
@@ -1352,7 +1353,50 @@ $("#processBtn3").click(function () {
                      }
                   
                   }
+   
+                 if($('#custom').val() == '' && targetArray.length == 0){
+                  alert('You Need to Select Atleast 1 Target Title.')
+                  return;
+               }
+
                   $('.deleteClass').remove();
+                  
+                  //alert($("#financialOutput").text())
+                if($('#IDFinancial').hasClass('btn-active')){
+                     var financialOutput =  $("#financialOutput").text();
+                  //   alert(financialOutput)
+                  }
+                 else
+                  {
+                     financialOutput = ''
+                  }
+                  
+                  if($('#IDGrants').hasClass('btn-active')){
+                     radButtons2 = $('input[name="radioOptions2"]')
+                     
+                     for(i=0; i<radButtons2.length; i++){
+                        if (radButtons2[i].checked) {
+
+
+                           grant_text = $('#Tparaid'+i).text()
+            
+                           
+                        }
+                     }
+
+
+                  }
+                  else{
+                     grant_text = ''
+                  }
+
+                  
+                  if($('#custom').val() != ''){
+                     targetArray.push($('#custom').val());
+                     
+                  }
+
+
 
                   var url = "{% url 'GenerateEmail'  %}";
                   $.ajax({
@@ -1371,7 +1415,9 @@ $("#processBtn3").click(function () {
                         Intent: intentVal,
                         Prospect_Title_list: targetArray,
                         EmailCalls: targetArray.length,
-                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                        csrfmiddlewaretoken: '{{ csrf_token }}',
+                        Financial_Report : financialOutput,
+                        Grant : grant_text,
                      },
                      beforeSend: function () {
                         $("#showgiftab3").fadeIn();
@@ -1447,10 +1493,10 @@ $("#processBtn3").click(function () {
                             $("#showgiftab3").fadeOut();
                      }
                   })
-               }
-               else{
-                  alert("Please write something in Focus Area Field");
-               }
+               //}
+              // else{
+                 // alert("Please write something in Focus Area Field");
+              // }
 
 
             }else{
@@ -1485,7 +1531,9 @@ $("#processBtn3").click(function () {
                   var Prospect_Company_Size =   $("#id_Prospect_Company_Size").val();
                   var Prospect_Company_founded =   $("#id_Prospect_Company_founded").val();
                   var Prospect_Company_specialties =   $("#id_Prospect_Company_specialties").val();
-                 
+
+                  
+                  
                   var url = "{% url 'GenerateGrant'  %}";
                   $.ajax({
                      type:'POST',
@@ -1536,20 +1584,19 @@ $("#processBtn3").click(function () {
                                //  html_data += '</div> </div> <div class="pt-2 "> <div class=" "> <p class="text-start p-0 m-0">'+response.grantsResult[key].grant+'</p> </div> </div> </div> </div> </label> </div>'       
 
 
-
                                  html_data += `<div class="deleteClass2 form-check w-100 position-relative"> <input class="form-check-input form-email-check position-absolute bottom-0 end-0 mb-2 me-2" type="radio" name="radioOptions2" id="optio${count}" value="A" checked>`
                                  html_data += '<div class="btn w-100 p-0 m-0 option-label"> <div class="col-12 bg-light overflow-hidden rounded-4 p-3 shadow">' 
                                  html_data += `<label class="form-check-label w-100" for="optio${count}"> <div class="d-flex align-items-start justify-content-between">` 
                                  html_data += '<div class="d-flex gap-2 align-items-center pb-2"> <div class="user-avatar overflow-hidden rounded-circle">' 
                                  html_data += `<img class="h-100 w-100" src="{% static 'assets/images/imagePreviewEmail.png' %}" alt="User Avatar"> </div> <div> `
-                                 html_data += '<p class="p-0 text-dark m-0">'+response.grantsResult[key].title +'</p>' 
+                                 html_data += `<p id="Tparaid${count}" class="p-0 text-dark m-0" >${response.grantsResult[key].title}</p>`
                                  //html_data += <span class="text-muted fs-12 p-0 m-0"> Just Now • <span> 
                                  html_data += '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-globe-europe-africa" viewBox="0 0 16 16"> <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0ZM3.668 2.501l-.288.646a.847.847 0 0 0 1.479.815l.245-.368a.809.809 0 0 1 1.034-.275.809.809 0 0 0 .724 0l.261-.13a1 1 0 0 1 .775-.05l.984.34c.078.028.16.044.243.054.784.093.855.377.694.801-.155.41-.616.617-1.035.487l-.01-.003C8.274 4.663 7.748 4.5 6 4.5 4.8 4.5 3.5 5.62 3.5 7c0 1.96.826 2.166 1.696 2.382.46.115.935.233 1.304.618.449.467.393 1.181.339 1.877C6.755 12.96 6.674 14 8.5 14c1.75 0 3-3.5 3-4.5 0-.262.208-.468.444-.7.396-.392.87-.86.556-1.8-.097-.291-.396-.568-.641-.756-.174-.133-.207-.396-.052-.551a.333.333 0 0 1 .42-.042l1.085.724c.11.072.255.058.348-.035.15-.15.415-.083.489.117.16.43.445 1.05.849 1.357L15 8A7 7 0 1 1 3.668 2.501Z" /> </svg> '
                                  html_data += '</span></span> </div> </div> '
                                  //<div class="px-2 pb-2 pt-0 border-0 rounded-2 bg-opacity-25 btn gradient-button bg-success "> <i class="bi bi-text-paragraph"></i> </div>
                                  html_data += ' </div> </label> <div class="pt-2 ">  <div class="col-12 ms-auto pe-1 pb-2">' 
                                  html_data += `<textarea class="form-control p-0 m-0 no-border bg-transparent" id="textAre${count}" rows="1" onblur="autoShrink(this)" onfocus="autoResize(this)" placeholder="Post Content">`
-                                 html_data += response.grantsResult[key].grant
+                                 html_data +=  response.grantsResult[key].grant
                                  html_data += `</textarea> <div class="d-flex gap-3 justify-content-start"> <button id="savBtn${count}" class="btn py-0 btn-primary gradient-button mt-2" style="display: none;">Save</button>` 
                                  html_data += `<button id="canceBtn${count}" class="btn gradient-button btn-secondary bg-opacity-25 py-0 mt-2" style="display: none;">Cancel</button> </div> </div> </div> </div> </div> </div>`
 
@@ -1880,9 +1927,15 @@ function updateWordCount() {
 
  if (wordCount > 1000) {
    textarea.value = textarea.value.trim().split(/\s+/).slice(0, 1000).join(" ");
+   wordCountElement.classList.add('text-danger');
+
+ }
+ else{
+    wordCountElement.textContent = `${wordCount}/1000`;
+    wordCountElement.classList.remove('text-danger');
+
  }
 
- wordCountElement.textContent = `${wordCount}/1000`;
 }  
 function updateWordCount2() {
    const textarea = document.getElementById("input-text2");
@@ -1892,11 +1945,15 @@ function updateWordCount2() {
    if (wordCount > 1000) {
      textarea.value = textarea.value.trim().split(/\s+/).slice(0, 1000).join(" ");
      wordCountElement.textContent = '1000/1000'
+
+     wordCountElement.classList.add('text-danger');
    }
    else{
       wordCountElement.textContent = `${wordCount}/1000`;
+      wordCountElement.classList.remove('text-danger');
 
    }
+
   }  
 
   

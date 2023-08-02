@@ -1,25 +1,13 @@
 import openai
 import json
-            # - Founded: {data["sales_rep_company_Founded"]}
-            # - Founded: {data["sales_rep_company_Founded"]}
 
-            # - Founded: {data["sales_rep_company_Founded"]}
 
 def generate_sales_email(data):
-    # openai.api_key = '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'
-    # openai.api_key = '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'
-    # openai.api_key = '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'
-    # openai.api_key = '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'
-    # openai.api_key = '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'
-    openai.api_key = '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'
+    # openai.api_key = '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'
+    openai.api_key = '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'
     
-    
-    
-    
-    
-    
-    
-
+    sales_rep_name = data["sales_rep_name"]
+    sales_rep_email = data["sales_rep_email"]
     sales_rep_company_name = data["sales_rep_company_name"]
     sales_rep_company_Industry = data["sales_rep_company_Industry"]
     sales_rep_company_Specialties = data["sales_rep_company_Specialties"]
@@ -28,141 +16,111 @@ def generate_sales_email(data):
     Prospect_Company_name = data["Prospect_Company_name"]
     Prospect_Company_Industry = data["Prospect_Company_Industry"]
     Prospect_Company_Overview = data["Prospect_Company_Overview"]
+    Prospect_Company_specialties = data["Prospect_Company_specialties"]
     Intent = data["Intent"]
     focus_area = data["focus_area"]
     Financial_Report = data.get("Financial_Report", None)
     Grant = data.get("Grant", None)
-
+    print(focus_area)
     generated_emails_dict = {}
     results = []
-    
+
+    if Prospect_Company_specialties:
+        first_line = f"You are {sales_rep_name}, a sales representative for {sales_rep_company_name} and your email address is {sales_rep_email}. {sales_rep_company_name} is categories in {sales_rep_company_Industry} industry having specialization in {sales_rep_company_Specialties}. A brief overview of {sales_rep_company_name} on there website is ({sales_rep_company_Overview}). You are targeting {Prospect_Company_name} which lies in {Prospect_Company_Industry} industry having specialization in {Prospect_Company_specialties}. A brief overview of {Prospect_Company_name} on there website is {Prospect_Company_Overview}."
+    else:
+        first_line = f"You are {sales_rep_name}, a sales representative for {sales_rep_company_name} and your email address is {sales_rep_email}. {sales_rep_company_name} is categories in {sales_rep_company_Industry} industry having specialization in {sales_rep_company_Specialties}. A brief overview of {sales_rep_company_name} on there website is ({sales_rep_company_Overview}). You are targeting {Prospect_Company_name} which lies in {Prospect_Company_Industry} industry. A brief overview of {Prospect_Company_name} on there website is {Prospect_Company_Overview}."
+
+    generated_emails_dict = {}
+
     for i, Prospect_Title in enumerate(data["Prospect_Title_list"]):
         if Financial_Report and Grant:
             prompt = f"""
-            You are a sales representative for {sales_rep_company_name}, a leading provider of innovative solutions in the {sales_rep_company_Industry}. Your company
-            specializes in {sales_rep_company_Specialties}. Overview of the company is that {sales_rep_company_Overview}.
+            {first_line} The financial report of {Prospect_Company_name} for current year is this: {Financial_Report}.
 
-            The Prospect is {Prospect_Title} at {Prospect_Company_name}. The company is in the industry of {Prospect_Company_Industry}.
-            This is an overview of the Prospect's company {Prospect_Company_name} {Prospect_Company_Overview}.
+            Keeping in mind your and targeting company information, compose a detailed email with attractive subject suggesting how your company can benefit them and have more profits. Writing context should be according to {Prospect_Title} and writing style must be {Intent}. The whole email must not cross 350 words in total. You must follow below instructions to structure the emails:
 
-            Compose a detailed email for {Prospect_Title} by saying dear {Prospect_Title} of up to 450 words (complete) as you introduce your company to the {Prospect_Title} of {Prospect_Company_name}, 
-            highlighting your Specialties {sales_rep_company_Specialties} and suggesting a meeting or further discussion. Tone should be according to {Prospect_Title} and intent must be {Intent}.
+            First paragraph:
+            Target {Prospect_Title} by saying dear {Prospect_Title}. Must start the email writing with telling {Prospect_Title} that how can {sales_rep_company_name} be benificial
+            for {Prospect_Company_name}, before introducing yourself. Use 20% of words here.
 
-            Use all the provided information to add details in the email and must generate an attractive subject of email, also focus on {focus_area} in the email.
-            we are also providing financial report of {Prospect_Company_name} ({Financial_Report}), you analyse all the liabilities,aspects and financial state of {Prospect_Company_name}. Use its aspects in email.
-            also mention this grant ({Grant}) in email.
-            Information provided:
-            Sales Representative:
-            - Name: {data["sales_rep_name"]}
-            - Company: {sales_rep_company_name}
-            - Contact Number: {data["sales_rep_Contact_Number"]}
-            - Email: {data["sales_rep_email"]}
+            Second paragraph:
+            Suggest {Prospect_Company_name} how there {focus_area} can be improved after collaborating with {sales_rep_company_name}. Use 30% of words here.
 
-            Sales Representative Company:
-            - Overview: {sales_rep_company_Overview}
-            - Website: {data["sales_rep_company_Website"]}
-            - Industry: {sales_rep_company_Industry}
-            - Headquarters: {data["sales_rep_company_Headquarters"]}
-            - Specialties: {sales_rep_company_Specialties}
+            Third paragraph:
+            Use that financial report data and facts for {Prospect_Company_name} to show how your company can help them. Use numbers from data to proof your point. Try to be on point and attractive with your suggestions. Also mention that we may apply for this grant ({Grant}). Use 40% of words here.
 
-            Prospect:
-            - Prospect Title: {Prospect_Title}
-
-            Prospect Company:
-            - Company Name: {Prospect_Company_name}
-            - Overview: {Prospect_Company_Overview}
-            - Industry: {Prospect_Company_Industry}
-            - Headquarters: {data["Prospect_Company_Headquarters"]}
-            - Company Size: {data["Prospect_Company_Size"]}
-            - Founded Year: {data["Prospect_Company_founded"]}
-            - Specialities: {data["Prospect_Company_specialties"]}
+            Fourth paragraph:
+            Give closing remarks and suggest a meeting or further discussion. Use 10% of words here.
 
             """
         elif Financial_Report:
             prompt = f"""
-            You are a sales representative for {sales_rep_company_name}, a leading provider of innovative solutions in the {sales_rep_company_Industry}. Your company
-            specializes in {sales_rep_company_Specialties}. Overview of the company is that {sales_rep_company_Overview}.
+            {first_line} The financial report of {Prospect_Company_name} for current year is this: {Financial_Report}.
 
-            The Prospect is {Prospect_Title} at {Prospect_Company_name}. The company is in the industry of {Prospect_Company_Industry}.
-            This is an overview of the Prospect's company {Prospect_Company_name} {Prospect_Company_Overview}.
+            Keeping in mind your and targeting company information, compose a detailed email with attractive subject suggesting how your company can benefit them and have more profits. Writing context should be according to {Prospect_Title} and writing style must be {Intent}. The whole email must not cross 350 words in total. You must follow below instructions to structure the emails:
 
-            Compose a detailed email for {Prospect_Title} by saying dear {Prospect_Title} of up to 350 words (complete) as you introduce your company to the {Prospect_Title} of {Prospect_Company_name}, 
-            highlighting your Specialties {sales_rep_company_Specialties} and suggesting a meeting or further discussion. Tone should be according to {Prospect_Title} and intent must be {Intent}.
+            First paragraph:
+            Target {Prospect_Title} by saying dear {Prospect_Title}. Must start the email writing with telling {Prospect_Title} that how can {sales_rep_company_name} be benificial
+            for {Prospect_Company_name}, before introducing yourself. Use 20% of words here.
 
-            Use all the provided information to add details in the email and must generate an attractive subject of email, also focus on {focus_area} in the email.
-            we are also providing financial report of {Prospect_Company_name} ({Financial_Report}), you analyse all the liabilities,aspects and financial state of {Prospect_Company_name}. Use its aspects in email.
-            Information provided:
-            Sales Representative:
-            - Name: {data["sales_rep_name"]}
-            - Company: {sales_rep_company_name}
-            - Contact Number: {data["sales_rep_Contact_Number"]}
-            - Email: {data["sales_rep_email"]}
+            Second paragraph:
+            Suggest {Prospect_Company_name} how there {focus_area} can be improved after collaborating with {sales_rep_company_name}. Use 30% of words here.
 
-            Sales Representative Company:
-            - Overview: {sales_rep_company_Overview}
-            - Website: {data["sales_rep_company_Website"]}
-            - Industry: {sales_rep_company_Industry}
-            - Headquarters: {data["sales_rep_company_Headquarters"]}
-            - Specialties: {sales_rep_company_Specialties}
+            Third paragraph:
+            Use that financial report data and facts for {Prospect_Company_name} to show how your company can help them. Use numbers from data to proof your point. Try to be on point and attractive with your suggestions. Use 40% of words here.
 
-            Prospect:
-            - Prospect Title: {Prospect_Title}
-
-            Prospect Company:
-            - Company Name: {Prospect_Company_name}
-            - Overview: {Prospect_Company_Overview}
-            - Industry: {Prospect_Company_Industry}
-            - Headquarters: {data["Prospect_Company_Headquarters"]}
-            - Company Size: {data["Prospect_Company_Size"]}
-            - Founded Year: {data["Prospect_Company_founded"]}
-            - Specialities: {data["Prospect_Company_specialties"]}
+            Fourth paragraph:
+            Give closing remarks and suggest a meeting or further discussion. Use 10% of words here.
 
             """
+
+        elif Grant:
+            prompt = f"""
+            {first_line}
+
+            Keeping in mind your and targeting company information, compose a detailed email with attractive subject suggesting how your company can benefit them and have more profits. Writing context should be according to {Prospect_Title} and writing style must be {Intent}. The whole email must not cross 250 words in total. You must follow below instructions to structure the emails:
+
+            First paragraph:
+            Target {Prospect_Title} by saying dear {Prospect_Title}. Must start the email writing with telling {Prospect_Title} that how can {sales_rep_company_name} be benificial
+            for {Prospect_Company_name}, before introducing yourself. Use 40% of words here.
+
+            Second paragraph:
+            Suggest {Prospect_Company_name} how there {focus_area} can be improved after collaborating with {sales_rep_company_name}. Use 40% of words here.
+
+            Third paragraph:
+            Mention that we may apply for this grant ({Grant}). Use 10% of words here.
+
+            Fourth paragraph:
+            Give closing remarks and suggest a meeting or further discussion. Use 10% of words here.
+
+            """
+
         else:
             prompt = f"""
-            You are a sales representative for {sales_rep_company_name}, a leading provider of innovative solutions in the {sales_rep_company_Industry}. Your company
-            specializes in {sales_rep_company_Specialties}. Overview of the company is that {sales_rep_company_Overview}.
+            {first_line}
 
-            The Prospect is {Prospect_Title} at {Prospect_Company_name}. The company is in the industry of {Prospect_Company_Industry}.
-            This is an overview of the Prospect's company {Prospect_Company_name} {Prospect_Company_Overview}.
+            Keeping in mind your and targeting company information, compose a detailed email with attractive subject suggesting how your company can benefit them and have more profits. Writing context should be according to {Prospect_Title} and writing style must be {Intent}. The whole email must not cross 250 words in total. You must follow below instructions to structure the emails:
 
-            Compose a detailed email for {Prospect_Title} by saying dear {Prospect_Title} of up to 350 words (complete) as you introduce your company to the {Prospect_Title} of {Prospect_Company_name}, 
-            highlighting your Specialties {sales_rep_company_Specialties} and suggesting a meeting or further discussion. Tone should be according to {Prospect_Title} and intent must be {Intent}.
+            First paragraph:
+            Target {Prospect_Title} by saying dear {Prospect_Title}. Must start the email writing with telling {Prospect_Title} that how can {sales_rep_company_name} be benificial
+            for {Prospect_Company_name}, before introducing yourself. Use 40% of words here.
 
-            Use all the provided information to add details in the email and must generate an attractive subject of email, also focus on {focus_area} in the email.
-            Information provided:
-            Sales Representative:
-            - Name: {data["sales_rep_name"]}
-            - Company: {sales_rep_company_name}
-            - Contact Number: {data["sales_rep_Contact_Number"]}
-            - Email: {data["sales_rep_email"]}
+            Second paragraph:
+            Suggest {Prospect_Company_name} how there {focus_area} can be improved after collaborating with {sales_rep_company_name}. Use 45% of words here.
 
-            Sales Representative Company:
-            - Overview: {sales_rep_company_Overview}
-            - Website: {data["sales_rep_company_Website"]}
-            - Industry: {sales_rep_company_Industry}
-            - Headquarters: {data["sales_rep_company_Headquarters"]}
-            - Specialties: {sales_rep_company_Specialties}
-
-            Prospect:
-            - Prospect Title: {Prospect_Title}
-
-            Prospect Company:
-            - Company Name: {Prospect_Company_name}
-            - Overview: {Prospect_Company_Overview}
-            - Industry: {Prospect_Company_Industry}
-            - Headquarters: {data["Prospect_Company_Headquarters"]}
-            - Company Size: {data["Prospect_Company_Size"]}
-            - Founded Year: {data["Prospect_Company_founded"]}
-            - Specialities: {data["Prospect_Company_specialties"]}
+            Third paragraph:
+            Give closing remarks and suggest a meeting or further discussion. Use 15% of words here.
 
             """
+
         # Generate the response using OpenAI's GPT-3.5 model
-        response = openai.Completion.create(
-            engine='text-davinci-003',
-            prompt=prompt,
+        response = openai.ChatCompletion.create(
+            model='gpt-3.5-turbo',
+            messages=[
+                {"role": "user", "content": prompt}
+            ],
             temperature=0.7,
-            max_tokens=1000  # Adjust the desired length of the generated text
+            max_tokens=700  # Adjust the desired length of the generated text
         )
         # Store the generated email in the dictionary
       # Store the generated email in the dictionary
@@ -172,8 +130,8 @@ def generate_sales_email(data):
         # }
         generated_emails_dict = {
             "title": Prospect_Title,
-            "Subject": response.choices[0].text.split("\n", 2)[1],  # Extract the first line as the subject
-            "Body": response.choices[0].text.split("\n", 2)[2]  # Store the entire email body
+            "Subject": response.choices[0].message.content.split("\n")[0],  # Extract the first line as the subject
+            "Body": "\n".join(response.choices[0].message.content.split("\n")[1:]).strip("\n")  # Store the entire email body
         }
         results.append(generated_emails_dict)
         # generated_emails_dict =generated_emails_dict

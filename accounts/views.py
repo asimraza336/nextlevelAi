@@ -136,7 +136,12 @@ def GenerateEmail(request):
     
     data['Intent'] = request.POST.get('Intent', None)
     data['Prospect_Title_list'] = request.POST.getlist('Prospect_Title_list[]', None)
-    data['Financial_Report'] = "Financial Report"
+    # data['Financial_Report'] = "Financial Report"
+    data['Financial_Report'] = request.POST.get('Financial_Report', None)
+    data['Grant'] = request.POST.get('Grant', None)
+    
+    print(data['Prospect_Title_list'])
+    
     # data['Financial_Report'] = """Analyzing the provided balance sheet and income statement, the EBITDA (Earnings Before Interest, Taxes, 
     # Depreciation, and Amortization) can be calculated. However, the balance sheet and income statement provided 
     # lacks details on Interest and Taxes. Based on the available information, we can compute EBITDA as follows: 
@@ -159,7 +164,6 @@ def GenerateEmail(request):
     # Please note that the 
     # effectiveness of these strategies would depend on various factors and would require thorough feasibility and impact analysis."""
     # print(request.POST.getlist('Prospect_Title_list[]', None))
-    data['Grant'] = "EPA-G2023-STAR-H1"
     # print(data)
     # print('++++++++++++++++++++++++++++++++++++++++++++++++++++++=')
     # print(data['Prospect_Company_name'])
@@ -218,6 +222,11 @@ from csv import reader
 from .financial_reports import generate_financial_insights, generate_grants
 @login_required
 def ExtractGrantCsv(request):
+    print('in csv')
+    print('in csv')
+    print('in csv')
+    print('in csv')
+    print('in csv')
     
     data = {}
     csvfile = request.FILES.get('file', None)
@@ -248,9 +257,9 @@ def GenerateGrant(request):
     data['prospect_company_founded'] = request.POST.get('Prospect_Company_founded', None)
     data['prospect_company_specialties'] = request.POST.get('Prospect_Company_specialties', None)
     data['grants_raw_data'] = request.POST.get('grants_raw_data', None)
-    
+    print(data['grants_raw_data'])
     grants = generate_grants(data)
-    print(grants)
+    # print(grants)
     # print(grants[0])
     avatar_object = Avatar.objects.get(user= request.user)
         
@@ -695,7 +704,8 @@ def send_email_dashboard(request):
     avatar_obj = Avatar.objects.get(user=request.user)
     
     
-    with mail.get_connection(username="asimraza336@gmail.com", password="bkhkixuovsmegjgc") as connection:
+    with mail.get_connection(username=avatar_obj.gmail, password=avatar_obj.gmail_password) as connection:
+        
         mail.send_mail(
             subject="NextLevelAi",
             message= email_body,

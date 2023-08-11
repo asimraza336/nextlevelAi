@@ -1,253 +1,125 @@
+from langchain.output_parsers import StructuredOutputParser
+from langchain.chat_models import ChatOpenAI
+from langchain.prompts.chat import ChatPromptTemplate
+from langchain.output_parsers import StructuredOutputParser, ResponseSchema
 import openai
+import os
 import json
 # from config import *
 # API = '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'
 # API = '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'
-API = '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'
+API = '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'
 
 
-
-openai.api_key = API
-
-#FINANCIAL_INSIGHTS_PROMPT = "Providing you with sales representative company inofrmation. Name of the company is {} and company work in industry of {} and company head Headquarters are located at {} with Specialties in {}. Sales representative company overview is as following {}. Now I am gonna provide you Prospect company information.Name of the prospect company is {} and company work in industry of {} and company head Headquarters are located at {} with Specialties in {} with company size of {} founded in {}. prospect company overview is as following {}. The Financial data of the prospect company is {}.Show how {} can offset their debt to liabilities of {}. showcase how {} can enhance {} customer experience, CSAT, ERG sustainability score, and show how {} can enhance the workforce of {} using {} Specialties. Make sure to use facts and numbers. Also consider the following points {}"
-
-FINANCIAL_INSIGHTS_PROMPT = '''{} is an industry of {} with following specialities {}.
-there is prospect company named {} and is industry of {}.
-The balance sheet of {} is given below .
-Balance Sheet:
-{}
-
-By analysing balance sheet, elaborate how can {} be beneficial for {} in upto 300 words, Must add refrences and digital amounts in dollers from given balance sheet. Make a statement on {}.
-
-'''
-
-
-GRANTS_PROMPT = '''Taking into cosideration the sales representative (SR) company information
-SR comapny Name as {}
-company Overview as {}
-company Industry as {}
-company Headquarters as {}
-company Specialties as {}
-
-and prospect company information
-
-Prospect Company name as {}
-Prospect Company Overview as {}
-Prospect Company Industry as {}
-Prospect Company Headquarters as {}
-Prospect Company Size as {}
-Prospect Company founded as {}
-Prospect Company specialties as {}
-
-Taking into consideration how sales representaive company can enhance the propespect company bussiness. Look from the following grants that can help in the colaboration between sales representative company and Prospect company. {}
-
-
-'''
-
-FINANCIAL_INSIGHTS_MAX_TOKEN = 500
-FINANCIAL_INSIGHTS_TEMPERATURE = 0.7
-MODEL = "gpt-3.5-turbo"
+os.environ['OPENAI_API_KEY'] = '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'
 
 def generate_financial_insights(data):
-    '''
-    takes in a json data and uses that to generate a financial insights using chatgpt
-    params:
-    data: json
-    	schema: {
-    		"sales_rep_name": string,
-    		"sales_rep_company_name": string,
-    		"sales_rep_contact_number": string,
-    		"sales_rep_email": string,
-    		"sales_rep_company_overview": string,
-    		"sales_rep_company_website": string,
-    		"sales_rep_company_industry": string,
-    		"sales_rep_company_headquarters": string,
-   		    "sales_rep_company_specialties": string,
-    		"prospect_company_name": string,
-    		"prospect_company_overview": string,
-    		"prospect_company_industry": string,
-    		"prospect_company_headquarters":string,
-    		"prospect_company_size": string,
-    		"prospect_company_founded": string,
-    		"prospect_company_specialties": string,
-    		"focus_area":string,
-		"financial_raw_data":string,
-   		}
-    return:
-    output: json
-    	schema: {"insights":string}
-
-    '''
 
     try:
         # sales_rep_name = data["sales_rep_name"]
         sales_rep_company_name = data["sales_rep_company_name"]
         # sales_rep_contact_number = data["sales_rep_contact_number"]
         # sales_rep_email = data["sales_rep_email"]
-        sales_rep_company_overview = data["sales_rep_company_overview"]
+        #sales_rep_company_overview = data["sales_rep_company_overview"]
         # sales_rep_company_website = data["sales_rep_company_website"]
         sales_rep_company_industry = data["sales_rep_company_industry"]
-        sales_rep_company_headquarters = data["sales_rep_company_headquarters"]
+        #sales_rep_company_headquarters = data["sales_rep_company_headquarters"]
         sales_rep_company_specialties = data["sales_rep_company_specialties"]
 
         prospect_company_name = data["prospect_company_name"]
-        prospect_company_overview = data["prospect_company_overview"]
+        #prospect_company_overview = data["prospect_company_overview"]
         prospect_company_industry = data["prospect_company_industry"]
-        prospect_company_headquarters = data["prospect_company_headquarters"]
-        prospect_company_size = data["prospect_company_size"]
-        prospect_company_founded = data["prospect_company_founded"]
-        prospect_company_specialties = data.get("prospect_company_specialties", None)
+        #prospect_company_headquarters = data["prospect_company_headquarters"]
+        #prospect_company_size = data["prospect_company_size"]
+        #prospect_company_founded = data["prospect_company_founded"]
+        #prospect_company_specialties = data.get("prospect_company_specialties", None)
         # data["prospect_company_specialties"]
-        focus_area = data["focus_area"]
+        focus_areas = data["focus_area"]
         financial_raw_data = data["financial_raw_data"]
     except Exception as e:
         return e
 
-    # PROMPT = FINANCIAL_INSIGHTS_PROMPT.format(
-    #             sales_rep_company_name,
-    #             sales_rep_company_industry,
-    #             sales_rep_company_headquarters,
-    #             sales_rep_company_specialties,
-    #             sales_rep_company_overview,
-    #             prospect_company_name,
-    #             prospect_company_industry,
-    #             prospect_company_headquarters,
-    #             prospect_company_specialties,
-    #             prospect_company_size,
-    #             prospect_company_founded,
-    #             prospect_company_overview,
-    #             financial_raw_data,
-    #             sales_rep_company_name,
-    #             prospect_company_name,
-    #             sales_rep_company_name,
-    #             prospect_company_name,
-    #             sales_rep_company_name,
-    #             prospect_company_name,
-    #             sales_rep_company_name,
-    #             focus_area
-    #             )
+    chat_insights = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0.7)
 
-    PROMPT = FINANCIAL_INSIGHTS_PROMPT.format(
-                sales_rep_company_name,
-                sales_rep_company_industry,
-                sales_rep_company_specialties,
-                prospect_company_name,
-                prospect_company_industry,
-                prospect_company_name,
-                financial_raw_data,
-                sales_rep_company_name,
-                prospect_company_name,
-                focus_area,
-                )
-    try:
-        response = openai.ChatCompletion.create(
-            model=MODEL,
-            messages=[
-                {"role": "user", "content": PROMPT}
-            ],
-            temperature=FINANCIAL_INSIGHTS_TEMPERATURE,
-            max_tokens=FINANCIAL_INSIGHTS_MAX_TOKEN  # Adjust the desired length of the generated text
-        )
+    # setting up the output parser
+    insights_schema = ResponseSchema(name="insights",
+                                description="analyze the balance sheet of a prospect company and explain how your company can be beneficial for them,\
+                                use digital amounts from balance sheet in answer as refrences,\
+                                Answer in a form of string,\
+                                empty dictionary if no data found")
 
-        # response = {'insights': 'Dom can help Arthrex offset their debt to liabilities by providing a range of services and products. Dom can help Arthrex improve their customer experience by providing data-driven insights into customer behaviour and preferences, which can be used to create tailored customer experiences. Dom can also help Arthrex improve their CSAT (Customer Satisfaction) score by providing the right tools and resources to monitor customer feedback and resolve issues quickly. Dom can also help Arthrex enhance their ERG (Environmental, Social and Governance) sustainability score by providing strategies and tools to reduce their carbon footprint and improve their ESG policies. Finally, Dom can help Arthrex enhance their workforce by providing the right training, resources, and technologies to ensure their employees are well equipped to perform their roles and tasks.', 'message': 'Success'}
-        insights = response.choices[0].message.content.strip("\n")
-        output = {"insights":insights, "message": "Success"}
-        return output
-    except Exception as e:
-        return e
+    response_schemas = [insights_schema]
+    output_parser = StructuredOutputParser.from_response_schemas(response_schemas)
+    format_instructions = output_parser.get_format_instructions()
+    insights_template = """You are an AI sales representative assistant. Your task is to analyze the balance sheet of a prospect company and explain how your company can be beneficial for them. also include references and digital amounts in dollars from balance sheet.
+{sales_rep_company_name} is an industry of {sales_rep_company_industry} with the following specialties {sales_rep_company_specialties}. There is a prospect company named {prospect_company_name} in the industry of {prospect_company_industry}. The balance sheet of {prospect_company_name} is given below. By analyzing the balance sheet, elaborate on how can {sales_rep_company_name} be beneficial for {prospect_company_name} in up to 250 words. And also make a statement on {focus_areas} and use digital amounts from balance sheet in answer as refrences.
+balance sheet: ```{financial_raw_data}```
+{format_instructions}
+"""
+    prompt_template = ChatPromptTemplate.from_template(insights_template)
+    customer_messages = prompt_template.format_messages(
+                    sales_rep_company_name=sales_rep_company_name,
+                    sales_rep_company_industry=sales_rep_company_industry,
+                    sales_rep_company_specialties=sales_rep_company_specialties,
+                    prospect_company_name=prospect_company_name,
+                    prospect_company_industry=prospect_company_industry,
+                    focus_areas=focus_areas,
+                    financial_raw_data=financial_raw_data,
+                    format_instructions=format_instructions)
+    response = chat_insights(customer_messages)
+	try:
+    	output_dict = output_parser.parse(response.content)
+		return output_dict["message"] = "Success"
+	except:
+		return {"insights":"","message":"Fail"}
 
 
 def generate_grants(data):
-    '''
-    takes in a json data and uses that to extract what grants work best
-    params:
-    data: json
-    	schema: {
-    		"sales_rep_company_name": string,
-    		"sales_rep_company_overview": string,
-    		"sales_rep_company_industry": string,
-    		"sales_rep_company_headquarters": string,
-   		    "sales_rep_company_specialties": string,
-    		"prospect_company_name": string,
-    		"prospect_company_overview": string,
-    		"prospect_company_industry": string,
-    		"prospect_company_headquarters":string,
-    		"prospect_company_size": string,
-    		"prospect_company_founded": string,
-    		"prospect_company_specialties": string,
-		    "grants_raw_data":string,
-   		}
-    return:
-    output: json
-    	schema: {"grant":string, "title":string}
+    sales_rep_company_name = data["sales_rep_company_name"]
+    sales_rep_company_industry = data["sales_rep_company_industry"]
+    sales_rep_company_specialties = data["sales_rep_company_specialties"]
+    prospect_company_name = data["prospect_company_name"]
+    prospect_company_industry = data["prospect_company_industry"]
+    grants_raw_data = data.get("grants_raw_data", None)
+    chat_insights = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0.7)
 
-    '''
+    # setting up the output parser
+    grants_schema = ResponseSchema(name="grants",
+                                description="analyze the raw data of grants and extract grants which are relevant to both companies,\
+                                show OPPORTUNITY NUMBER and OPPORTUNITY TITLE of upto 5 relevent grants,\
+                                Answer in a form of list of dictionaries where each dictionary has OPPORTUNITY NUMBER and OPPORTUNITY TITLE ,\
+                                empty dictionary if no relevant grant found")
 
+    grants_response_schemas = [grants_schema]
+    grants_output_parser = StructuredOutputParser.from_response_schemas(grants_response_schemas)
+    grants_format_instructions = grants_output_parser.get_format_instructions()
+    # setting up the prompt
+    insights_template = """You are a language model tasked with finding relevant grants from a data. The data contains information about various grants,
+their OPPORTUNITY NUMBER and OPPORTUNITY TITLE. Your goal is to filter and identify grants that are related to {sales_rep_company_industry}
+and {prospect_company_industry}. Please use the provided data and your knowledge of these industries to suggest the most suitable grants for
+further consideration.
+raw data: ```{raw_data}```
+{format_instructions}
+"""
+    prompt_template = ChatPromptTemplate.from_template(insights_template)
+    customer_messages = prompt_template.format_messages(
+                    sales_rep_company_industry=sales_rep_company_industry,
+                    prospect_company_industry=prospect_company_industry,
+                    raw_data=grants_raw_data,
+                    format_instructions=grants_format_instructions)
+    response = chat_insights(customer_messages)
+    grants_output_dict = grants_output_parser.parse(response.content)
+	
+    new_list = []
     try:
-        sales_rep_company_name = data["sales_rep_company_name"]
-        sales_rep_company_overview = data["sales_rep_company_overview"]
-        sales_rep_company_industry = data["sales_rep_company_industry"]
-        sales_rep_company_headquarters = data["sales_rep_company_headquarters"]
-        sales_rep_company_specialties = data["sales_rep_company_specialties"]
-        prospect_company_name = data["prospect_company_name"]
-        prospect_company_overview = data["prospect_company_overview"]
-        prospect_company_industry = data["prospect_company_industry"]
-        prospect_company_headquarters = data["prospect_company_headquarters"]
-        prospect_company_size = data["prospect_company_size"]
-        prospect_company_founded = data["prospect_company_founded"]
-        prospect_company_specialties = data["prospect_company_specialties"]
-        grants_raw_data = data["grants_raw_data"]
-    except Exception as e:
-        return e
-
-    PROMPT = GRANTS_PROMPT.format(
-             sales_rep_company_name,
-             sales_rep_company_overview,
-             sales_rep_company_industry,
-             sales_rep_company_headquarters,
-             sales_rep_company_specialties,
-             prospect_company_name,
-             prospect_company_overview,
-             prospect_company_industry,
-             prospect_company_headquarters,
-             prospect_company_size,
-             prospect_company_founded,
-             prospect_company_specialties,
-             grants_raw_data)
-
-    output = '''
-The output should be a markdown code snippet formatted in the following schema, including the leading and trailing "```json" and "```":
-```json
-{
-	"grants": string  // a list of dictionaries where each dictionary consists of opportunity_title and opportunity_grant_number . should be a empty list if no grants found.
-}
-```
-'''
-    PROMPT = PROMPT+output
-    try:
-        response = openai.ChatCompletion.create(
-            model=MODEL,
-            messages=[
-                {"role": "user", "content": PROMPT}
-            ],
-            temperature=FINANCIAL_INSIGHTS_TEMPERATURE,
-            max_tokens=1000  # Adjust the desired length of the generated text
-        )
-        output_dt = (response.choices[0].message.content)
-        res = ''.join(output_dt.split("```json")[1].split("```")[0])
-        res = json.loads(res)
-
-        new_list = []
-        for x in res["grants"]:
-            new_dict = {}
-            new_dict["title"] = x["opportunity_grant_number"]
-            new_dict["grant"] = x["opportunity_title"]
-            new_list.append(new_dict)
-        print(new_list)
-        return new_list
-    except Exception as e:
-        print(e)
-        return []
+	    for x in grants_output_dict["grants"]:
+	        new_dict = {}
+	        new_dict["title"] = x["OPPORTUNITY NUMBER"]
+	        new_dict["grant"] = x["OPPORTUNITY TITLE"]
+	        new_list.append(new_dict)
+	    return new_list
+	except Exception as e:
+		return []
 
 
 

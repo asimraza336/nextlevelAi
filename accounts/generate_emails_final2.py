@@ -4,7 +4,9 @@ import json
 
 def generate_sales_email(data):
     # openai.api_key = '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'
-    openai.api_key = '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'
+    # openai.api_key = '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'
+    openai.api_key = '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'
+    
     
     sales_rep_name = data["sales_rep_name"]
     sales_rep_email = data["sales_rep_email"]

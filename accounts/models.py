@@ -59,6 +59,7 @@ class Avatar(models.Model):
 class Quotes(models.Model):
     quote_text = models.CharField(max_length=300, null=True, blank=True)
     displayed_status = models.BooleanField(default=False)
+    number = models.PositiveIntegerField()
     
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

@@ -10,6 +10,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 # from .func_email import generate_sales_email
 # from .func_email_final import generate_sales_email
 from .generate_emails_final2 import generate_sales_email
+import random
 
 USA_STATES = ['Alaska', 'Alabama', 'Arkansas', 'Arizona', 'California', 'Colorado', 'Connecticut', 'District of Columbia', 'Delaware',
  'Florida', 'Georgia', 'Hawaii', 'Iowa', 'Idaho', 'Illinois', 'Indiana', 'Kansas', 'Kentucky', 'Louisiana',
@@ -25,15 +26,22 @@ def Home(request):
 @login_required
 def dashboard(request):
     context ={"user": request.user }
-    quotes = Quotes.objects.all()
-    print(quotes[0])
-    # if datetime.today().date()
-    context['quotation'] = quotes[0]
-    if quotes[0]:
-        if quotes[0].id:
-            obj = Quotes.objects.get(id=quotes[0].id)
-            obj.displayed_status = True
-            obj.save()     
+    try:
+        if request.session.get('greeting', None):
+            quotes_last = Quotes.objects.last()
+            print('last')
+            print(quotes_last.number)
+            if quotes_last:
+                num = random.randint(1,quotes_last.number)
+                quotes = Quotes.objects.filter(number=num)
+                if quotes[0]:
+                    context['quotation'] = quotes[0]
+                else:
+                    context['quotation'] = quotes_last
+                    
+                request.session.pop('greeting')
+    except Exception as e:
+        pass
     return render(request, 'main/dashboard.html', context)
     
 from django.http import JsonResponse, HttpResponse, Http404
@@ -61,7 +69,7 @@ def SignIn(request):
                 avatar_exist =Avatar.objects.filter(user=request.user).exists()
                 if not avatar_exist:
                     return redirect('Onboarding', pk=request.user.id)
-                
+                request.session['greeting'] = True
                 return redirect('dashboard')
             else:
                 # messages.error(

@@ -8,7 +8,6 @@ import json
 # from config import *
 # API = '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'
 # API = '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'
-API = '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'
 
 
 os.environ['OPENAI_API_KEY'] = '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'
@@ -52,10 +51,10 @@ def generate_financial_insights(data):
     output_parser = StructuredOutputParser.from_response_schemas(response_schemas)
     format_instructions = output_parser.get_format_instructions()
     insights_template = """You are an AI sales representative assistant. Your task is to analyze the balance sheet of a prospect company and explain how your company can be beneficial for them. also include references and digital amounts in dollars from balance sheet.
-{sales_rep_company_name} is an industry of {sales_rep_company_industry} with the following specialties {sales_rep_company_specialties}. There is a prospect company named {prospect_company_name} in the industry of {prospect_company_industry}. The balance sheet of {prospect_company_name} is given below. By analyzing the balance sheet, elaborate on how can {sales_rep_company_name} be beneficial for {prospect_company_name} in up to 250 words. And also make a statement on {focus_areas} and use digital amounts from balance sheet in answer as refrences.
-balance sheet: ```{financial_raw_data}```
-{format_instructions}
-"""
+        {sales_rep_company_name} is an industry of {sales_rep_company_industry} with the following specialties {sales_rep_company_specialties}. There is a prospect company named {prospect_company_name} in the industry of {prospect_company_industry}. The balance sheet of {prospect_company_name} is given below. By analyzing the balance sheet, elaborate on how can {sales_rep_company_name} be beneficial for {prospect_company_name} in up to 250 words. And also make a statement on {focus_areas} and use digital amounts from balance sheet in answer as refrences.
+        balance sheet: ```{financial_raw_data}```
+        {format_instructions}
+        """
     prompt_template = ChatPromptTemplate.from_template(insights_template)
     customer_messages = prompt_template.format_messages(
                     sales_rep_company_name=sales_rep_company_name,
@@ -67,11 +66,12 @@ balance sheet: ```{financial_raw_data}```
                     financial_raw_data=financial_raw_data,
                     format_instructions=format_instructions)
     response = chat_insights(customer_messages)
-	try:
-    	output_dict = output_parser.parse(response.content)
-		return output_dict["message"] = "Success"
-	except:
-		return {"insights":"","message":"Fail"}
+    try:
+        output_dict = output_parser.parse(response.content)
+        output_dict["message"] = "Success"
+        return output_dict
+    except Exception as e:
+        return {"insights":"","message":"Fail"}
 
 
 def generate_grants(data):
@@ -112,14 +112,14 @@ raw data: ```{raw_data}```
 	
     new_list = []
     try:
-	    for x in grants_output_dict["grants"]:
-	        new_dict = {}
-	        new_dict["title"] = x["OPPORTUNITY NUMBER"]
-	        new_dict["grant"] = x["OPPORTUNITY TITLE"]
-	        new_list.append(new_dict)
-	    return new_list
-	except Exception as e:
-		return []
+        for x in grants_output_dict["grants"]:
+            new_dict = {}
+            new_dict["title"] = x["OPPORTUNITY NUMBER"]
+            new_dict["grant"] = x["OPPORTUNITY TITLE"]
+            new_list.append(new_dict)
+        return new_list
+    except Exception as e:
+        return []
 
 
 

@@ -537,7 +537,7 @@
                         class="shadow-sm position-relative msg-area rounded bg-white border-dark  pe-2 ">
                         <div class="col-12 ">
                            <textarea id="input-text"
-                              placeholder="Copy and paste financial data of prospects annual reporting from DEF14A, 10k,4k etc. HERE !! We only need the financial chart table ONLY."
+                              placeholder="Copy and paste financial data of prospects annual reporting from DEF14A, 10k,4k etc. here We only need the financial chart table ONLY."
                               rows="20"
                               class="w-100 msg-area form-control no-border"
                               oninput="updateWordCount()"></textarea>
@@ -567,7 +567,7 @@
                   <div class="col-12 overflow-auto h-100 mx-auto focus-area shadow rounded p-3 ">
                      <div
                         class="form-group position-relative pb-2 pb-lg-4 col-12">
-                        <label for="focus-area" class="fw-bold">Focus Areas</label>
+                        <label for="focus-area" class="fw-bold">Focus Area</label>
                         <!-- Changes 23/7 -->
                         <textarea class="form-control" id="focus-area2"
                            rows="8"
@@ -799,7 +799,7 @@
                <div class="modal-header d-flex gap-2">
                   <div
                      class="user-avatar overflow-hidden border border-2 border-danger rounded-circle">
-                     <img class="h-100 w-100"
+                     <img class="h-100 w-100" id="IdGreetingAvatar"
                         src="{% static 'assets/images/imagePreviewEmail.png' %}"
                         alt="User Avatar">
                   </div>
@@ -812,7 +812,7 @@
                </div>
                <div class="modal-body">
                   <div>
-                     <p>
+                     <p id="IdGreeting">
                         “You only have to be right once.” — Drew Houston,
                         founder
                         of Dropbox
@@ -972,10 +972,14 @@
         });
 
 
-         let quotation_status = '{{quotation.displayed_status}}'
-         if(quotation_status == 'False') 
+         let quotation_status = '{{quotation}}'
+         if(quotation_status) 
          {  
             $(document).ready(function() {
+               
+               $('#IdGreetingAvatar').prop('src', pic.replace('imagePreviewEmail.png', `${image_name}.jpg`))
+
+               $('#IdGreeting').text('{{quotation.quote_text}}') 
                $('#myModal').modal('show');
             });
          }
@@ -1532,6 +1536,7 @@ $("#processBtn3").click(function () {
                   var Prospect_Company_founded =   $("#id_Prospect_Company_founded").val();
                   var Prospect_Company_specialties =   $("#id_Prospect_Company_specialties").val();
 
+                  $('.deleteClass2').remove();
                   
                   
                   var url = "{% url 'GenerateGrant'  %}";
@@ -1566,7 +1571,6 @@ $("#processBtn3").click(function () {
 
 
                            if (response.success == true){
-                              $('.deleteClass2').remove();
 
                               $("#IdGrantCalls").val(response.GrantCalls_count)
                               
@@ -1615,6 +1619,8 @@ $("#processBtn3").click(function () {
                         
                      },
                      error : function(response){
+                       $("#showgiftabGrant3").fadeOut();
+
                             $("#showgiftab3").fadeOut();
                      }
                   })
